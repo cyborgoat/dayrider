@@ -10,9 +10,9 @@ export default function SideBar() {
     const [titleColor, setTitleColor] = useState("text-sky-500")
 
     return (
-        <div className="max-w-md mx-4 mt-4">
+        <div className="h-screen sticky top-0 max-w-md mx-4 pt-4">
             <div>
-                <h4 className={`text-lg font-medium`}>DayRider</h4>
+                <a href={"/"} className={`text-lg font-medium`}>DayRider</a>
                 <p className="text-sm text-default-400">Your personal intelligent assistant.</p>
             </div>
             <Divider className="mt-4"/>
