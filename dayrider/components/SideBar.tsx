@@ -33,7 +33,7 @@ export default function SideBar() {
                 </Listbox>
             </div>
             <div
-                className="absolute bottom-0 w-full border-small py-2
+                className="w-full border-small py-2
                  rounded-small border-default-200 dark:border-default-100">
                 <Listbox
                     aria-label="Actions"

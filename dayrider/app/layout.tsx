@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-        <body className={inter.className}>
+        <body className={`${inter.className} text-black`}>
         <Providers>
             <div className="grid grid-cols-10">
                 <div className="col-span-2 border-r-2 border-slate-500/40 bg-zinc-200">
