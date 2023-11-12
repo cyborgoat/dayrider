@@ -1,4 +1,5 @@
 import type {Config} from 'tailwindcss'
+
 const {nextui} = require("@nextui-org/theme");
 
 const config: Config = {
@@ -22,6 +23,6 @@ const config: Config = {
         },
     },
     darkMode: "class",
-    plugins: [nextui()],
+    plugins: [nextui(), '@tailwindcss/forms'],
 }
 export default config
