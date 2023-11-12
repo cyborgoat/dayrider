@@ -9,7 +9,7 @@ const checkListData: Task[] = [
 ]
 export default function TodoPage() {
     return (
-        <main className="flex min-h-screen flex-col items-start justify-items-start mx-6 pt-6">
+        <main className="flex min-h-screen flex-col items-start justify-items-start px-4 pt-6 lg:px-6">
             <div className={"text-2xl font-semibold"}>Todos</div>
             <Divider className="mt-0 pb-1 mb-4"/>
             <span className="text-lg font-semibold text-sky-500/80">Today</span>
