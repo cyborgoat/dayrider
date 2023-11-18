@@ -1,3 +1,8 @@
+use std::fs;
+use std::path::PathBuf;
+
+use chrono::{Datelike, Utc};
+use dirs::{self, data_dir};
 use rusqlite::{Connection, Result};
 use thiserror;
 
@@ -19,13 +24,25 @@ impl serde::Serialize for Error {
 }
 
 #[tauri::command]
-pub fn create_todo_table() -> String {
-    let _ = create_db();
-    format!("Created table {}", "111")
+pub fn add_item(name: String, notes: String) -> Result<String, String> {
+    let _ = fs::create_dir_all(data_dir().unwrap().join("DayRider"));
+    let db_path = data_dir().unwrap().join("DayRider").join("todo.db");
+    let _ = create_db(&db_path);
+    let now = Utc::now();
+    let (_is_common_era, year) = now.year_ce();
+    let date_str = format!("{}-{:02}-{:02}", year, now.month(), now.day());
+    let conn = Connection::open(&db_path).unwrap();
+    let _ = conn.execute(
+        "INSERT INTO todo_list (name, due_date, notes) values (?1, ?2, ?3)",
+        &[name.as_str(), date_str.as_str(), notes.as_str()],
+    );
+
+    Ok("You added an item".into())
 }
 
-pub fn create_db() -> Result<()> {
-    let conn = Connection::open("todo.db")?;
+// Create the database if does not exist
+pub fn create_db(p: &PathBuf) -> Result<()> {
+    let conn = Connection::open(p)?;
 
     conn.execute(
         "create table if not exists todo_list (
