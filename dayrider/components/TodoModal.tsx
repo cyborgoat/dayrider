@@ -8,9 +8,11 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
+  Textarea,
 } from "@nextui-org/react";
 import { invoke } from "@tauri-apps/api/tauri";
 import { TodoItem } from "@/types/task";
+import { Input } from "@nextui-org/react";
 
 export default function TodoModal({
   todoSetter,
@@ -19,20 +21,7 @@ export default function TodoModal({
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [size, setSize] = React.useState("md");
-  const sizes = [
-    "xs",
-    "sm",
-    "md",
-    "lg",
-    "xl",
-    "2xl",
-    "3xl",
-    "4xl",
-    "5xl",
-    "full",
-  ];
-
-  const handleOpen = (size) => {
+  const handleOpen = (size: string) => {
     setSize(size);
     onOpen();
     invoke<string>("add_item", {
@@ -53,37 +42,32 @@ export default function TodoModal({
         Open {size}
       </Button>
 
-      <Modal size={size} isOpen={isOpen} onClose={onClose}>
+      <Modal size="md" isOpen={isOpen} onClose={onClose}>
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Modal Title
+                New Reminder
               </ModalHeader>
               <ModalBody>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                </p>
-                <p>
-                  Magna exercitation reprehenderit magna aute tempor cupidatat
-                  consequat elit dolor adipisicing. Mollit dolor eiusmod sunt ex
-                  incididunt cillum quis. Velit duis sit officia eiusmod Lorem
-                  aliqua enim laboris do dolor eiusmod.
-                </p>
+                <Input
+                  type="text"
+                  variant="underlined"
+                  placeholder="Title"
+                ></Input>
+                <Textarea
+                  variant="flat"
+                  label="Detail"
+                  placeholder="Enter your description"
+                  className="max-w-xs"
+                />
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
-                  Close
+                  Cancel
                 </Button>
                 <Button color="primary" onPress={onClose}>
-                  Action
+                  Add
                 </Button>
               </ModalFooter>
             </>
