@@ -1,5 +1,5 @@
 "use client";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -20,26 +20,36 @@ export default function TodoModal({
   todoSetter: Dispatch<SetStateAction<TodoItem[]>>;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [size, setSize] = React.useState("md");
-  const handleOpen = (size: string) => {
-    setSize(size);
-    onOpen();
+
+  const date = new Date();
+  const [title, setTitle] = useState("");
+  const [dueDate, setDueDate] = useState(
+    `${date.getFullYear}-${date.getMonth}-${date.getDate}`
+  );
+  const [notes, setNotes] = useState("");
+
+  const handleSubmit = () => {
     invoke<string>("add_item", {
-      name: "baby",
-      due_date: "2023-12-31",
-      notes: "notes",
+      name: title,
+      due_date: dueDate,
+      notes: notes,
     })
-      .then((res) => {})
+      .then((res) => {
+        setTitle("");
+        setNotes("");
+        onClose();
+      })
       .catch(console.error);
 
     invoke<string>("todo_list")
       .then((res) => todoSetter(JSON.parse(res.toString())))
       .catch(console.error);
   };
+
   return (
     <>
-      <Button key={size} onPress={() => handleOpen(size)}>
-        Open {size}
+      <Button key={"md-button"} onPress={() => onOpen()}>
+        Add Reminder
       </Button>
 
       <Modal size="md" isOpen={isOpen} onClose={onClose}>
@@ -54,19 +64,21 @@ export default function TodoModal({
                   type="text"
                   variant="underlined"
                   placeholder="Title"
+                  onChange={(e) => setTitle(e.target.value)}
                 ></Input>
                 <Textarea
                   variant="flat"
                   label="Detail"
                   placeholder="Enter your description"
                   className="max-w-xs"
+                  onChange={(e) => setNotes(e.target.value)}
                 />
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Cancel
                 </Button>
-                <Button color="primary" onPress={onClose}>
+                <Button color="primary" onPress={handleSubmit}>
                   Add
                 </Button>
               </ModalFooter>
