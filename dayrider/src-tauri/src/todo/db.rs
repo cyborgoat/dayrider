@@ -68,7 +68,9 @@ struct TodoItem {
 
 #[tauri::command]
 pub fn todo_list() -> String {
+    let _ = fs::create_dir_all(data_dir().unwrap().join("DayRider"));
     let db_path = data_dir().unwrap().join("DayRider").join("todo.db");
+    let _ = create_db(&db_path);
     let conn = Connection::open(&db_path).unwrap();
     let mut stmt = conn.prepare(" SELECT * FROM todo_list; ").unwrap();
     let items = stmt
