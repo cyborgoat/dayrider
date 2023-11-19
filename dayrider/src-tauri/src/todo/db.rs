@@ -4,6 +4,7 @@ use std::path::PathBuf;
 use chrono::{Datelike, Utc};
 use dirs::{self, data_dir};
 use rusqlite::{Connection, Result};
+use serde::Serialize;
 use thiserror;
 
 // create the error type that represents all errors possible in our program
@@ -54,4 +55,39 @@ pub fn create_db(p: &PathBuf) -> Result<()> {
         (),
     )?;
     Ok(())
+}
+
+// Fetch all data.unwrap()
+#[derive(Debug, Serialize)]
+struct TodoItem {
+    id: i32,
+    name: String,
+    due_date: String,
+    notes: String,
+}
+
+#[tauri::command]
+pub fn todo_list() -> String {
+    let db_path = data_dir().unwrap().join("DayRider").join("todo.db");
+    let conn = Connection::open(&db_path).unwrap();
+    let mut stmt = conn.prepare(" SELECT * FROM todo_list; ").unwrap();
+    let items = stmt
+        .query_map((), |row| {
+            Ok(TodoItem {
+                id: row.get(0)?,
+                name: row.get(1)?,
+                due_date: row.get(2)?,
+                notes: row.get(3)?,
+            })
+        })
+        .unwrap();
+
+    let mut todo_list: Vec<TodoItem> = Vec::new();
+    for item in items {
+        let _item = item.unwrap();
+        todo_list.push(_item);
+    }
+
+    let json = serde_json::to_string(&todo_list).unwrap();
+    return json;
 }

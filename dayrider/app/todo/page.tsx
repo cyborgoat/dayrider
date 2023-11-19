@@ -20,6 +20,9 @@ export default function TodoPage() {
     invoke<string>("add_item", { name: "item1", notes: "notes11" })
       .then()
       .catch(console.error);
+    invoke<string>("todo_list")
+      .then((res) => console.log(res))
+      .catch(console.error);
   }, []);
 
   return (
