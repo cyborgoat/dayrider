@@ -1,13 +1,14 @@
-import {Checkbox, CheckboxGroup} from "@nextui-org/react";
-import {Task} from "@/types/task";
+import { Checkbox, CheckboxGroup } from "@nextui-org/react";
+import { TodoItem } from "@/types/task";
 
-export default function CheckList(props: { tasks: Task[] }) {
-    return (
-        <CheckboxGroup>
-            {props.tasks.map((task, idx) => (
-                <Checkbox value={task.name} key={idx}>{task.name}</Checkbox>
-            ))}
-        </CheckboxGroup>
-    );
-
+export default function CheckList(props: { todoItems: TodoItem[] }) {
+  return (
+    <CheckboxGroup>
+      {props.todoItems.map((task, idx) => (
+        <Checkbox value={`${task.id}-${task.name}`} key={idx}>
+          {task.name}
+        </Checkbox>
+      ))}
+    </CheckboxGroup>
+  );
 }
