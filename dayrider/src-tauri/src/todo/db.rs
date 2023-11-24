@@ -41,6 +41,16 @@ pub fn add_item(name: String, notes: String) -> Result<String, String> {
     Ok("You added an item".into())
 }
 
+#[tauri::command]
+pub fn delete_item(id: i32) -> Result<String, String> {
+    let _ = fs::create_dir_all(data_dir().unwrap().join("DayRider"));
+    let db_path = data_dir().unwrap().join("DayRider").join("todo.db");
+    let conn = Connection::open(&db_path).unwrap();
+    let _ = conn.execute(&format!("DELETE FROM todo_list WHERE id={}", id), ());
+
+    Ok("You added an item".into())
+}
+
 // Create the database if does not exist
 pub fn create_db(p: &PathBuf) -> Result<()> {
     let conn = Connection::open(p)?;
