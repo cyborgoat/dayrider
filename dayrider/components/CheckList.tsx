@@ -15,10 +15,10 @@ export default function CheckList(props: { todoItems: TodoItem[] }) {
         <>
           <Checkbox value={`${task.due_date}-${task.name}`} key={idx}>
             {task.name}
+            <Button size="sm" onClick={(e) => handleDelete(task.id)}>
+              delete
+            </Button>
           </Checkbox>
-          <Button size="sm" onClick={(e) => handleDelete(task.id)}>
-            delete
-          </Button>
         </>
       ))}
     </CheckboxGroup>
