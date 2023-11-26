@@ -10,7 +10,7 @@ export default function SideBar() {
     const [titleColor, setTitleColor] = useState("text-sky-500")
 
     return (
-        <div className="h-screen sticky top-0 max-w-md mx-4 pt-4">
+        <div className="sticky top-0 h-screen max-w-md pt-4 mx-4">
             <div>
                 <a href={"/"} className={`text-lg font-medium`}>DayRider</a>
                 <p className="text-sm text-default-400">Your personal intelligent assistant.</p>
@@ -18,7 +18,7 @@ export default function SideBar() {
             <Divider className="mt-4"/>
             <span className="pt-4 text-xs font-bold text-stone-700/40">Apps</span>
             <div
-                className="w-full border-small pb-2 rounded-small border-default-200 dark:border-default-100">
+                className="w-full pb-2 border-small rounded-small border-default-200 dark:border-default-100">
                 <Listbox
                     aria-label="Actions"
                     onAction={(key) => setTitleColor("text-slate-900")}
@@ -34,7 +34,7 @@ export default function SideBar() {
             </div>
             <div
                 className="w-full border-small py-2
-                 rounded-small border-default-200 dark:border-default-100">
+  rounded-small border-default-200 dark:border-default-100">
                 <Listbox
                     aria-label="Actions"
                     onAction={(key) => setTitleColor("text-slate-900")}

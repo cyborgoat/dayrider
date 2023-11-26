@@ -4,9 +4,9 @@ import EventCalendar from "@/components/EventCalendar";
 
 export default function SchedulePage() {
     return (
-        <main className="flex min-h-screen flex-col items-start justify-items-start px-4 pt-6 lg:px-6">
+        <main className="flex flex-col items-start min-h-screen px-4 pt-6 justify-items-start lg:px-6">
             <div className={"text-2xl font-semibold"}>Schedule</div>
-            <Divider className="mt-0 pb-1 mb-4"/>
+            <Divider className="pb-1 mt-0 mb-4"/>
             <EventCalendar/>
         </main>
     )

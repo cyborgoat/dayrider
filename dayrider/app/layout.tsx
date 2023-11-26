@@ -22,7 +22,7 @@ export default function RootLayout({
         <body className={`${inter.className} text-black`}>
         <Providers>
             <div className="grid grid-cols-10">
-                <div className="col-span-2 border-r-2 border-slate-500/40 bg-zinc-200">
+                <div className="border-r-2 col-span-2 border-slate-500/40 bg-zinc-200">
                     <SideBar/>
                 </div>
                 <div className={"col-span-8 bg-white"}>
