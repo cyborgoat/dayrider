@@ -1,17 +1,18 @@
 import { Button, Checkbox, CheckboxGroup } from "@nextui-org/react";
 import { TodoItem } from "@/types/task";
-import { invoke } from "@tauri-apps/api";
 import { TrashIcon } from "@/components/icons/TrashIcon";
+import { useEffect } from "react";
 
-export default function CheckList(props: { todoItems: TodoItem[] }) {
-  const handleDelete = (id: number) => {
-    invoke<string>("delete_item", { id: id })
-      .then((res) => {})
-      .catch(console.error);
-  };
+export default function CheckList(props: {
+  weekday: string;
+  todoMap: Map<String, TodoItem[]>;
+  handleDelete: any;
+}) {
+  useEffect(() => {}, [props.todoMap]);
+  const todoItems = props.todoMap.get(props.weekday) ?? [];
   return (
     <CheckboxGroup>
-      {props.todoItems.map((task, idx) => (
+      {todoItems.map((task, idx) => (
         <div key={idx}>
           <Checkbox value={`${task.due_date}-${task.name}`}>
             <span className="align-middle">{task.name}</span>
@@ -22,7 +23,7 @@ export default function CheckList(props: { todoItems: TodoItem[] }) {
               color="danger"
               aria-label="delete"
               className=""
-              onClick={(e) => handleDelete(task.id)}
+              onClick={(e) => props.handleDelete(task.id)}
             >
               <TrashIcon />
             </Button>

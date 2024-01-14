@@ -39,13 +39,18 @@ export default function TodoPage() {
       .catch(console.error);
   }, [todoMap]);
 
+  const handleDelete = (id: number) => {
+    invoke<string>("delete_item", { id: id })
+      .then((res) => {})
+      .catch(console.error);
+  };
+
   return (
     <main className="flex flex-col items-start min-h-screen px-4 pt-6 justify-items-start lg:px-6">
       <div className={"text-2xl font-semibold"}>Todos</div>
       <Divider className="pb-1 mt-0 mb-4" />
       <TodoModal todoSetter={setData} />
       <span className="text-lg font-semibold text-sky-500/80">Today</span>
-      <CheckList todoItems={data} />
       {WEEKDAYS.map((weekDay, idx) => {
         return (
           <div className="w-full" key={idx}>
@@ -53,7 +58,11 @@ export default function TodoPage() {
             <span className="pt-4 text-lg font-semibold text-rose-600/80">
               {weekDay}
             </span>
-            <CheckList todoItems={todoMap.get(weekDay) ?? []} />
+            <CheckList
+              weekday={weekDay}
+              todoMap={todoMap}
+              handleDelete={handleDelete}
+            />
           </div>
         );
       })}
