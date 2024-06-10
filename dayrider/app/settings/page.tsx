@@ -1,16 +1,6 @@
 'use client'
 import {useState} from 'react'
-import {Dialog, Switch} from '@headlessui/react'
-import {ChartBarIcon} from '@heroicons/react/solid'
-import {
-    BellIcon,
-    CreditCardIcon,
-    CubeIcon,
-    FingerPrintIcon,
-    UserCircleIcon,
-    UsersIcon,
-    XIcon,
-} from '@heroicons/react/outline'
+import {Switch} from '@headlessui/react'
 
 const navigation = [
     {name: 'Home', href: '#'},

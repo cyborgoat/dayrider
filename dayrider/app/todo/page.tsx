@@ -1,11 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
-import { invoke } from "@tauri-apps/api/tauri";
-import { Divider } from "@nextui-org/react";
-import { TodoItem } from "@/types/task";
+import {useEffect, useState} from "react";
+import {invoke} from "@tauri-apps/api/tauri";
+import {Divider} from "@nextui-org/react";
+import {TodoItem} from "@/types/task";
 import CheckList from "@/components/CheckList";
 import TodoModal from "@/components/TodoModal";
-import { log } from "console";
 
 const WEEKDAYS = [
   "Sunday",

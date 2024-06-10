@@ -1,7 +1,7 @@
-import { Button, Checkbox, CheckboxGroup } from "@nextui-org/react";
-import { TodoItem } from "@/types/task";
-import { TrashIcon } from "@/components/icons/TrashIcon";
-import { useEffect } from "react";
+import {Button, Checkbox, CheckboxGroup} from "@nextui-org/react";
+import {TodoItem} from "@/types/task";
+import {TrashIcon} from "@/components/icons/TrashIcon";
+import {useEffect} from "react";
 
 export default function CheckList(props: {
   weekday: string;

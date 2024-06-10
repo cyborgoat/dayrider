@@ -1,18 +1,18 @@
 "use client";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, {Dispatch, SetStateAction, useState} from "react";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  Textarea,
+    Button,
+    Input,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    Textarea,
+    useDisclosure,
 } from "@nextui-org/react";
-import { invoke } from "@tauri-apps/api/tauri";
-import { TodoItem } from "@/types/task";
-import { Input } from "@nextui-org/react";
+import {invoke} from "@tauri-apps/api/tauri";
+import {TodoItem} from "@/types/task";
 
 export default function TodoModal({
   todoSetter,

@@ -1,11 +1,7 @@
-import { Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  MapIcon,
-} from "@heroicons/react/16/solid";
-import { CalendarIcon } from "./icons/CalendarIcon";
+import {Fragment} from "react";
+import {Menu, Transition} from "@headlessui/react";
+import {ChevronLeftIcon, ChevronRightIcon, MapIcon,} from "@heroicons/react/16/solid";
+import {CalendarIcon} from "./icons/CalendarIcon";
 
 const meetings = [
   {

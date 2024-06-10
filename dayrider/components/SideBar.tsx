@@ -1,10 +1,10 @@
 "use client";
-import { Divider, Listbox, ListboxItem } from "@nextui-org/react";
+import {Divider, Listbox, ListboxItem} from "@nextui-org/react";
 import TodoIcon from "@/components/icons/TodoIcon";
-import { CalendarIcon } from "@/components/icons/CalendarIcon";
-import { useState } from "react";
-import { SettingsIcon } from "@/components/icons/SettingsIcon";
-import { PersonIcon } from "@/components/icons/PersonIcon";
+import {CalendarIcon} from "@/components/icons/CalendarIcon";
+import {useState} from "react";
+import {SettingsIcon} from "@/components/icons/SettingsIcon";
+import {PersonIcon} from "@/components/icons/PersonIcon";
 
 export default function SideBar() {
   const [titleColor, setTitleColor] = useState("text-sky-500");
