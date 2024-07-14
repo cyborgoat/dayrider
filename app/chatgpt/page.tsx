@@ -1,5 +1,5 @@
-export default function ChatGPTPage(){
-    return(
+export default function ChatGPTPage() {
+    return (
         <>
             This is the chatGPT page
         </>
