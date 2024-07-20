@@ -1,6 +1,6 @@
-import { TodoItem } from "@/types/todoItem";
-import { DateInput, Input } from "@nextui-org/react";
-import { Dispatch, SetStateAction, useState } from "react";
+import {TodoItem} from "@/types/todoItem";
+import {Input} from "@nextui-org/react";
+import {Dispatch, SetStateAction, useState} from "react";
 
 const AddItemInput = (props: {
   itemList: TodoItem[];
