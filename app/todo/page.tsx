@@ -7,30 +7,35 @@ import {today, getLocalTimeZone, CalendarDate} from "@internationalized/date";
 
 const data: TodoItem[] = [
     {
+        uuid: "1",
         name: "task1",
         createdOn: "2024-12-31",
         finished: false,
         dueOn: today(getLocalTimeZone()).toString(),
     },
     {
+        uuid: "2",
         name: "task2",
         createdOn: "2024-12-31",
         finished: false,
         dueOn: today(getLocalTimeZone()).toString(),
     },
     {
+        uuid: "3",
         name: "task3",
         createdOn: "2024-12-31",
         finished: false,
         dueOn: today(getLocalTimeZone()).toString(),
     },
     {
+        uuid: "4",
         name: "task4",
         createdOn: "2024-12-31",
         finished: false,
         dueOn: today(getLocalTimeZone()).toString(),
     },
     {
+        uuid: "5",
         name: "task5",
         createdOn: "2024-12-31",
         finished: false,
@@ -44,6 +49,7 @@ export default function TodoPage() {
 
     const addTodoHandler = (e: any) => {
         setTodoList([...todoList, {
+            uuid: `${todoList.length}`,
             name: "New Todo Item",
             createdOn: today(getLocalTimeZone()).toString(),
             finished: false,
@@ -61,7 +67,8 @@ export default function TodoPage() {
                     <ItemLine todo={todo} key={`item-${idx}`}/>
                 ))}
             </div>
-            <button className="text-indigo-700 text-md font-semibold pl-2" onClick={addTodoHandler}>+ Add another todo item
+            <button className="text-indigo-700 text-md font-semibold pl-2" onClick={addTodoHandler}>+ Add another todo
+                item
             </button>
         </main>
     );

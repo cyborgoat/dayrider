@@ -1,4 +1,5 @@
 export interface TodoItem {
+    uuid: string;
     name: string;
     createdOn: string;
     finished: boolean;

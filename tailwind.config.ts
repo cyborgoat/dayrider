@@ -53,10 +53,12 @@ const config: Config = {
         },
     },
     darkMode: "class",
-    plugins: [nextui(
-        {
-            addCommonColors: true,
-        }
-    ), '@tailwindcss/forms'],
+    plugins: [
+        require('daisyui'),
+        nextui(
+            {
+                addCommonColors: true,
+            }
+        ), '@tailwindcss/forms'],
 }
 export default config
