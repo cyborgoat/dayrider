@@ -53,6 +53,10 @@ const config: Config = {
         },
     },
     darkMode: "class",
-    plugins: [nextui(), '@tailwindcss/forms'],
+    plugins: [nextui(
+        {
+            addCommonColors: true,
+        }
+    ), '@tailwindcss/forms'],
 }
 export default config
