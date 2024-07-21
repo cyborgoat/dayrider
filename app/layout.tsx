@@ -21,11 +21,11 @@ export default function RootLayout({
         <html lang="en">
         <body className={`${inter.className} text-black`}>
         <Providers>
-            <div className="grid grid-cols-10">
-                <div className="border-r-2 col-span-2 border-slate-500/40 bg-zinc-200">
+            <div className="grid grid-cols-16">
+                <div className="border-r-2 col-span-2 lg:col-span-4  border-slate-500/40 bg-zinc-200">
                     <SideBar/>
                 </div>
-                <div className={"col-span-8 bg-white"}>
+                <div className="col-span-14 lg:col-span-12 bg-white ">
                     {children}
                 </div>
             </div>
