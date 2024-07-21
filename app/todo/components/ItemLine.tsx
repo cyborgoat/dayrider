@@ -19,7 +19,7 @@ const ItemLine = (props: { todo: TodoItem }) => {
                     label=""
                     defaultValue={todo.name}
                     onChange={e => setTodo({...todo, name: e.target.value})}
-                    onFocus={() => setIsFocused(true)}
+                    // onFocus={() => setIsFocused(true)}
                 />
                 <MyButton size="sm" isIconOnly color="transparent" variant="solid" aria-label="Expand"
                           className="w-6 py-2 my-auto"
