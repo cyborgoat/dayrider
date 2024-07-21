@@ -7,7 +7,7 @@
     "distDir": "../out"
   },
   "package": {
-    "productName": "dayrider",
+    "productName": "Dayrider",
     "version": "0.1.0"
   },
   "tauri": {
@@ -58,7 +58,7 @@
         "fullscreen": false,
         "height": 800,
         "resizable": true,
-        "title": "dayrider",
+        "title": "Dayrider",
         "width": 1200
       }
     ]
