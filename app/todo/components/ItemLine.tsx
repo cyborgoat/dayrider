@@ -10,20 +10,21 @@ const ItemLine = (props: { todo: TodoItem }) => {
     const [isFocused, setIsFocused] = useState(false);
 
     return (
-        <div className="w-full py-0" onFocus={() => setIsFocused(true)}>
+        <div className="w-full py-0">
             <div className="flex flex-row align-items-center w-full">
                 <Input
                     type="text"
                     variant="flat"
+                    aria-label="todo-name"
                     label=""
                     defaultValue={todo.name}
                     onChange={e => setTodo({...todo, name: e.target.value})}
+                    onFocus={() => setIsFocused(true)}
                 />
                 <MyButton size="sm" isIconOnly color="transparent" variant="solid" aria-label="Expand"
                           className="w-6 py-2 my-auto"
                           disableAnimation
                           onClick={() => setIsFocused(!isFocused)}
-
                 >
                     <MdOutlineArrowBackIos size={20}
                                            className={`transition duration-300 text-zinc-500 ${isFocused ? "-rotate-90" : ""}`}/>

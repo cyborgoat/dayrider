@@ -27,7 +27,7 @@ const ItemLineDropDown = (props: { todo: TodoItem, setTodo: Dispatch<SetStateAct
                 />
             </div>
             <div className="flex flex-row gap-2 text-xs">
-                <DatePicker variant="underlined" size="sm" label="" className="max-w-[256px] max-h-8"
+                <DatePicker variant="underlined" size="sm" aria-label="due-date" className="max-w-[256px] max-h-8"
                             defaultValue={parseDate(todo.dueOn)}/>
             </div>
         </div>
