@@ -1,6 +1,8 @@
 import {TodoItem} from "@/types/todoItem";
-import {Input} from "@nextui-org/react";
+import {Button, DatePicker, extendVariants, Input} from "@nextui-org/react";
 import {Dispatch, SetStateAction} from "react";
+import {parseDate, getLocalTimeZone} from "@internationalized/date";
+
 
 const ItemLineDropDown = (props: { todo: TodoItem, setTodo: Dispatch<SetStateAction<TodoItem>> }) => {
     const todo = props.todo;
@@ -12,9 +14,9 @@ const ItemLineDropDown = (props: { todo: TodoItem, setTodo: Dispatch<SetStateAct
                        onChange={e => props.setTodo({...todo, notes: e.target.value})}
                        classNames={
                            {
-                               base:"bg-transparent pb-2",
-                               innerWrapper:["bg-transparent","py-0"],
-                               inputWrapper:["bg-transparent","p-0","border-0"],
+                               base: "bg-transparent pb-2",
+                               innerWrapper: ["bg-transparent", "py-0"],
+                               inputWrapper: ["bg-transparent", "p-0", "border-0"],
                                input: [
                                    "bg-transparent",
                                    "placeholder:text-zinc-800/80",
@@ -24,9 +26,9 @@ const ItemLineDropDown = (props: { todo: TodoItem, setTodo: Dispatch<SetStateAct
                        }
                 />
             </div>
-            <div className="flex flex-row gap-2 text-sm">
-                <div>{todo.name}</div>
-                <div>{todo.dueOn}</div>
+            <div className="flex flex-row gap-2 text-xs">
+                <DatePicker variant="underlined" size="sm" label="" className="max-w-[256px] max-h-8"
+                            defaultValue={parseDate(todo.dueOn)}/>
             </div>
         </div>
     )
