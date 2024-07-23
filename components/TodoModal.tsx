@@ -35,8 +35,8 @@ export default function TodoModal({
             ...todoList,
             {
                 name: name,
-                createdOn: date.toDateString(),
-                dueOn: dueDate,
+                date: date.toDateString(),
+                deadline: dueDate,
                 notes: notes,
                 finished: false,
             },

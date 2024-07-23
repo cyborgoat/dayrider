@@ -4,42 +4,43 @@ import {Divider} from "@nextui-org/react";
 import {TodoItem} from "@/types/todoItem";
 import ItemLine from "./components/ItemLine";
 import {today, getLocalTimeZone, CalendarDate} from "@internationalized/date";
+import AddItemInput from "@/app/todo/components/AddItemInput";
 
 const data: TodoItem[] = [
     {
         uuid: "1",
         name: "task1",
-        createdOn: "2024-12-31",
-        finished: false,
-        dueOn: today(getLocalTimeZone()).toString(),
+        date: "2024-12-31",
+        finished: "false",
+        deadline: today(getLocalTimeZone()).toString(),
     },
     {
         uuid: "2",
         name: "task2",
-        createdOn: "2024-12-31",
-        finished: false,
-        dueOn: today(getLocalTimeZone()).toString(),
+        date: "2024-12-31",
+        finished: "false",
+        deadline: today(getLocalTimeZone()).toString(),
     },
     {
         uuid: "3",
         name: "task3",
-        createdOn: "2024-12-31",
-        finished: false,
-        dueOn: today(getLocalTimeZone()).toString(),
+        date: "2024-12-31",
+        finished: "false",
+        deadline: today(getLocalTimeZone()).toString(),
     },
     {
         uuid: "4",
         name: "task4",
-        createdOn: "2024-12-31",
-        finished: false,
-        dueOn: today(getLocalTimeZone()).toString(),
+        date: "2024-12-31",
+        finished: "false",
+        deadline: today(getLocalTimeZone()).toString(),
     },
     {
         uuid: "5",
         name: "task5",
-        createdOn: "2024-12-31",
-        finished: false,
-        dueOn: today(getLocalTimeZone()).toString(),
+        date: "2024-12-31",
+        finished: "false",
+        deadline: today(getLocalTimeZone()).toString(),
     },
 ];
 
@@ -51,9 +52,9 @@ export default function TodoPage() {
         setTodoList([...todoList, {
             uuid: `${todoList.length}`,
             name: "New Todo Item",
-            createdOn: today(getLocalTimeZone()).toString(),
-            finished: false,
-            dueOn: today(getLocalTimeZone()).toString()
+            date: today(getLocalTimeZone()).toString(),
+            finished: "false",
+            deadline: today(getLocalTimeZone()).toString()
         }]);
 
     }
@@ -67,9 +68,10 @@ export default function TodoPage() {
                     <ItemLine todo={todo} key={`item-${idx}`}/>
                 ))}
             </div>
-            <button className="text-indigo-700 text-md font-semibold pl-2" onClick={addTodoHandler}>+ Add another todo
-                item
-            </button>
+            {/*<button className="text-indigo-700 text-md font-semibold pl-2" onClick={addTodoHandler}>+ Add another todo*/}
+            {/*    item*/}
+            {/*</button>*/}
+            <AddItemInput itemList={todoList} setItemList={setTodoList}/>
         </main>
     );
 }

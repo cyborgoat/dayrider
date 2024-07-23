@@ -1,8 +1,8 @@
 export interface TodoItem {
     uuid: string;
     name: string;
-    createdOn: string;
-    finished: boolean;
-    dueOn: string;
+    date: string;
+    finished: string;
+    deadline: string;
     notes?: string;
 }
