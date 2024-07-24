@@ -3,7 +3,6 @@ use rusqlite::{Connection, Result};
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::PathBuf;
-use serde_json::to_string;
 use thiserror;
 
 // create the error type that represents all errors possible in our program
