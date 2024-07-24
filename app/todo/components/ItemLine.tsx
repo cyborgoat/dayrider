@@ -4,10 +4,16 @@ import {Button, extendVariants, Input, Radio} from "@nextui-org/react";
 import {useState} from "react";
 import ItemLineDropDown from "@/app/todo/components/ItemLineDropDown";
 import {MdOutlineArrowBackIos} from "react-icons/md";
+import {invoke} from "@tauri-apps/api/tauri";
 
 const ItemLine = (props: { todo: TodoItem }) => {
     const [todo, setTodo] = useState(props.todo);
     const [isFocused, setIsFocused] = useState(false);
+
+    async function updateTodoItem(todoItem: TodoItem) {
+        const res = await invoke<string>('update_item', {todoItem: todoItem})
+        console.log(res)
+    }
 
     return (
         <div className="w-full py-0">
@@ -23,6 +29,7 @@ const ItemLine = (props: { todo: TodoItem }) => {
                     label=""
                     defaultValue={todo.name}
                     onChange={e => setTodo({...todo, name: e.target.value})}
+                    onBlur={() => updateTodoItem(todo)}
                     // onFocus={() => setIsFocused(true)}
                 />
                 <MyButton size="sm" isIconOnly color="transparent" variant="solid" aria-label="Expand"

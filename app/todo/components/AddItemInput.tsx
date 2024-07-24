@@ -20,8 +20,8 @@ const AddItemInput = (props: {
                 name: value,
                 date: "2024-12-31",
                 deadline: "2024-12-31",
-                notes: "test notes",
                 finished: "false",
+                notes: "test notes",
             }
             invoke<string>('add_item', {todoItem: newItem})
                 .then(result => {

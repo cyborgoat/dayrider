@@ -1,10 +1,9 @@
-use std::fs;
-use std::path::PathBuf;
-
-use chrono::{Datelike, Utc};
 use dirs::{self, data_dir};
 use rusqlite::{Connection, Result};
-use serde::{Serialize,Deserialize};
+use serde::{Deserialize, Serialize};
+use std::fs;
+use std::path::PathBuf;
+use serde_json::to_string;
 use thiserror;
 
 // create the error type that represents all errors possible in our program
@@ -52,14 +51,35 @@ pub fn add_item(todo_item: TodoItem) -> Result<String, String> {
 }
 
 #[tauri::command]
-pub fn delete_item(id: i32) -> Result<String, String> {
+pub fn delete_item(uuid: String) -> Result<String, String> {
     let _ = fs::create_dir_all(data_dir().unwrap().join("DayRider"));
     let db_path = data_dir().unwrap().join("DayRider").join("todo.db");
     let conn = Connection::open(&db_path).unwrap();
-    let _ = conn.execute(&format!("DELETE FROM todo_list WHERE uuid={}", id), ());
+    let _ = conn.execute(&format!("DELETE FROM todo_list WHERE uuid={}", uuid), ());
 
     Ok("You deleted an item".into())
 }
+
+#[tauri::command]
+pub fn update_item(todo_item: TodoItem) -> Result<String, String> {
+    let _ = fs::create_dir_all(data_dir().unwrap().join("DayRider"));
+    let db_path = data_dir().unwrap().join("DayRider").join("todo.db");
+    let conn = Connection::open(&db_path).unwrap();
+
+    let mut stmt = conn.prepare("UPDATE todo_list SET \
+    name = ?2, \
+    date = ?3, \
+    deadline = ?4, \
+    finished = ?5, \
+    notes = ?6 \
+    WHERE uuid = ?1").unwrap();
+    stmt.execute(rusqlite::params![
+        todo_item.uuid.to_string(), todo_item.name.to_string(), todo_item.date.to_string(),
+        todo_item.deadline.to_string(), todo_item.finished.to_string(),todo_item.notes.to_string()
+    ]).unwrap();
+    Ok(format!("You updated an item {}", serde_json::to_string(&todo_item).unwrap()).into())
+}
+
 
 // Create the database if does not exist
 pub fn create_db(p: &PathBuf) -> Result<()> {

@@ -1,10 +1,11 @@
 "use client";
-import React, {MouseEventHandler, useRef, useState} from "react";
+import React, {MouseEventHandler, useEffect, useRef, useState} from "react";
 import {Divider} from "@nextui-org/react";
 import {TodoItem} from "@/types/todoItem";
 import ItemLine from "./components/ItemLine";
 import {today, getLocalTimeZone, CalendarDate} from "@internationalized/date";
 import AddItemInput from "@/app/todo/components/AddItemInput";
+import {invoke} from "@tauri-apps/api/tauri";
 
 const data: TodoItem[] = [
     {
@@ -45,8 +46,14 @@ const data: TodoItem[] = [
 ];
 
 export default function TodoPage() {
-    const [todoList, setTodoList] = useState<TodoItem[]>(data);
-    let ref = useRef(0);
+    const [todoList, setTodoList] = useState<TodoItem[]>([]);
+
+    useEffect(() => {
+        invoke<string>('todo_list').then(result => {
+            const dbRecord: TodoItem[] = JSON.parse(result)
+            setTodoList(dbRecord)
+        }).catch(e => console.log(e))
+    }, [])
 
     const addTodoHandler = (e: any) => {
         setTodoList([...todoList, {
