@@ -1,6 +1,6 @@
 "use client";
 import {TodoItem} from "@/types/todoItem";
-import {Button, extendVariants, Input, Radio} from "@nextui-org/react";
+import {Button, extendVariants, Input} from "@nextui-org/react";
 import {useState} from "react";
 import ItemLineDropDown from "@/app/todo/components/ItemLineDropDown";
 import {MdOutlineArrowBackIos} from "react-icons/md";
@@ -18,7 +18,13 @@ const ItemLine = (props: { todo: TodoItem }) => {
     return (
         <div className="w-full py-0">
             <div className="flex flex-row align-items-center w-full">
-                <input type="checkbox" name={`radio-${todo.uuid}`}
+                <input type="checkbox" checked={todo.finished === 'true'}
+                       onClick={() => {
+                           const newItem = {...todo, finished: todo.finished === 'true' ? 'false' : 'true'};
+                           setTodo(newItem);
+                           updateTodoItem(newItem).then();
+                       }}
+                       name={`radio-${todo.uuid}`}
                        className="checkbox checkbox-xs self-center mx-2
                        [--chkbg:theme(colors.blue.600)] [--chkfg:white] checked:border-blue-300
                        "/>
