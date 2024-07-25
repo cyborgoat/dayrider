@@ -1,9 +1,8 @@
 import {TodoItem} from "@/types/todoItem";
-import {Button, DatePicker, extendVariants, Input} from "@nextui-org/react";
+import {DatePicker, Input} from "@nextui-org/react";
 import React, {Dispatch, SetStateAction} from "react";
-import {parseDate, getLocalTimeZone} from "@internationalized/date";
+import {parseDate} from "@internationalized/date";
 import {invoke} from "@tauri-apps/api/tauri";
-import {log} from "node:util";
 
 
 const ItemLineDropDown = (props: { todo: TodoItem, setTodo: Dispatch<SetStateAction<TodoItem>> }) => {
@@ -19,7 +18,9 @@ const ItemLineDropDown = (props: { todo: TodoItem, setTodo: Dispatch<SetStateAct
         <div className="flex flex-col my-1">
             <div>
                 <Input type="text" variant="underlined" size="sm" placeholder="Add Note"
+                       value={todo.notes}
                        onChange={e => props.setTodo({...todo, notes: e.target.value})}
+                       onBlur={() => updateTodoItem(todo)}
                        classNames={
                            {
                                base: "bg-transparent pb-2",
