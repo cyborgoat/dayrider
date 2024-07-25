@@ -19,7 +19,7 @@ const ItemLine = (props: { todo: TodoItem }) => {
 
 
     return (
-        <div className="w-full py-0">
+        <div className="transition-all duration-100 w-full py-0 hover:pb-4">
             <div className="flex flex-row align-items-center w-full">
                 <input type="checkbox" checked={todo.finished === 'true'}
                        onChange={() => {
@@ -40,9 +40,11 @@ const ItemLine = (props: { todo: TodoItem }) => {
                     onChange={e => setTodo({...todo, name: e.target.value})}
                     onBlur={() => updateTodoItem(todo)}
                     color={inputColor}
-                    className={"transition duration-300 ease-in-out rounded-md"}
                     onFocus={() => {
                         setInputColor("primary")
+                    }}
+                    classNames={{
+                        inputWrapper: "transition-all duration-350 ease-in-out shadow-sm  hover:shadow-lg",
                     }}
                 />
                 <MyButton size="sm" isIconOnly color="transparent" variant="solid" aria-label="Expand"
