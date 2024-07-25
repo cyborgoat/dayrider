@@ -22,7 +22,7 @@ const ItemLine = (props: { todo: TodoItem }) => {
         <div className="w-full py-0">
             <div className="flex flex-row align-items-center w-full">
                 <input type="checkbox" checked={todo.finished === 'true'}
-                       onClick={() => {
+                       onChange={() => {
                            const newItem = {...todo, finished: todo.finished === 'true' ? 'false' : 'true'};
                            setTodo(newItem);
                            updateTodoItem(newItem).then();

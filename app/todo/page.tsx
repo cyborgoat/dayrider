@@ -1,69 +1,46 @@
 "use client";
-import React, {MouseEventHandler, useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Divider} from "@nextui-org/react";
 import {TodoItem} from "@/types/todoItem";
 import ItemLine from "./components/ItemLine";
-import {today, getLocalTimeZone, CalendarDate} from "@internationalized/date";
-import AddItemInput from "@/app/todo/components/AddItemInput";
+import {getLocalTimeZone, today} from "@internationalized/date";
 import {invoke} from "@tauri-apps/api/tauri";
 
-const data: TodoItem[] = [
-    {
-        uuid: "1",
-        name: "task1",
-        date: "2024-12-31",
-        finished: "false",
-        deadline: today(getLocalTimeZone()).toString(),
-    },
-    {
-        uuid: "2",
-        name: "task2",
-        date: "2024-12-31",
-        finished: "false",
-        deadline: today(getLocalTimeZone()).toString(),
-    },
-    {
-        uuid: "3",
-        name: "task3",
-        date: "2024-12-31",
-        finished: "false",
-        deadline: today(getLocalTimeZone()).toString(),
-    },
-    {
-        uuid: "4",
-        name: "task4",
-        date: "2024-12-31",
-        finished: "false",
-        deadline: today(getLocalTimeZone()).toString(),
-    },
-    {
-        uuid: "5",
-        name: "task5",
-        date: "2024-12-31",
-        finished: "false",
-        deadline: today(getLocalTimeZone()).toString(),
-    },
-];
+import {v4 as uuidv4} from 'uuid';
+
 
 export default function TodoPage() {
-    const [todoList, setTodoList] = useState<TodoItem[]>([]);
+    const [todoList, setTodoList] = useState<TodoItem[] | undefined>();
 
     useEffect(() => {
-        invoke<string>('todo_list').then(result => {
-            const dbRecord: TodoItem[] = JSON.parse(result)
-            setTodoList(dbRecord)
-        }).catch(e => console.log(e))
-    }, [])
+        if (todoList === undefined) {
+            invoke<string>('todo_list').then(result => {
+                const dbRecord: TodoItem[] = JSON.parse(result)
+                setTodoList(dbRecord)
+                console.log("todoList loaded")
+            }).catch(e => console.log(e))
+        }
+    }, [todoList])
 
     const addTodoHandler = (e: any) => {
-        setTodoList([...todoList, {
-            uuid: `${todoList.length}`,
+        const newItem = {
+            uuid: uuidv4(),
             name: "New Todo Item",
             date: today(getLocalTimeZone()).toString(),
             finished: "false",
-            deadline: today(getLocalTimeZone()).toString()
-        }]);
-
+            deadline: today(getLocalTimeZone()).toString(),
+            notes: "test notes"
+        };
+        invoke<string>('add_item', {todoItem: newItem})
+            .then(result => {
+                    setTodoList([
+                        ...todoList ? todoList : [],
+                        newItem
+                    ])
+                    console.log(result)
+                }
+            )
+            .catch(console.error)
     }
 
     return (
@@ -71,14 +48,14 @@ export default function TodoPage() {
             <div className={"text-2xl font-semibold"}>Todos</div>
             <Divider className="pb-1 mt-0 mb-4"/>
             <div className="flex flex-col gap-y-2 my-4 w-full">
-                {todoList.map((todo, idx) => (
+                {todoList?.map((todo, idx) => (
                     <ItemLine todo={todo} key={`item-${idx}`}/>
                 ))}
             </div>
-            {/*<button className="text-indigo-700 text-md font-semibold pl-2" onClick={addTodoHandler}>+ Add another todo*/}
-            {/*    item*/}
-            {/*</button>*/}
-            <AddItemInput itemList={todoList} setItemList={setTodoList}/>
+            <button className="text-indigo-700 text-md font-semibold pl-2" onClick={addTodoHandler}>+ Add another todo
+                item
+            </button>
+            {/*<AddItemInput itemList={todoList} setItemList={setTodoList}/>*/}
         </main>
     );
 }
