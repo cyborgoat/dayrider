@@ -1,7 +1,7 @@
 "use client";
 import {TodoItem} from "@/types/todoItem";
 import {Button, extendVariants, Input} from "@nextui-org/react";
-import {useState} from "react";
+import React, {useState} from "react";
 import ItemLineDropDown from "@/app/todo/components/ItemLineDropDown";
 import {MdOutlineArrowBackIos} from "react-icons/md";
 import {invoke} from "@tauri-apps/api/tauri";
@@ -9,11 +9,14 @@ import {invoke} from "@tauri-apps/api/tauri";
 const ItemLine = (props: { todo: TodoItem }) => {
     const [todo, setTodo] = useState(props.todo);
     const [isFocused, setIsFocused] = useState(false);
+    const [inputColor, setInputColor] = useState<"default" | "primary">("default");
+
 
     async function updateTodoItem(todoItem: TodoItem) {
-        const res = await invoke<string>('update_item', {todoItem: todoItem})
-        console.log(res)
+        await invoke<string>('update_item', {todoItem: todoItem})
+        setInputColor("default")
     }
+
 
     return (
         <div className="w-full py-0">
@@ -36,7 +39,11 @@ const ItemLine = (props: { todo: TodoItem }) => {
                     defaultValue={todo.name}
                     onChange={e => setTodo({...todo, name: e.target.value})}
                     onBlur={() => updateTodoItem(todo)}
-                    // onFocus={() => setIsFocused(true)}
+                    color={inputColor}
+                    className={"transition duration-300 ease-in-out rounded-md"}
+                    onFocus={() => {
+                        setInputColor("primary")
+                    }}
                 />
                 <MyButton size="sm" isIconOnly color="transparent" variant="solid" aria-label="Expand"
                           className="w-6 py-2 my-auto"
