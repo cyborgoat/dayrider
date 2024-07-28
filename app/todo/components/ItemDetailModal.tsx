@@ -15,7 +15,6 @@ import {deleteTodoItem} from "@/app/todo/lib/utils";
 import {CustomizedButton} from "@/app/todo/components/CustomizedTypes";
 
 export default function ItemDetailModal(props: { todo: TodoItem, setTodo: Dispatch<SetStateAction<TodoItem>> }) {
-    const [todo, setTodo] = React.useState<TodoItem>(props.todo);
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
     return (
@@ -32,7 +31,7 @@ export default function ItemDetailModal(props: { todo: TodoItem, setTodo: Dispat
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">{todo.name}</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1">{props.todo.name}</ModalHeader>
                             <ModalBody>
                                 <p>
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -48,7 +47,7 @@ export default function ItemDetailModal(props: { todo: TodoItem, setTodo: Dispat
                             <ModalFooter className="justify-between">
                                 <Button color="danger" variant="light" onPress={() => {
                                     onClose();
-                                    deleteTodoItem(todo.uuid).then();
+                                    deleteTodoItem(props.todo.uuid).then();
                                 }}>
                                     Delete Todo Item
                                 </Button>
