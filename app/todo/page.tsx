@@ -45,8 +45,7 @@ export default function TodoPage() {
 
     return (
         <main className="flex flex-col items-start min-h-screen px-4 pt-6 justify-items-start lg:px-6">
-            <div className={"text-2xl font-semibold"}>Todos</div>
-            <Divider className="pb-1 mt-0 mb-4"/>
+            <div className={"text-2xl font-semibold text-blue-500 mb-2"}>Todos</div>
             <div className="flex flex-col gap-y-2 my-4 w-full">
                 {todoList?.map((todo, idx) => (
                     <ItemLine todo={todo} key={`item-${idx}`}/>
