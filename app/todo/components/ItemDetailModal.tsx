@@ -10,7 +10,7 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import {IoInformationCircleOutline} from "react-icons/io5";
-import {TodoItem} from "@/types/todoItem";
+import {TodoItem} from "@/app/todo/types/todoItem";
 import {deleteTodoItem} from "@/app/todo/lib/utils";
 import {CustomizedButton} from "@/app/todo/components/CustomizedTypes";
 

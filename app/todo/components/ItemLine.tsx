@@ -1,5 +1,5 @@
 "use client";
-import {TodoItem} from "@/types/todoItem";
+import {onItemRemoveFunction, TodoItem} from "@/app/todo/types/todoItem";
 import {Button, DatePicker, extendVariants, Input, Popover, PopoverContent, PopoverTrigger} from "@nextui-org/react";
 import React, {useState} from "react";
 import {MdOutlineArrowBackIos} from "react-icons/md";
@@ -8,9 +8,8 @@ import {parseDate} from "@internationalized/date";
 import ItemDetailModal from "@/app/todo/components/ItemDetailModal";
 import {FiTrash2} from "react-icons/fi";
 import {CustomizedButton} from "@/app/todo/components/CustomizedTypes";
-import {IoCheckmarkSharp} from "react-icons/io5";
+import DeletPopover from "@/app/todo/components/ConfirmPopup";
 
-type onItemRemoveFunction = (uuid: string) => void;
 const ItemLine = (props: { todo: TodoItem, onItemRemove: onItemRemoveFunction }) => {
     const [todo, setTodo] = useState(props.todo);
     const [value, setValue] = React.useState(parseDate(todo.deadline));
@@ -113,25 +112,7 @@ const ItemLine = (props: { todo: TodoItem, onItemRemove: onItemRemoveFunction })
                         />
                         <div className="place-self-center justify-self-end flex flex-row gap-1 items-center">
                             <ItemDetailModal todo={todo} setTodo={setTodo}/>
-                            <Popover showArrow placement="bottom">
-                                <PopoverTrigger className="">
-                                    <CustomizedButton color="trash" radius="full" isIconOnly size={"tiny"}>
-                                        <FiTrash2 size={18}/>
-                                    </CustomizedButton>
-                                </PopoverTrigger>
-                                <PopoverContent className="min-w-[100px] p-1">
-                                    <span>Delete?</span>
-                                    <div className="w-full flex flex-row my-1 justify-between">
-                                        <Button size="sm" color="default" isIconOnly>
-                                            <IoCheckmarkSharp/>
-                                        </Button>
-                                        <Button size="sm" color="danger" isIconOnly
-                                                onClick={() => props.onItemRemove(todo.uuid)}>
-                                            <IoCheckmarkSharp/>
-                                        </Button>
-                                    </div>
-                                </PopoverContent>
-                            </Popover>
+                            <DeletPopover todo={props.todo} onItemRemove={props.onItemRemove}/>
                         </div>
                     </div>
                 </div>

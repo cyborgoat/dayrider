@@ -6,3 +6,5 @@ export interface TodoItem {
     deadline: string;
     notes?: string;
 }
+
+export type onItemRemoveFunction = (uuid: string) => void;

@@ -1,6 +1,6 @@
 "use client";
 import React, {useEffect, useState} from "react";
-import {TodoItem} from "@/types/todoItem";
+import {TodoItem} from "@/app/todo/types/todoItem";
 import ItemLine from "./components/ItemLine";
 import {getLocalTimeZone, today} from "@internationalized/date";
 import {invoke} from "@tauri-apps/api/tauri";

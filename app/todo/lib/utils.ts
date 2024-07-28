@@ -1,5 +1,5 @@
 import {invoke} from "@tauri-apps/api/tauri";
-import {TodoItem} from "@/types/todoItem";
+import {TodoItem} from "@/app/todo/types/todoItem";
 import {v4 as uuidv4} from "uuid";
 import {getLocalTimeZone, today} from "@internationalized/date";
 
