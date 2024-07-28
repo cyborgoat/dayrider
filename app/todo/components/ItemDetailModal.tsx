@@ -11,6 +11,7 @@ import {
 } from "@nextui-org/react";
 import {IoInformationCircleOutline} from "react-icons/io5";
 import {TodoItem} from "@/types/todoItem";
+import {deleteTodoItem} from "@/app/todo/lib/utils";
 
 export default function ItemDetailModal(props: { todo: TodoItem, setTodo: Dispatch<SetStateAction<TodoItem>> }) {
     const [todo, setTodo] = React.useState<TodoItem>(props.todo);
@@ -43,12 +44,15 @@ export default function ItemDetailModal(props: { todo: TodoItem, setTodo: Dispat
                                     Pellentesque sit amet hendrerit risus, sed porttitor quam.
                                 </p>
                             </ModalBody>
-                            <ModalFooter>
-                                <Button color="danger" variant="light" onPress={onClose}>
-                                    Close
+                            <ModalFooter className="justify-between">
+                                <Button color="danger" variant="light" onPress={() => {
+                                    onClose();
+                                    deleteTodoItem(todo.uuid).then();
+                                }}>
+                                    Delete Todo Item
                                 </Button>
                                 <Button color="primary" onPress={onClose}>
-                                    Action
+                                    Save
                                 </Button>
                             </ModalFooter>
                         </>

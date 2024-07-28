@@ -24,6 +24,10 @@ export async function addTodoItem(item: TodoItem): Promise<TodoItem> {
     return JSON.parse(res)
 }
 
+export async function deleteTodoItem(uuid: string): Promise<void> {
+    const res = await invoke<string>('delete_item', {uuid: uuid})
+}
+
 export async function updateTodoItem(todoItem: TodoItem): Promise<TodoItem> {
     const res = await invoke<string>('update_item', {todoItem: todoItem})
     return JSON.parse(res)

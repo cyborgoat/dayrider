@@ -54,7 +54,7 @@ pub fn delete_item(uuid: String) -> Result<String, String> {
     let _ = fs::create_dir_all(data_dir().unwrap().join("DayRider"));
     let db_path = data_dir().unwrap().join("DayRider").join("todo.db");
     let conn = Connection::open(&db_path).unwrap();
-    let _ = conn.execute(&format!("DELETE FROM todo_list WHERE uuid={}", uuid), ());
+    let _ = conn.execute(&format!("DELETE FROM todo_list WHERE uuid = '{}'", uuid), ());
 
     Ok("You deleted an item".into())
 }
