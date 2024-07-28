@@ -67,8 +67,8 @@ const ItemLine = (props: { todo: TodoItem }) => {
         >
           <MdOutlineArrowBackIos
             size={20}
-            className={`transition duration-300 text-zinc-500 ${
-              isFocused ? "-rotate-90 text-blue-500" : ""
+            className={`transition duration-300 ${
+              isFocused ? "-rotate-90 text-red-500" : "text-zinc-500"
             }`}
           />
         </MyButton>
