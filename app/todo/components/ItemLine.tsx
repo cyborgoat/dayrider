@@ -6,7 +6,7 @@ import {MdOutlineArrowBackIos} from "react-icons/md";
 import {isFinished, updateTodoItem} from "@/app/todo/lib/utils";
 import {parseDate} from "@internationalized/date";
 import ItemDetailModal from "@/app/todo/components/ItemDetailModal";
-import DeletPopover from "@/app/todo/components/ConfirmPopup";
+import DeletPopover from "@/app/todo/components/DeletePopover";
 
 const ItemLine = (props: { todo: TodoItem, onItemRemove: onItemRemoveFunction }) => {
     const [todo, setTodo] = useState(props.todo);

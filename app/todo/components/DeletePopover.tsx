@@ -1,16 +1,16 @@
 import {Listbox, ListboxItem, Popover, PopoverContent, PopoverTrigger} from "@nextui-org/react";
-import {IoCheckmarkSharp} from "react-icons/io5";
 import React from "react";
 import {onItemRemoveFunction, TodoItem} from "@/app/todo/types/todoItem";
 import {ListboxWrapper} from "@/components/ListboxWrapper";
 import {CustomizedButton} from "@/app/todo/components/CustomizedTypes";
 import {FiTrash2} from "react-icons/fi";
+import {IoCheckmarkSharp} from "react-icons/io5";
 
-export default function ConfirmPopup(props: { todo: TodoItem, onItemRemove: onItemRemoveFunction }
+export default function DeletePopover(props: { todo: TodoItem, onItemRemove: onItemRemoveFunction }
 ) {
     const [isOpen, setIsOpen] = React.useState(false);
     return (
-        <Popover showArrow placement="bottom">
+        <Popover showArrow placement="bottom" isOpen={isOpen} onOpenChange={setIsOpen}>
             <PopoverTrigger className="">
                 <CustomizedButton color="trash" radius="full" isIconOnly size={"tiny"}>
                     <FiTrash2 size={18}/>
@@ -23,7 +23,9 @@ export default function ConfirmPopup(props: { todo: TodoItem, onItemRemove: onIt
                         onAction={(key) => alert(key)}
                     >
                         <ListboxItem className="text-danger" key="delete"
-                                     onClick={() => props.onItemRemove(props.todo.uuid)}
+                                     onClick={() => {
+                                         props.onItemRemove(props.todo.uuid)
+                                     }}
                                      endContent={<IoCheckmarkSharp/>}>Delete</ListboxItem>
                         <ListboxItem key="cancel" onClick={() => setIsOpen(false)}>Cancel</ListboxItem>
                     </Listbox>
