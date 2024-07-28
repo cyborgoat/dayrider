@@ -1,6 +1,5 @@
 "use client";
 import React, {useEffect, useState} from "react";
-import {Divider} from "@nextui-org/react";
 import {TodoItem} from "@/types/todoItem";
 import ItemLine from "./components/ItemLine";
 import {getLocalTimeZone, today} from "@internationalized/date";
@@ -51,10 +50,9 @@ export default function TodoPage() {
                     <ItemLine todo={todo} key={`item-${idx}`}/>
                 ))}
             </div>
-            <button className="text-indigo-700 text-md font-semibold pl-2" onClick={addTodoHandler}>+ Add another todo
+            <button className="text-blue-500 text-md font-semibold pl-2" onClick={addTodoHandler}>+ Add another todo
                 item
             </button>
-            {/*<AddItemInput itemList={todoList} setItemList={setTodoList}/>*/}
         </main>
     );
 }

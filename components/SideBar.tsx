@@ -1,12 +1,12 @@
 "use client";
-import { Avatar, Listbox, ListboxItem } from "@nextui-org/react";
+import {Avatar, Listbox, ListboxItem} from "@nextui-org/react";
 import React from "react";
-import { FaRegUserCircle } from "react-icons/fa";
-import { FaListCheck } from "react-icons/fa6";
-import { BsCalendar2Day } from "react-icons/bs";
-import { IoIosSettings } from "react-icons/io";
-import { IconWrapper } from "./icons/IconWrapper";
-import { ItemCounter } from "./icons/ItemCounter";
+import {FaRegUserCircle} from "react-icons/fa";
+import {FaListCheck} from "react-icons/fa6";
+import {BsCalendar2Day} from "react-icons/bs";
+import {IoIosSettings} from "react-icons/io";
+import {IconWrapper} from "./icons/IconWrapper";
+import {ItemCounter} from "./icons/ItemCounter";
 
 const days = [
   "Sunday",
