@@ -1,13 +1,11 @@
 "use client";
 import {onItemRemoveFunction, TodoItem} from "@/app/todo/types/todoItem";
-import {Button, DatePicker, extendVariants, Input, Popover, PopoverContent, PopoverTrigger} from "@nextui-org/react";
+import {Button, DatePicker, extendVariants, Input} from "@nextui-org/react";
 import React, {useState} from "react";
 import {MdOutlineArrowBackIos} from "react-icons/md";
 import {isFinished, updateTodoItem} from "@/app/todo/lib/utils";
 import {parseDate} from "@internationalized/date";
 import ItemDetailModal from "@/app/todo/components/ItemDetailModal";
-import {FiTrash2} from "react-icons/fi";
-import {CustomizedButton} from "@/app/todo/components/CustomizedTypes";
 import DeletPopover from "@/app/todo/components/ConfirmPopup";
 
 const ItemLine = (props: { todo: TodoItem, onItemRemove: onItemRemoveFunction }) => {

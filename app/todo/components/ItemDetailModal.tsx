@@ -1,14 +1,5 @@
 import React, {Dispatch, SetStateAction} from "react";
-import {
-    Button,
-    extendVariants,
-    Modal,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    useDisclosure,
-} from "@nextui-org/react";
+import {Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure,} from "@nextui-org/react";
 import {IoInformationCircleOutline} from "react-icons/io5";
 import {TodoItem} from "@/app/todo/types/todoItem";
 import {deleteTodoItem} from "@/app/todo/lib/utils";

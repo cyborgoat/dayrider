@@ -1,4 +1,4 @@
-import {Button, Listbox, ListboxItem, Popover, PopoverContent, PopoverTrigger} from "@nextui-org/react";
+import {Listbox, ListboxItem, Popover, PopoverContent, PopoverTrigger} from "@nextui-org/react";
 import {IoCheckmarkSharp} from "react-icons/io5";
 import React from "react";
 import {onItemRemoveFunction, TodoItem} from "@/app/todo/types/todoItem";

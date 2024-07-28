@@ -2,10 +2,6 @@
 import React, {useEffect, useState} from "react";
 import {TodoItem} from "@/app/todo/types/todoItem";
 import ItemLine from "./components/ItemLine";
-import {getLocalTimeZone, today} from "@internationalized/date";
-import {invoke} from "@tauri-apps/api/tauri";
-
-import {v4 as uuidv4} from 'uuid';
 import {addTodoItem, defaultNewItem, deleteTodoItem, getTodoItems} from "@/app/todo/lib/utils";
 
 
