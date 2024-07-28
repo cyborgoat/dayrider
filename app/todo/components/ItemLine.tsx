@@ -5,6 +5,7 @@ import React, {useState} from "react";
 import ItemLineDropDown from "@/app/todo/components/ItemLineDropDown";
 import {MdOutlineArrowBackIos} from "react-icons/md";
 import {invoke} from "@tauri-apps/api/tauri";
+import {updateTodoItem} from "@/app/todo/lib/utils";
 
 const ItemLine = (props: { todo: TodoItem }) => {
     const [todo, setTodo] = useState(props.todo);
@@ -12,11 +13,6 @@ const ItemLine = (props: { todo: TodoItem }) => {
     const [inputColor, setInputColor] = useState<"default" | "primary">(
         "default"
     );
-
-    async function updateTodoItem(todoItem: TodoItem) {
-        await invoke<string>("update_item", {todoItem: todoItem});
-        setInputColor("default");
-    }
 
     return (
         <div className="transition-all duration-100 w-full py-0 hover:pb-1">

@@ -46,7 +46,7 @@ pub fn add_item(todo_item: TodoItem) -> Result<String, String> {
         ],
     );
 
-    Ok("You added an item".into())
+    Ok(format!("{}", serde_json::to_string(&todo_item).unwrap()).into())
 }
 
 #[tauri::command]
@@ -76,7 +76,7 @@ pub fn update_item(todo_item: TodoItem) -> Result<String, String> {
         todo_item.uuid.to_string(), todo_item.name.to_string(), todo_item.date.to_string(),
         todo_item.deadline.to_string(), todo_item.finished.to_string(),todo_item.notes.to_string()
     ]).unwrap();
-    Ok(format!("You updated an item {}", serde_json::to_string(&todo_item).unwrap()).into())
+    Ok(format!("{}", serde_json::to_string(&todo_item).unwrap()).into())
 }
 
 

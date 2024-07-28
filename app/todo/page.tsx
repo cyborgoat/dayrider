@@ -6,6 +6,7 @@ import {getLocalTimeZone, today} from "@internationalized/date";
 import {invoke} from "@tauri-apps/api/tauri";
 
 import {v4 as uuidv4} from 'uuid';
+import {addTodoItem, defaultNewItem, getTodoItems} from "@/app/todo/lib/utils";
 
 
 export default function TodoPage() {
@@ -13,33 +14,19 @@ export default function TodoPage() {
 
     useEffect(() => {
         if (todoList === undefined) {
-            invoke<string>('todo_list').then(result => {
-                const dbRecord: TodoItem[] = JSON.parse(result)
-                setTodoList(dbRecord)
-                console.log("todoList loaded")
+            getTodoItems().then(result => {
+                setTodoList(result)
             }).catch(e => console.log(e))
         }
     }, [todoList])
 
     const addTodoHandler = (e: any) => {
-        const newItem = {
-            uuid: uuidv4(),
-            name: "New Todo Item",
-            date: today(getLocalTimeZone()).toString(),
-            finished: "false",
-            deadline: today(getLocalTimeZone()).toString(),
-            notes: "test notes"
-        };
-        invoke<string>('add_item', {todoItem: newItem})
-            .then(result => {
-                    setTodoList([
-                        ...todoList ? todoList : [],
-                        newItem
-                    ])
-                    console.log(result)
-                }
-            )
-            .catch(console.error)
+        addTodoItem(defaultNewItem()).then(item =>
+            setTodoList([
+                ...todoList ? todoList : [],
+                item
+            ])
+        ).catch(e => console.log(e));
     }
 
     return (

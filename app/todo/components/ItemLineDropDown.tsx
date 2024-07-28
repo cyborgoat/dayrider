@@ -2,18 +2,14 @@ import {TodoItem} from "@/types/todoItem";
 import {DatePicker, extendVariants} from "@nextui-org/react";
 import React, {Dispatch, SetStateAction} from "react";
 import {parseDate} from "@internationalized/date";
-import {invoke} from "@tauri-apps/api/tauri";
 import ItemDetailModal from "@/app/todo/components/ItemDetailModal";
+import {updateTodoItem} from "@/app/todo/lib/utils";
 
 
 const ItemLineDropDown = (props: { todo: TodoItem, setTodo: Dispatch<SetStateAction<TodoItem>> }) => {
     const todo = props.todo;
     const [value, setValue] = React.useState(parseDate(todo.deadline));
 
-    async function updateTodoItem(todoItem: TodoItem) {
-        const res = await invoke<string>('update_item', {todoItem: todoItem})
-        console.log(res)
-    }
 
     return (
         <div className="flex flex-col my-1">
@@ -51,7 +47,7 @@ const ItemLineDropDown = (props: { todo: TodoItem, setTodo: Dispatch<SetStateAct
                             }}
                 />
                 <div className="place-self-center justify-self-end">
-                    <ItemDetailModal/>
+                    <ItemDetailModal todo={props.todo} setTodo={props.setTodo}/>
                 </div>
             </div>
         </div>

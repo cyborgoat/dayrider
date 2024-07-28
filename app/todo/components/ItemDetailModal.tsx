@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Dispatch, SetStateAction} from "react";
 import {
     Button,
     extendVariants,
@@ -10,8 +10,10 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import {IoInformationCircleOutline} from "react-icons/io5";
+import {TodoItem} from "@/types/todoItem";
 
-export default function ItemDetailModal() {
+export default function ItemDetailModal(props: { todo: TodoItem, setTodo: Dispatch<SetStateAction<TodoItem>> }) {
+    const [todo, setTodo] = React.useState<TodoItem>(props.todo);
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
     return (
@@ -28,7 +30,7 @@ export default function ItemDetailModal() {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1">{todo.name}</ModalHeader>
                             <ModalBody>
                                 <p>
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
