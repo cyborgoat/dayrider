@@ -1,61 +1,92 @@
 "use client";
-import {Divider, Listbox, ListboxItem} from "@nextui-org/react";
-import React, {useState} from "react";
-import {FaRegUserCircle} from "react-icons/fa";
-import {FaListCheck} from "react-icons/fa6";
-import {BsCalendar2Day} from "react-icons/bs";
-import {IoIosSettings} from "react-icons/io";
+import { Avatar, Listbox, ListboxItem } from "@nextui-org/react";
+import React from "react";
+import { FaRegUserCircle } from "react-icons/fa";
+import { FaListCheck } from "react-icons/fa6";
+import { BsCalendar2Day } from "react-icons/bs";
+import { IoIosSettings } from "react-icons/io";
+import { IconWrapper } from "./icons/IconWrapper";
+import { ItemCounter } from "./icons/ItemCounter";
 
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 export default function SideBar() {
-    const [titleColor, setTitleColor] = useState("text-sky-500");
-
-    return (
-        <div className="sticky top-0 h-screen max-w-md pt-4 mx-2">
-            <div>
-                <a href={"/"} className={`text-md font-medium`}>
-                    DayRiderV2
-                </a>
-            </div>
-            <Divider className="mt-4"/>
-            <div className="w-full pb-2 border-small rounded-small border-default-200 dark:border-default-100">
-                <Listbox
-                    aria-label="actions"
-                    onAction={(key) => setTitleColor("text-slate-900")}
-                >
-                    <ListboxItem
-                        key="todo"
-                        href={"/todo"}
-                        textValue={"todo"}
-                        startContent={<FaListCheck strokeWidth={0.3} size={24}/>}
-                    >
-                        <span className="text-md font-[500]">Todo</span>
-                    </ListboxItem>
-                    <ListboxItem
-                        key="schedule"
-                        href={"/schedule"}
-                        textValue={"schedule"}
-                        startContent={<BsCalendar2Day strokeWidth={0.3} size={24}/>}
-                    >
-                        <span className="text-md font-[500]">Schedule</span>
-                    </ListboxItem>
-                    <ListboxItem
-                        key="profile"
-                        href={"/profile"}
-                        textValue={"profile"}
-                        startContent={<FaRegUserCircle strokeWidth={0.3} size={24}/>}
-                    >
-                        <span className="text-md font-[500]">Profile</span>
-                    </ListboxItem>
-                    <ListboxItem
-                        key="settings"
-                        href={"/settings"}
-                        textValue={"settings"}
-                        startContent={<IoIosSettings strokeWidth={0.3} size={24}/>}
-                    >
-                        <span className="text-md font-[500]">Settings</span>
-                    </ListboxItem>
-                </Listbox>
-            </div>
+  const current = new Date();
+  return (
+    <div className="sticky top-0 h-screen max-w-md pt-4">
+      <div className="flex flex-row gap-x-2 mt-2 mb-6 ml-4">
+        <Avatar className="" name="Rob" />
+        <div className="flex flex-col mt-1">
+          <div className="text-xs font-light">
+            {" "}
+            {current.toLocaleDateString()}{" "}
+          </div>
+          <div className="text-xs font-light">{days[current.getDay()]}</div>
         </div>
-    );
+      </div>
+      <div className="w-full pb-2 mx-1">
+        <Listbox aria-label="actions">
+          <ListboxItem
+            key="todo"
+            href={"/todo"}
+            textValue={"todo"}
+            startContent={
+              <IconWrapper className="bg-primary/10 text-primary">
+                <FaListCheck strokeWidth={0.3} size={16} />
+              </IconWrapper>
+            }
+            endContent={<ItemCounter number={5} />}
+          >
+            <span className="text-md font-[500]">Todo</span>
+          </ListboxItem>
+          <ListboxItem
+            key="schedule"
+            href={"/schedule"}
+            textValue={"schedule"}
+            startContent={
+              <IconWrapper className="bg-success/10 text-success">
+                <BsCalendar2Day strokeWidth={0.3} size={16} />
+              </IconWrapper>
+            }
+            endContent={<ItemCounter number={5} />}
+          >
+            <span className="text-md font-[500]">Schedule</span>
+          </ListboxItem>
+          <ListboxItem
+            key="profile"
+            href={"/profile"}
+            textValue={"profile"}
+            startContent={
+              <IconWrapper className="bg-success/10 text-success">
+                <FaRegUserCircle strokeWidth={0.3} size={16} />
+              </IconWrapper>
+            }
+            endContent={<ItemCounter number={5} />}
+          >
+            <span className="text-md font-[500]">Profile</span>
+          </ListboxItem>
+          <ListboxItem
+            key="settings"
+            href={"/settings"}
+            textValue={"settings"}
+            startContent={
+              <IconWrapper className="bg-success/10 text-success">
+                <IoIosSettings strokeWidth={0.3} size={16} />
+              </IconWrapper>
+            }
+            endContent={<ItemCounter number={5} />}
+          >
+            <span className="text-md font-[500]">Settings</span>
+          </ListboxItem>
+        </Listbox>
+      </div>
+    </div>
+  );
 }
