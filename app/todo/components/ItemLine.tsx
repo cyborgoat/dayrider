@@ -1,14 +1,19 @@
 "use client";
 import {TodoItem} from "@/types/todoItem";
-import {Button, extendVariants, Input} from "@nextui-org/react";
+import {Button, DatePicker, extendVariants, Input, Popover, PopoverContent, PopoverTrigger} from "@nextui-org/react";
 import React, {useState} from "react";
-import ItemLineDropDown from "@/app/todo/components/ItemLineDropDown";
 import {MdOutlineArrowBackIos} from "react-icons/md";
-import {invoke} from "@tauri-apps/api/tauri";
-import {updateTodoItem} from "@/app/todo/lib/utils";
+import {isFinished, updateTodoItem} from "@/app/todo/lib/utils";
+import {parseDate} from "@internationalized/date";
+import ItemDetailModal from "@/app/todo/components/ItemDetailModal";
+import {FiTrash2} from "react-icons/fi";
+import {CustomizedButton} from "@/app/todo/components/CustomizedTypes";
+import {IoCheckmarkSharp} from "react-icons/io5";
 
-const ItemLine = (props: { todo: TodoItem }) => {
+type onItemRemoveFunction = (uuid: string) => void;
+const ItemLine = (props: { todo: TodoItem, onItemRemove: onItemRemoveFunction }) => {
     const [todo, setTodo] = useState(props.todo);
+    const [value, setValue] = React.useState(parseDate(todo.deadline));
     const [isFocused, setIsFocused] = useState(false);
     const [inputColor, setInputColor] = useState<"default" | "primary">(
         "default"
@@ -21,11 +26,11 @@ const ItemLine = (props: { todo: TodoItem }) => {
             >
                 <input
                     type="checkbox"
-                    checked={todo.finished === "true"}
+                    checked={isFinished(todo)}
                     onChange={() => {
                         const newItem = {
                             ...todo,
-                            finished: todo.finished === "true" ? "false" : "true",
+                            finished: isFinished(todo) ? "false" : "true",
                         };
                         setTodo(newItem);
                         updateTodoItem(newItem).then();
@@ -72,7 +77,64 @@ const ItemLine = (props: { todo: TodoItem }) => {
                     isFocused ? "max-h-16" : "max-h-0 invisible"
                 }`}
             >
-                <ItemLineDropDown todo={todo} setTodo={setTodo}/>
+                <div className="flex flex-col my-1">
+                    {/*<div>*/}
+                    {/*    <Input type="text" variant="underlined" size="sm" placeholder="Add Note"*/}
+                    {/*           value={todo.notes}*/}
+                    {/*           onChange={e => props.setTodo({...todo, notes: e.target.value})}*/}
+                    {/*           onBlur={() => updateTodoItem(todo)}*/}
+                    {/*           classNames={*/}
+                    {/*               {*/}
+                    {/*                   base: "bg-transparent pb-2",*/}
+                    {/*                   innerWrapper: ["bg-transparent", "py-0"],*/}
+                    {/*                   inputWrapper: ["bg-transparent", "p-0", "border-0"],*/}
+                    {/*                   input: [*/}
+                    {/*                       "bg-transparent",*/}
+                    {/*                       "placeholder:text-zinc-800/80",*/}
+                    {/*                       "text-xs"*/}
+                    {/*                   ],*/}
+                    {/*               }*/}
+                    {/*           }*/}
+                    {/*    />*/}
+                    {/*</div>*/}
+                    <div className="pr-10 flex flex-row gap-2 mt-0 justify-between">
+                        <DatePicker variant="underlined" size="sm" aria-label="due-date"
+                                    className="max-w-[144px]"
+                                    defaultValue={parseDate(todo.deadline)} onChange={setValue}
+                                    onBlur={() => {
+                                        const newTodo = {...todo, deadline: value.toString()}
+                                        setTodo(newTodo);
+                                        updateTodoItem(newTodo).then();
+                                    }}
+                                    dateInputClassNames={{
+                                        input: "text-small",
+                                        segment: "text-slate-300/80",
+                                    }}
+                        />
+                        <div className="place-self-center justify-self-end flex flex-row gap-1 items-center">
+                            <ItemDetailModal todo={todo} setTodo={setTodo}/>
+                            <Popover showArrow placement="bottom">
+                                <PopoverTrigger className="">
+                                    <CustomizedButton color="trash" radius="full" isIconOnly size={"tiny"}>
+                                        <FiTrash2 size={18}/>
+                                    </CustomizedButton>
+                                </PopoverTrigger>
+                                <PopoverContent className="min-w-[100px] p-1">
+                                    <span>Delete?</span>
+                                    <div className="w-full flex flex-row my-1 justify-between">
+                                        <Button size="sm" color="default" isIconOnly>
+                                            <IoCheckmarkSharp/>
+                                        </Button>
+                                        <Button size="sm" color="danger" isIconOnly
+                                                onClick={() => props.onItemRemove(todo.uuid)}>
+                                            <IoCheckmarkSharp/>
+                                        </Button>
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

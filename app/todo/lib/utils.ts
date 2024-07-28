@@ -3,6 +3,13 @@ import {TodoItem} from "@/types/todoItem";
 import {v4 as uuidv4} from "uuid";
 import {getLocalTimeZone, today} from "@internationalized/date";
 
+// Common functions
+export function isFinished(todoItem: TodoItem) {
+    return todoItem.finished === 'true';
+}
+
+// DB Related
+
 export function defaultNewItem(): TodoItem {
     return {
         uuid: uuidv4(),

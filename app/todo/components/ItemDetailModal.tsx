@@ -12,6 +12,7 @@ import {
 import {IoInformationCircleOutline} from "react-icons/io5";
 import {TodoItem} from "@/types/todoItem";
 import {deleteTodoItem} from "@/app/todo/lib/utils";
+import {CustomizedButton} from "@/app/todo/components/CustomizedTypes";
 
 export default function ItemDetailModal(props: { todo: TodoItem, setTodo: Dispatch<SetStateAction<TodoItem>> }) {
     const [todo, setTodo] = React.useState<TodoItem>(props.todo);
@@ -19,9 +20,9 @@ export default function ItemDetailModal(props: { todo: TodoItem, setTodo: Dispat
 
     return (
         <div className="flex flex-col gap-2">
-            <ItemDetailButton color="transparent" radius="full" isIconOnly onPress={onOpen} size={"tiny"}>
+            <CustomizedButton color="info" radius="full" isIconOnly onPress={onOpen} size={"tiny"}>
                 <IoInformationCircleOutline size={24}/>
-            </ItemDetailButton>
+            </CustomizedButton>
             <Modal
                 isOpen={isOpen}
                 placement={"auto"}
@@ -62,37 +63,3 @@ export default function ItemDetailModal(props: { todo: TodoItem, setTodo: Dispat
         </div>
     );
 }
-const ItemDetailButton = extendVariants(Button, {
-    variants: {
-        // <- modify/add variants
-        color: {
-            olive: "text-[#000] bg-[#84cc16]",
-            orange: "bg-[#ff8c00] text-[#fff]",
-            violet: "bg-[#8b5cf6] text-[#fff]",
-            transparent: "bg-transparent text-blue-300 hover:text-blue-500",
-        },
-        isDisabled: {
-            true: "bg-[#eaeaea] text-[#000] opacity-50 cursor-not-allowed",
-        },
-        size: {
-            tiny: "px-0 min-w-4 h-6 text-tiny gap-0 rounded-small",
-            xs: "px-2 min-w-12 h-6 text-tiny gap-1 rounded-small",
-            md: "px-4 min-w-20 h-10 text-small gap-2 rounded-small",
-            xl: "px-8 min-w-28 h-14 text-large gap-4 rounded-medium",
-        },
-    },
-    defaultVariants: {
-        // <- modify/add default variants
-        color: "olive",
-        size: "xl",
-    },
-    compoundVariants: [
-        // <- modify/add compound variants
-        {
-            isDisabled: true,
-            color: "olive",
-            class: "bg-[#84cc16]/80 opacity-100",
-        },
-    ],
-});
-
