@@ -1,11 +1,8 @@
-import type {Metadata} from "next";
-import {Inter} from "next/font/google";
+import type { Metadata } from "next";
 import "./globals.css";
 import * as React from "react";
-import {Providers} from "./providers";
+import { Providers } from "./providers";
 import SideBar from "@/components/SideBar";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,9 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className}`}>
+      <body className={`text-slate-800 dark:text-slate-200`}>
         <Providers>
-          <div className="grid grid-cols-16 bg-white">
+          <div className="grid grid-cols-16 bg-white dark:bg-slate-800">
             <div className="border-r-2 col-span-3 lg:col-span-4  border-slate-500/30">
               <SideBar />
             </div>
