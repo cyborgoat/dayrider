@@ -9,7 +9,6 @@ import {
   getTodoItems,
 } from "@/app/todo/lib/utils";
 import { Button } from "@nextui-org/react";
-import { FaSackDollar } from "react-icons/fa6";
 import { IoIosAdd } from "react-icons/io";
 
 export default function TodoPage() {
@@ -45,7 +44,10 @@ export default function TodoPage() {
     <main className="flex flex-col items-start min-h-screen px-4 pt-6 justify-items-start lg:px-6">
       <div className="w-full flex flex-row justify-between">
         <div className={"text-2xl font-semibold text-blue-500 mb-2"}>Todos</div>
-        <Button variant="light" isIconOnly onClick={onItemAdd}> <IoIosAdd size={24} /> </Button>
+        <Button variant="light" isIconOnly onClick={onItemAdd}>
+          {" "}
+          <IoIosAdd size={24} />{" "}
+        </Button>
       </div>
       <div className="flex flex-col gap-y-2 my-4 w-full">
         {todoList?.map((todo, idx) => (
