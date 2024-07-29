@@ -1,6 +1,6 @@
 {
   "name": "dayrider",
-  "version": "0.1.1",
+  "version": "0.1.1-alpha",
   "private": true,
   "scripts": {
     "dev": "next dev",
