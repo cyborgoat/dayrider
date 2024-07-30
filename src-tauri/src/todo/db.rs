@@ -54,7 +54,10 @@ pub fn delete_item(uuid: String) -> Result<String, String> {
     let _ = fs::create_dir_all(data_dir().unwrap().join("DayRider"));
     let db_path = data_dir().unwrap().join("DayRider").join("todo.db");
     let conn = Connection::open(&db_path).unwrap();
-    let _ = conn.execute(&format!("DELETE FROM todo_list WHERE uuid = '{}'", uuid), ());
+    let _ = conn.execute(
+        &format!("DELETE FROM todo_list WHERE uuid = '{}'", uuid),
+        (),
+    );
 
     Ok("You deleted an item".into())
 }
@@ -65,20 +68,28 @@ pub fn update_item(todo_item: TodoItem) -> Result<String, String> {
     let db_path = data_dir().unwrap().join("DayRider").join("todo.db");
     let conn = Connection::open(&db_path).unwrap();
 
-    let mut stmt = conn.prepare("UPDATE todo_list SET \
+    let mut stmt = conn
+        .prepare(
+            "UPDATE todo_list SET \
     name = ?2, \
     date = ?3, \
     deadline = ?4, \
     finished = ?5, \
     notes = ?6 \
-    WHERE uuid = ?1").unwrap();
+    WHERE uuid = ?1",
+        )
+        .unwrap();
     stmt.execute(rusqlite::params![
-        todo_item.uuid.to_string(), todo_item.name.to_string(), todo_item.date.to_string(),
-        todo_item.deadline.to_string(), todo_item.finished.to_string(),todo_item.notes.to_string()
-    ]).unwrap();
+        todo_item.uuid.to_string(),
+        todo_item.name.to_string(),
+        todo_item.date.to_string(),
+        todo_item.deadline.to_string(),
+        todo_item.finished.to_string(),
+        todo_item.notes.to_string()
+    ])
+    .unwrap();
     Ok(format!("{}", serde_json::to_string(&todo_item).unwrap()).into())
 }
-
 
 // Create the database if does not exist
 pub fn create_db(p: &PathBuf) -> Result<()> {
@@ -98,14 +109,13 @@ pub fn create_db(p: &PathBuf) -> Result<()> {
     Ok(())
 }
 
-
 #[tauri::command]
 pub fn todo_list() -> String {
     let _ = fs::create_dir_all(data_dir().unwrap().join("DayRider"));
     let db_path = data_dir().unwrap().join("DayRider").join("todo.db");
     let _ = create_db(&db_path);
     let conn = Connection::open(&db_path).unwrap();
-    let mut stmt = conn.prepare(" SELECT * FROM todo_list; ").unwrap();
+    let mut stmt = conn.prepare("SELECT * FROM todo_list").unwrap();
     let items = stmt
         .query_map((), |row| {
             Ok(TodoItem {
