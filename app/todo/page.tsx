@@ -22,7 +22,8 @@ export default function TodoPage() {
         })
         .catch((e) => console.log(e));
     }
-  }, [todoList]);
+    console.log("re-rendered todo");
+  }, []);
 
   const onItemAdd = (e: any) => {
     addTodoItem(defaultNewItem())
