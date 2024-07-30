@@ -51,10 +51,10 @@ export default function TodoPage() {
         </Button>
       </div>
       <div className="flex flex-col gap-y-2 my-4 w-full">
-        {todoList?.map((todo, idx) => (
+        {todoList?.map((todo) => (
           <ItemLine
             todo={todo}
-            key={`item-${idx}`}
+            key={`item-${todo.uuid}`}
             onItemRemove={onItemRemove}
           />
         ))}
