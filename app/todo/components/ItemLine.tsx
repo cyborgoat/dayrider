@@ -1,12 +1,16 @@
 "use client";
-import {onItemRemoveFunction, onItemUpdateFunction, TodoItem,} from "@/app/todo/types/todoItem";
-import {Button, DatePicker, extendVariants, Input} from "@nextui-org/react";
-import React, {useState} from "react";
-import {MdOutlineArrowBackIos} from "react-icons/md";
-import {isFinished} from "@/app/todo/lib/utils";
-import {parseDate} from "@internationalized/date";
+import {
+    onItemRemoveFunction,
+    onItemUpdateFunction,
+    TodoItem,
+} from "@/app/todo/types/todoItem";
+import { Button, DatePicker, extendVariants, Input } from "@nextui-org/react";
+import React, { useState } from "react";
+import { MdOutlineArrowBackIos } from "react-icons/md";
+import { isFinished } from "@/app/todo/lib/utils";
+import { parseDate } from "@internationalized/date";
 import ItemDetailModal from "@/app/todo/components/ItemDetailModal";
-import DeletPopover from "@/app/todo/components/DeletePopover";
+import DeletePopover from "./DeletePopover";
 
 const ItemLine = (props: {
     todo: TodoItem;
@@ -51,7 +55,10 @@ const ItemLine = (props: {
                     defaultValue={props.todo.name}
                     onChange={(e) => setName(e.target.value)}
                     onBlur={() =>
-                        props.onItemUpdate(props.idx, {...props.todo, name: name})
+                        props.onItemUpdate(props.idx, {
+                            ...props.todo,
+                            name: name,
+                        })
                     }
                     color={"default"}
                     classNames={{
@@ -72,7 +79,9 @@ const ItemLine = (props: {
                     <MdOutlineArrowBackIos
                         size={20}
                         className={`transition duration-300 ${
-                            isFocused ? "-rotate-90 text-blue-500" : "text-zinc-500"
+                            isFocused
+                                ? "-rotate-90 text-blue-500"
+                                : "text-zinc-500"
                         }`}
                     />
                 </DropDownArrowButton>
@@ -109,7 +118,7 @@ const ItemLine = (props: {
                                 todo={props.todo}
                                 onItemUpdate={props.onItemUpdate}
                             />
-                            <DeletPopover
+                            <DeletePopover
                                 todo={props.todo}
                                 onItemRemove={props.onItemRemove}
                             />
