@@ -1,9 +1,13 @@
 "use client";
-import { onItemRemoveFunction, TodoItem } from "@/app/todo/types/todoItem";
+import {
+  onItemRemoveFunction,
+  onItemUpdateFunction,
+  TodoItem,
+} from "@/app/todo/types/todoItem";
 import { Button, DatePicker, extendVariants, Input } from "@nextui-org/react";
 import React, { useState } from "react";
 import { MdOutlineArrowBackIos } from "react-icons/md";
-import { isFinished, updateTodoItem } from "@/app/todo/lib/utils";
+import { isFinished } from "@/app/todo/lib/utils";
 import { parseDate } from "@internationalized/date";
 import ItemDetailModal from "@/app/todo/components/ItemDetailModal";
 import DeletPopover from "@/app/todo/components/DeletePopover";
@@ -11,9 +15,13 @@ import DeletPopover from "@/app/todo/components/DeletePopover";
 const ItemLine = (props: {
   todo: TodoItem;
   onItemRemove: onItemRemoveFunction;
+  onItemUpdate: onItemUpdateFunction;
+  idx: number;
 }) => {
-  const [todo, setTodo] = useState(props.todo);
-  const [value, setValue] = React.useState(parseDate(todo.deadline));
+  const [name, setName] = React.useState(props.todo.name);
+  const [deadline, setDeadline] = React.useState(
+    parseDate(props.todo.deadline)
+  );
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -25,17 +33,16 @@ const ItemLine = (props: {
       >
         <input
           type="checkbox"
-          checked={isFinished(todo)}
+          checked={isFinished(props.todo)}
           onChange={() => {
             const newItem = {
-              ...todo,
-              finished: isFinished(todo) ? "false" : "true",
+              ...props.todo,
+              finished: isFinished(props.todo) ? "false" : "true",
             };
-            setTodo(newItem);
-            updateTodoItem(newItem).then();
-            setIsFocused(todo.finished === "true");
+            props.onItemUpdate(props.idx, newItem);
+            setIsFocused(props.todo.finished === "true");
           }}
-          name={`radio-${todo.uuid}`}
+          name={`radio-${props.todo.uuid}`}
           className="checkbox checkbox-xs self-center mx-2
                        [--chkbg:theme(colors.blue.600)] [--chkfg:white] checked:border-blue-300
                        "
@@ -43,11 +50,13 @@ const ItemLine = (props: {
         <Input
           type="text"
           variant="flat"
-          aria-label="todo-name"
+          aria-label="task-name"
           label=""
-          defaultValue={todo.name}
-          onChange={(e) => setTodo({ ...todo, name: e.target.value })}
-          onBlur={() => updateTodoItem(todo)}
+          defaultValue={props.todo.name}
+          onChange={(e) => setName(e.target.value)}
+          onBlur={() =>
+            props.onItemUpdate(props.idx, { ...props.todo, name: name })
+          }
           color={"default"}
           classNames={{
             inputWrapper:
@@ -84,12 +93,14 @@ const ItemLine = (props: {
               size="sm"
               aria-label="due-date"
               className="max-w-[144px]"
-              defaultValue={parseDate(todo.deadline)}
-              onChange={setValue}
+              defaultValue={parseDate(props.todo.deadline)}
+              onChange={setDeadline}
               onBlur={() => {
-                const newTodo = { ...todo, deadline: value.toString() };
-                setTodo(newTodo);
-                updateTodoItem(newTodo).then();
+                const newTodo = {
+                  ...props.todo,
+                  deadline: deadline.toString(),
+                };
+                props.onItemUpdate(props.idx, newTodo);
               }}
               dateInputClassNames={{
                 input: "text-small",
@@ -97,7 +108,11 @@ const ItemLine = (props: {
               }}
             />
             <div className="place-self-center justify-self-end flex flex-row gap-1 items-center">
-              <ItemDetailModal todo={todo} setTodo={setTodo} />
+              <ItemDetailModal
+                idx={props.idx}
+                todo={props.todo}
+                onItemUpdate={props.onItemUpdate}
+              />
               <DeletPopover
                 todo={props.todo}
                 onItemRemove={props.onItemRemove}

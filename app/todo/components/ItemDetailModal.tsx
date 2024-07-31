@@ -11,13 +11,13 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { IoInformationCircleOutline } from "react-icons/io5";
-import { TodoItem } from "@/app/todo/types/todoItem";
-import { updateTodoItem } from "@/app/todo/lib/utils";
+import { onItemUpdateFunction, TodoItem } from "@/app/todo/types/todoItem";
 import { CustomizedButton } from "@/app/todo/components/CustomizedTypes";
 
 export default function ItemDetailModal(props: {
+  idx: number;
   todo: TodoItem;
-  setTodo: Dispatch<SetStateAction<TodoItem>>;
+  onItemUpdate: onItemUpdateFunction;
 }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [notes, setNotes] = useState(props.todo.notes);
@@ -90,8 +90,7 @@ export default function ItemDetailModal(props: {
                   onPress={() => {
                     onClose();
                     const newTodo = { ...props.todo, name: name, notes: notes };
-                    props.setTodo(newTodo);
-                    updateTodoItem(newTodo);
+                    props.onItemUpdate(props.idx, newTodo);
                   }}
                 >
                   Save

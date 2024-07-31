@@ -7,6 +7,7 @@ import {
   defaultNewItem,
   deleteTodoItem,
   getTodoItems,
+  updateTodoItem,
 } from "@/app/todo/lib/utils";
 import { Button } from "@nextui-org/react";
 import { IoIosAdd } from "react-icons/io";
@@ -31,6 +32,18 @@ export default function TodoPage() {
       .catch((e) => console.log(e));
   };
 
+  const onItemUpdate = (idx: number, item: TodoItem) => {
+    updateTodoItem(item)
+      .then((res) => {
+        if (todoList !== undefined) {
+          let tmp = [...todoList];
+          tmp[idx] = item;
+          setTodoList(tmp);
+        }
+      })
+      .catch((e) => console.log(e));
+  };
+
   const onItemRemove = (uuid: string) => {
     deleteTodoItem(uuid)
       .then((res) => {
@@ -51,11 +64,13 @@ export default function TodoPage() {
         </Button>
       </div>
       <div className="flex flex-col gap-y-2 my-4 w-full">
-        {todoList?.map((todo) => (
+        {todoList?.map((todo, idx) => (
           <ItemLine
             todo={todo}
             key={`item-${todo.uuid}`}
             onItemRemove={onItemRemove}
+            onItemUpdate={onItemUpdate}
+            idx={idx}
           />
         ))}
       </div>
