@@ -23,8 +23,7 @@ export default function TodoPage() {
         })
         .catch((e) => console.log(e));
     }
-    console.log("re-rendered todo");
-  }, []);
+  }, [todoList]);
 
   const onItemAdd = (e: any) => {
     addTodoItem(defaultNewItem())
@@ -67,7 +66,7 @@ export default function TodoPage() {
         {todoList?.map((todo, idx) => (
           <ItemLine
             todo={todo}
-            key={`item-${todo.uuid}`}
+            key={`${todo.uuid}-${todo.name}-${todo.deadline}`}
             onItemRemove={onItemRemove}
             onItemUpdate={onItemUpdate}
             idx={idx}
