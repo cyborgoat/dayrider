@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   Button,
+  Input,
   Modal,
   ModalBody,
   ModalContent,
@@ -20,6 +21,7 @@ export default function ItemDetailModal(props: {
 }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [notes, setNotes] = useState(props.todo.notes);
+  const [name, setName] = useState(props.todo.name);
 
   return (
     <div className="flex flex-col gap-2">
@@ -42,7 +44,15 @@ export default function ItemDetailModal(props: {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                {props.todo.name}
+                <Input
+                  type="email"
+                  variant="underlined"
+                  label="Task Name"
+                  size="lg"
+                  placeholder="Enter task name"
+                  defaultValue={props.todo.name}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </ModalHeader>
               <ModalBody>
                 <Textarea
@@ -79,7 +89,7 @@ export default function ItemDetailModal(props: {
                   color="primary"
                   onPress={() => {
                     onClose();
-                    const newTodo = { ...props.todo, notes: notes };
+                    const newTodo = { ...props.todo, name: name, notes: notes };
                     props.setTodo(newTodo);
                     updateTodoItem(newTodo);
                   }}
