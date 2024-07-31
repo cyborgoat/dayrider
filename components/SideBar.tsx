@@ -32,7 +32,7 @@ export default function SideBar() {
                 </div>
             </div>
             <div className="w-full pb-2 mx-1">
-                <Listbox aria-label="actions">
+                <Listbox aria-label="actions" className="px-2">
                     <ListboxItem
                         key="todo"
                         href={"/todo"}
@@ -42,7 +42,7 @@ export default function SideBar() {
                                 <FaListCheck strokeWidth={0.3} size={16}/>
                             </IconWrapper>
                         }
-                        endContent={<ItemCounter number={5}/>}
+                        // endContent={<ItemCounter number={5}/>}
                     >
                         <span className="text-md font-[500]">Todo</span>
                     </ListboxItem>
@@ -55,7 +55,7 @@ export default function SideBar() {
                                 <BsCalendar2Day strokeWidth={0.3} size={16}/>
                             </IconWrapper>
                         }
-                        endContent={<ItemCounter number={5}/>}
+                        // endContent={<ItemCounter number={5}/>}
                     >
                         <span className="text-md font-[500]">Schedule</span>
                     </ListboxItem>
@@ -68,7 +68,7 @@ export default function SideBar() {
                                 <FaRegUserCircle strokeWidth={0.3} size={16}/>
                             </IconWrapper>
                         }
-                        endContent={<ItemCounter number={5}/>}
+                        // endContent={<ItemCounter number={5}/>}
                     >
                         <span className="text-md font-[500]">Profile</span>
                     </ListboxItem>
@@ -81,7 +81,7 @@ export default function SideBar() {
                                 <IoIosSettings strokeWidth={0.3} size={16}/>
                             </IconWrapper>
                         }
-                        endContent={<ItemCounter number={5}/>}
+                        // endContent={<ItemCounter number={5}/>}
                     >
                         <span className="text-md font-[500]">Settings</span>
                     </ListboxItem>
