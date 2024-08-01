@@ -7,7 +7,7 @@ import {
 import { Button, DatePicker, extendVariants, Input } from "@nextui-org/react";
 import React, { useState } from "react";
 import { MdOutlineArrowBackIos } from "react-icons/md";
-import { isFinished } from "@/app/todo/lib/utils";
+import { isFinished, isOverdue } from "@/app/todo/lib/utils";
 import { parseDate } from "@internationalized/date";
 import ItemDetailModal from "@/app/todo/components/ItemDetailModal";
 import DeletePopover from "./DeletePopover";
@@ -86,13 +86,14 @@ const ItemLine = (props: {
                     />
                 </DropDownArrowButton>
             </div>
+            {/* Dropdown info */}
             <div
                 className={`transition-all ease-in-out duration-300 ml-8 overflow-hidden ${
                     isFocused ? "max-h-16" : "max-h-0 invisible"
                 }`}
             >
                 <div className="flex flex-col my-1">
-                    <div className="pr-10 flex flex-row gap-2 mt-0 justify-between">
+                    <div className="pr-10 flex flex-row gap-2 mt-0 justify-between items-center">
                         <DatePicker
                             variant="underlined"
                             size="sm"
@@ -112,6 +113,11 @@ const ItemLine = (props: {
                                 segment: "text-slate-300/80",
                             }}
                         />
+                        {isOverdue(props.todo.date) === true ? (
+                            <span>overdue</span>
+                        ) : (
+                            <></>
+                        )}
                         <div className="place-self-center justify-self-end flex flex-row gap-1 items-center">
                             <ItemDetailModal
                                 idx={props.idx}
