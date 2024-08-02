@@ -15,6 +15,14 @@ export function isOverdue(dateString: string): boolean {
     return today > date;
 }
 
+export function overdueDays(dateString: string): number {
+    let today = new Date();
+    let date = new Date(dateString);
+    let diffInTime = today.getTime() - date.getTime();
+    let diffInDays = Math.round(diffInTime / (1000 * 3600 * 24));
+    return diffInDays;
+}
+
 // DB Related
 
 export function defaultNewItem(): TodoItem {
