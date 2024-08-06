@@ -1,13 +1,20 @@
 "use client";
-import React, {useEffect, useState} from "react";
-import {TodoItem} from "@/app/todo/types/todoItem";
+import React, { useEffect, useState } from "react";
+import { TodoItem } from "@/app/todo/types/todoItem";
 import ItemLine from "./components/ItemLine";
-import {addTodoItem, defaultNewItem, deleteTodoItem, getTodoItems, updateTodoItem,} from "@/app/todo/lib/utils";
-import {Button} from "@nextui-org/react";
-import {IoIosAdd} from "react-icons/io";
+import {
+    addTodoItem,
+    defaultNewItem,
+    deleteTodoItem,
+    getTodoItems,
+    updateTodoItem,
+} from "@/app/todo/lib/utils";
+import { Button } from "@nextui-org/react";
+import { IoIosAdd } from "react-icons/io";
 
 export default function TodoPage() {
     const [todoList, setTodoList] = useState<TodoItem[] | undefined>();
+    const [isAdding, setIsAdding] = useState(false);
 
     useEffect(() => {
         if (todoList === undefined) {
@@ -17,7 +24,7 @@ export default function TodoPage() {
                 })
                 .catch((e) => console.log(e));
         }
-    }, [todoList]);
+    }, [todoList, isAdding]);
 
     const onItemAdd = (e: any) => {
         addTodoItem(defaultNewItem())
@@ -50,10 +57,12 @@ export default function TodoPage() {
     return (
         <main className="flex flex-col items-start min-h-screen px-4 pt-6 justify-items-start lg:px-6">
             <div className="w-full flex flex-row justify-between">
-                <div className={"text-2xl font-semibold text-blue-500 mb-2"}>Todos</div>
+                <div className={"text-2xl font-semibold text-blue-500 mb-2"}>
+                    Todos
+                </div>
                 <Button variant="light" isIconOnly onClick={onItemAdd}>
                     {" "}
-                    <IoIosAdd size={24}/>{" "}
+                    <IoIosAdd size={24} />{" "}
                 </Button>
             </div>
             <div className="flex flex-col gap-y-2 my-4 w-full">

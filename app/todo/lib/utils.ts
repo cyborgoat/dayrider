@@ -28,7 +28,7 @@ export function overdueDays(dateString: string): number {
 export function defaultNewItem(): TodoItem {
     return {
         uuid: uuidv4(),
-        name: "New Todo Item",
+        name: "New todo item",
         date: today(getLocalTimeZone()).toString(),
         finished: "false",
         deadline: today(getLocalTimeZone()).toString(),
