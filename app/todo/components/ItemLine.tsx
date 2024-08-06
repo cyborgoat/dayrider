@@ -88,9 +88,9 @@ const ItemLine = (props: {
             </div>
             {/* Dropdown info */}
             <div
-            className={`transition-all ease-in-out duration-300 ml-8 overflow-hidden ${
-                isFocused ? "max-h-16" : "max-h-0 invisible"
-            }`}
+                className={`transition-all ease-in-out duration-300 ml-8 overflow-hidden ${
+                    isFocused ? "max-h-16" : "max-h-0 invisible"
+                }`}
             >
                 <div className="flex flex-col my-1">
                     <div className="pr-10 flex flex-row gap-2 mt-0 justify-between items-center">
@@ -114,9 +114,11 @@ const ItemLine = (props: {
                                     segment: "text-slate-300/80",
                                 }}
                             />
-                            {isOverdue(props.todo.date) === true ? (
+                            {(!isFinished(props.todo) &&
+                                isOverdue(props.todo.date)) === true ? (
                                 <div className="text-rose-600/90 text-sm">
-                                    Overdue for {overdueDays(props.todo.date)} days
+                                    Overdue for {overdueDays(props.todo.date)}{" "}
+                                    days
                                 </div>
                             ) : (
                                 <></>
