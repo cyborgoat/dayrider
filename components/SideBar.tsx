@@ -6,7 +6,6 @@ import {FaListCheck} from "react-icons/fa6";
 import {BsCalendar2Day} from "react-icons/bs";
 import {IoIosSettings} from "react-icons/io";
 import {IconWrapper} from "./icons/IconWrapper";
-import {ItemCounter} from "./icons/ItemCounter";
 
 const days = [
     "Sunday",

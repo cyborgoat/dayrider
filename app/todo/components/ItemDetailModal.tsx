@@ -15,7 +15,6 @@ import {onItemUpdateFunction, TodoItem} from "@/app/todo/types/todoItem";
 import {CustomizedButton} from "@/app/todo/components/CustomizedTypes";
 
 export default function ItemDetailModal(props: {
-    idx: number;
     todo: TodoItem;
     onItemUpdate: onItemUpdateFunction;
 }) {
@@ -90,7 +89,7 @@ export default function ItemDetailModal(props: {
                                     onPress={() => {
                                         onClose();
                                         const newTodo = {...props.todo, name: name, notes: notes};
-                                        props.onItemUpdate(props.idx, newTodo);
+                                        props.onItemUpdate(newTodo);
                                     }}
                                 >
                                     Save

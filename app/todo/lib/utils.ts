@@ -1,7 +1,7 @@
-import { invoke } from "@tauri-apps/api/tauri";
-import { TodoItem } from "@/app/todo/types/todoItem";
-import { v4 as uuidv4 } from "uuid";
-import { getLocalTimeZone, today } from "@internationalized/date";
+import {invoke} from "@tauri-apps/api/tauri";
+import {TodoItem} from "@/app/todo/types/todoItem";
+import {v4 as uuidv4} from "uuid";
+import {getLocalTimeZone, today} from "@internationalized/date";
 
 // Common functions
 export function isFinished(todoItem: TodoItem) {
@@ -11,7 +11,6 @@ export function isFinished(todoItem: TodoItem) {
 export function isOverdue(dateString: string): boolean {
     let today = new Date();
     let date = new Date(dateString);
-    console.log(today > date);
     return today > date;
 }
 
@@ -19,8 +18,7 @@ export function overdueDays(dateString: string): number {
     let today = new Date();
     let date = new Date(dateString);
     let diffInTime = today.getTime() - date.getTime();
-    let diffInDays = Math.round(diffInTime / (1000 * 3600 * 24));
-    return diffInDays;
+    return Math.round(diffInTime / (1000 * 3600 * 24));
 }
 
 // DB Related
@@ -42,15 +40,15 @@ export async function getTodoItems(): Promise<TodoItem[]> {
 }
 
 export async function addTodoItem(item: TodoItem): Promise<TodoItem> {
-    const res = await invoke<string>("add_item", { todoItem: item });
+    const res = await invoke<string>("add_item", {todoItem: item});
     return JSON.parse(res);
 }
 
 export async function deleteTodoItem(uuid: string): Promise<void> {
-    const res = await invoke<string>("delete_item", { uuid: uuid });
+    const res = await invoke<string>("delete_item", {uuid: uuid});
 }
 
 export async function updateTodoItem(todoItem: TodoItem): Promise<TodoItem> {
-    const res = await invoke<string>("update_item", { todoItem: todoItem });
+    const res = await invoke<string>("update_item", {todoItem: todoItem});
     return JSON.parse(res);
 }

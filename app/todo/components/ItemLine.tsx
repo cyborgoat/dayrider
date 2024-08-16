@@ -1,14 +1,10 @@
 "use client";
-import {
-    onItemRemoveFunction,
-    onItemUpdateFunction,
-    TodoItem,
-} from "@/app/todo/types/todoItem";
-import { Button, DatePicker, extendVariants, Input } from "@nextui-org/react";
-import React, { useState } from "react";
-import { MdOutlineArrowBackIos } from "react-icons/md";
-import { isFinished, isOverdue, overdueDays } from "@/app/todo/lib/utils";
-import { parseDate } from "@internationalized/date";
+import {onItemRemoveFunction, onItemUpdateFunction, TodoItem,} from "@/app/todo/types/todoItem";
+import {Button, DatePicker, extendVariants, Input} from "@nextui-org/react";
+import React, {useState} from "react";
+import {MdOutlineArrowBackIos} from "react-icons/md";
+import {isFinished, isOverdue, overdueDays} from "@/app/todo/lib/utils";
+import {parseDate} from "@internationalized/date";
 import ItemDetailModal from "@/app/todo/components/ItemDetailModal";
 import DeletePopover from "./DeletePopover";
 
@@ -16,7 +12,6 @@ const ItemLine = (props: {
     todo: TodoItem;
     onItemRemove: onItemRemoveFunction;
     onItemUpdate: onItemUpdateFunction;
-    idx: number;
 }) => {
     const [name, setName] = React.useState(props.todo.name);
     const [deadline, setDeadline] = React.useState(
@@ -39,7 +34,7 @@ const ItemLine = (props: {
                             ...props.todo,
                             finished: isFinished(props.todo) ? "false" : "true",
                         };
-                        props.onItemUpdate(props.idx, newItem);
+                        props.onItemUpdate(newItem);
                         setIsFocused(props.todo.finished === "true");
                     }}
                     name={`radio-${props.todo.uuid}`}
@@ -55,10 +50,7 @@ const ItemLine = (props: {
                     defaultValue={props.todo.name}
                     onChange={(e) => setName(e.target.value)}
                     onBlur={() =>
-                        props.onItemUpdate(props.idx, {
-                            ...props.todo,
-                            name: name,
-                        })
+                        props.onItemUpdate({...props.todo, name: name,})
                     }
                     color={"default"}
                     classNames={{
@@ -101,13 +93,13 @@ const ItemLine = (props: {
                                 aria-label="due-date"
                                 className="max-w-[144px]"
                                 defaultValue={parseDate(props.todo.deadline)}
-                                onChange={setDeadline}
-                                onBlur={() => {
+                                onChange={(e) => {
+                                    setDeadline(e)
                                     const newTodo = {
                                         ...props.todo,
                                         deadline: deadline.toString(),
                                     };
-                                    props.onItemUpdate(props.idx, newTodo);
+                                    props.onItemUpdate(newTodo);
                                 }}
                                 dateInputClassNames={{
                                     input: "text-small",
@@ -115,7 +107,7 @@ const ItemLine = (props: {
                                 }}
                             />
                             {(!isFinished(props.todo) &&
-                                isOverdue(props.todo.date)) === true ? (
+                                isOverdue(props.todo.date)) ? (
                                 <div className="text-rose-600/90 text-sm">
                                     Overdue for {overdueDays(props.todo.date)}{" "}
                                     days
@@ -126,7 +118,6 @@ const ItemLine = (props: {
                         </div>
                         <div className="place-self-center justify-self-end flex flex-row gap-1 items-center">
                             <ItemDetailModal
-                                idx={props.idx}
                                 todo={props.todo}
                                 onItemUpdate={props.onItemUpdate}
                             />

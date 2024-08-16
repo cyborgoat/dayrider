@@ -1,26 +1,25 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { TodoItem } from "@/app/todo/types/todoItem";
-import ItemLine from "./components/ItemLine";
-import {
-    addTodoItem,
-    defaultNewItem,
-    deleteTodoItem,
-    getTodoItems,
-    updateTodoItem,
-} from "@/app/todo/lib/utils";
-import { Button } from "@nextui-org/react";
-import { IoIosAdd } from "react-icons/io";
+import React, {useEffect, useState} from "react";
+import {TodoItem} from "@/app/todo/types/todoItem";
+import {addTodoItem, defaultNewItem, deleteTodoItem, getTodoItems, updateTodoItem,} from "@/app/todo/lib/utils";
+import {Button} from "@nextui-org/react";
+import {IoIosAdd} from "react-icons/io";
+import DayItems from "@/app/todo/components/DayTodoItemLines";
+import {getThisWeekDates} from "@/lib/dateutil";
+
+const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 export default function TodoPage() {
     const [todoList, setTodoList] = useState<TodoItem[] | undefined>();
     const [isAdding, setIsAdding] = useState(false);
+    const thisWeekDates = getThisWeekDates();
+
 
     useEffect(() => {
         if (todoList === undefined) {
             getTodoItems()
-                .then((result) => {
-                    setTodoList(result);
+                .then((items) => {
+                    setTodoList(items);
                 })
                 .catch((e) => console.log(e));
         }
@@ -32,12 +31,14 @@ export default function TodoPage() {
             .catch((e) => console.log(e));
     };
 
-    const onItemUpdate = (idx: number, item: TodoItem) => {
+    const onItemUpdate = (item: TodoItem) => {
         updateTodoItem(item)
             .then((res) => {
+                const isCurrentItem = (element: TodoItem) => element.uuid === res.uuid;
                 if (todoList !== undefined) {
                     let tmp = [...todoList];
-                    tmp[idx] = item;
+                    const idx = todoList.findIndex(isCurrentItem)
+                    tmp[idx] = res;
                     setTodoList(tmp);
                 }
             })
@@ -62,19 +63,21 @@ export default function TodoPage() {
                 </div>
                 <Button variant="light" isIconOnly onClick={onItemAdd}>
                     {" "}
-                    <IoIosAdd size={24} />{" "}
+                    <IoIosAdd size={24}/>{" "}
                 </Button>
             </div>
             <div className="flex flex-col gap-y-2 my-4 w-full">
-                {todoList?.map((todo, idx) => (
-                    <ItemLine
-                        todo={todo}
-                        key={`${todo.uuid}-${todo.name}-${todo.deadline}`}
-                        onItemRemove={onItemRemove}
-                        onItemUpdate={onItemUpdate}
-                        idx={idx}
-                    />
-                ))}
+                {weekdays.map((weekday, weekdayNum) =>
+                    <div key={weekday}>
+                        <div>{weekday}</div>
+                        <DayItems
+                            todoList={todoList}
+                            weekdayNum={weekdayNum}
+                            onItemRemove={onItemRemove}
+                            onItemUpdate={onItemUpdate}/>
+                    </div>
+                )
+                }
             </div>
             <button
                 className="text-blue-500 text-md font-semibold pl-2"

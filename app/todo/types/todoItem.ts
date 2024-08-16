@@ -8,4 +8,4 @@ export interface TodoItem {
 }
 
 export type onItemRemoveFunction = (uuid: string) => void;
-export type onItemUpdateFunction = (idx: number, item: TodoItem) => void;
+export type onItemUpdateFunction = (item: TodoItem) => void;
