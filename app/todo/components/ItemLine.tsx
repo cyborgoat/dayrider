@@ -107,9 +107,9 @@ const ItemLine = (props: {
                                 }}
                             />
                             {(!isFinished(props.todo) &&
-                                isOverdue(props.todo.date)) ? (
+                                isOverdue(props.todo.deadline)) ? (
                                 <div className="text-rose-600/90 text-sm">
-                                    Overdue for {overdueDays(props.todo.date)}{" "}
+                                    Overdue for {overdueDays(props.todo.deadline)}{" "}
                                     days
                                 </div>
                             ) : (

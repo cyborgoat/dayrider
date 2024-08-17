@@ -69,7 +69,7 @@ export default function TodoPage() {
             <div className="flex flex-col gap-y-2 my-4 w-full">
                 {weekdays.map((weekday, weekdayNum) =>
                     <div key={weekday}>
-                        <div>{weekday}</div>
+                        <div className="bordered border-t-1 border-slate-200 py-1 text-slate-500 text-lg">{weekday}</div>
                         <DayItems
                             todoList={todoList}
                             weekdayNum={weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0}

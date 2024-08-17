@@ -9,17 +9,23 @@ const DayItems = ({todoList, onItemRemove, onItemUpdate, weekdayNum}: {
     onItemUpdate: onItemUpdateFunction;
     weekdayNum: number;
 }) => {
-    if (todoList && todoList.length > 0) {
-        const thisWeekDates = getThisWeekDates();
+    if (!todoList) {
+        return <></>
+    }
+    const thisWeekDates = getThisWeekDates();
+
+    const curList = todoList.filter((item) => {
+        const ddl = new Date(item.deadline);
+        return (
+            (ddl.getDay() === weekdayNum) &&
+            (ddl > thisWeekDates[0] &&
+                ddl < (new Date(thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1)))))
+    })
+
+    if (curList.length > 0) {
         return (
             <div className="flex flex-col gap-y-1">
-                {todoList.filter((item) => {
-                    const ddl = new Date(item.deadline);
-                    return (
-                        (ddl.getDay() === weekdayNum) &&
-                        (ddl > thisWeekDates[0] &&
-                            ddl < (new Date(thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1)))))
-                }).map((todo, idx) => (
+                {curList.map((todo, idx) => (
                     <ItemLine
                         todo={todo}
                         key={`${todo.uuid}-${todo.name}-${todo.deadline}`}
@@ -28,6 +34,10 @@ const DayItems = ({todoList, onItemRemove, onItemUpdate, weekdayNum}: {
                     />
                 ))}
             </div>
+        )
+    } else {
+        return(
+            <div className="text-center text-slate-300/80 text-xs">Day is clear</div>
         )
     }
     return
