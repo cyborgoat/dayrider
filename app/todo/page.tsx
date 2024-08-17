@@ -66,7 +66,7 @@ export default function TodoPage() {
                     <IoIosAdd size={24}/>{" "}
                 </Button>
             </div>
-            <div className="flex flex-col gap-y-2 my-4 w-full">
+            <div className="flex flex-col gap-y-2 my-4 w-full pb-32">
                 {weekdays.map((weekday, weekdayNum) =>
                     <div key={weekday}>
                         <div className={`bordered border-t-1 border-slate-200 py-1 text-lg 
