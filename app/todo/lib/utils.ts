@@ -20,7 +20,17 @@ export function overdueDays(dateString: string): number {
     return Math.round(diffInTime / (1000 * 3600 * 24));
 }
 
-// export function getTasksThisWeek(taskList:TaskItem[]){}
+export function getTasksThisWeek(taskList: TaskItem[]) {
+    if (typeof taskList === "undefined") {
+        return ([])
+    } else {
+        return taskList.filter((item) => {
+            const ddl = new Date(item.deadline);
+            return ((ddl > thisWeekDates[0] && ddl < (new Date(thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1)))))
+        });
+    }
+
+}
 
 export function getTasksByWeekday(todoList: TaskItem[], weekdayNum: number) {
     if (typeof todoList === "undefined") {

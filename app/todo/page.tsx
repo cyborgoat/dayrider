@@ -5,29 +5,29 @@ import {Button} from "@nextui-org/react";
 import {IoIosAdd} from "react-icons/io";
 import DayItems from "@/app/todo/components/DailyTasks";
 import {addTodoItem, defaultNewItem, deleteTodoItem, getTodoItems, updateTodoItem} from "@/app/todo/lib/backend";
-import {getTasksByWeekday} from "@/app/todo/lib/utils";
+import {getTasksByWeekday, getTasksThisWeek} from "@/app/todo/lib/utils";
 
 const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 export default function TodoPage() {
-    const [taskList, setTaskList] = useState<TaskItem[] | undefined>();
+    const [focusTasks, setFocusTasks] = useState<TaskItem[] | undefined>();
     const [isAdding, setIsAdding] = useState(false);
     const today = new Date();
 
 
     useEffect(() => {
-        if (taskList === undefined) {
+        if (focusTasks === undefined) {
             getTodoItems()
                 .then((items) => {
-                    setTaskList(items);
+                    setFocusTasks(getTasksThisWeek(items));
                 })
                 .catch((e) => console.log(e));
         }
-    }, [taskList, isAdding]);
+    }, [focusTasks, isAdding]);
 
     const onItemAdd = (e: any) => {
         addTodoItem(defaultNewItem())
-            .then((item) => setTaskList([...(taskList ? taskList : []), item]))
+            .then((item) => setFocusTasks([...(focusTasks ? focusTasks : []), item]))
             .catch((e) => console.log(e));
     };
 
@@ -35,11 +35,11 @@ export default function TodoPage() {
         updateTodoItem(item)
             .then((res) => {
                 const isCurrentItem = (element: TaskItem) => element.uuid === res.uuid;
-                if (taskList !== undefined) {
-                    let tmp = [...taskList];
-                    const idx = taskList.findIndex(isCurrentItem)
+                if (focusTasks !== undefined) {
+                    let tmp = [...focusTasks];
+                    const idx = focusTasks.findIndex(isCurrentItem)
                     tmp[idx] = res;
-                    setTaskList(tmp);
+                    setFocusTasks(tmp);
                 }
             })
             .catch((e) => console.log(e));
@@ -48,8 +48,8 @@ export default function TodoPage() {
     const onItemRemove = (uuid: string) => {
         deleteTodoItem(uuid)
             .then((res) => {
-                if (taskList !== undefined) {
-                    setTaskList(taskList.filter((item) => item.uuid !== uuid));
+                if (focusTasks !== undefined) {
+                    setFocusTasks(focusTasks.filter((item) => item.uuid !== uuid));
                 }
             })
             .catch((e) => console.log(e));
@@ -74,19 +74,13 @@ export default function TodoPage() {
                             {weekday}
                         </div>
                         <DayItems
-                            todoList={getTasksByWeekday(taskList as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)}
+                            todoList={getTasksByWeekday(focusTasks as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)}
                             onItemRemove={onItemRemove}
                             onItemUpdate={onItemUpdate}/>
                     </div>
                 )
                 }
             </div>
-            <button
-                className="text-blue-500 text-md font-semibold pl-2"
-                onClick={onItemAdd}
-            >
-                + Add another todo item
-            </button>
         </main>
     );
 }
