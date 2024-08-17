@@ -1,10 +1,11 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import {TodoItem} from "@/app/todo/types/todoItem";
-import {addTodoItem, defaultNewItem, deleteTodoItem, getTodoItems, updateTodoItem,} from "@/app/todo/lib/utils";
 import {Button} from "@nextui-org/react";
 import {IoIosAdd} from "react-icons/io";
 import DayItems from "@/app/todo/components/DayTodoItemLines";
+import {addTodoItem, defaultNewItem, deleteTodoItem, getTodoItems, updateTodoItem} from "@/app/todo/lib/backend";
+import {getTodoListByWeekday} from "@/app/todo/lib/utils";
 
 const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -73,7 +74,7 @@ export default function TodoPage() {
                             {weekday}
                         </div>
                         <DayItems
-                            todoList={todoList}
+                            todoList={getTodoListByWeekday(todoList as TodoItem[], weekdayNum)}
                             weekdayNum={weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0}
                             onItemRemove={onItemRemove}
                             onItemUpdate={onItemUpdate}/>

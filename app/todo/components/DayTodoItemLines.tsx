@@ -1,7 +1,6 @@
 import {onItemRemoveFunction, onItemUpdateFunction, TodoItem} from "@/app/todo/types/todoItem";
 import ItemLine from "@/app/todo/components/ItemLine";
 import React from "react";
-import {getTodoListByWeekday} from "@/app/todo/lib/utils";
 
 const DayItems = ({todoList, onItemRemove, onItemUpdate, weekdayNum}: {
     todoList: TodoItem[] | undefined;
@@ -9,15 +8,11 @@ const DayItems = ({todoList, onItemRemove, onItemUpdate, weekdayNum}: {
     onItemUpdate: onItemUpdateFunction;
     weekdayNum: number;
 }) => {
-    if (!todoList) {
-        return <></>
-    }
-    const curList = getTodoListByWeekday(todoList, weekdayNum);
-
-    if (curList.length > 0) {
+    if (!todoList) return <></>
+    if (todoList.length > 0) {
         return (
             <div className="flex flex-col gap-y-1">
-                {curList.map((todo, idx) => (
+                {todoList.map((todo, idx) => (
                     <ItemLine
                         todo={todo}
                         key={`${todo.uuid}-${todo.name}-${todo.deadline}`}
