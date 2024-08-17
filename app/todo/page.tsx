@@ -7,7 +7,7 @@ import {IoIosAdd} from "react-icons/io";
 import DayItems from "@/app/todo/components/DayTodoItemLines";
 import {getThisWeekDates} from "@/lib/dateutil";
 
-const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 export default function TodoPage() {
     const [todoList, setTodoList] = useState<TodoItem[] | undefined>();
@@ -72,7 +72,7 @@ export default function TodoPage() {
                         <div>{weekday}</div>
                         <DayItems
                             todoList={todoList}
-                            weekdayNum={weekdayNum}
+                            weekdayNum={weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0}
                             onItemRemove={onItemRemove}
                             onItemUpdate={onItemUpdate}/>
                     </div>

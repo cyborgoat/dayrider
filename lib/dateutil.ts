@@ -11,7 +11,7 @@ export function getThisWeekDates(date = new Date()): Date[] {
 
     const thisWeekDates: Date[] = [];
     for (let i = 7; i > 0; i--) {
-        thisWeekDates.push(new Date(nextMondayCopy.setDate(nextMondayCopy.getDate() - 1)));
+        thisWeekDates.push(new Date(nextMondayCopy.setDate(nextMondayCopy.getDate() - 2)));
     }
 
     return thisWeekDates.reverse();

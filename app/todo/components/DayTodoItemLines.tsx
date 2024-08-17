@@ -16,8 +16,9 @@ const DayItems = ({todoList, onItemRemove, onItemUpdate, weekdayNum}: {
                 {todoList.filter((item) => {
                     const ddl = new Date(item.deadline);
                     return (
-                        (ddl.getDay() === weekdayNum + 1) && (ddl > thisWeekDates[0] && ddl < thisWeekDates[6])
-                    )
+                        (ddl.getDay() === weekdayNum) &&
+                        (ddl > thisWeekDates[0] &&
+                            ddl < (new Date(thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1)))))
                 }).map((todo, idx) => (
                     <ItemLine
                         todo={todo}

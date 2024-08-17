@@ -97,7 +97,7 @@ const ItemLine = (props: {
                                     setDeadline(e)
                                     const newTodo = {
                                         ...props.todo,
-                                        deadline: deadline.toString(),
+                                        deadline: e.toString(),
                                     };
                                     props.onItemUpdate(newTodo);
                                 }}
