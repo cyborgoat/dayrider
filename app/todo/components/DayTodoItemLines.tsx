@@ -1,7 +1,7 @@
 import {onItemRemoveFunction, onItemUpdateFunction, TodoItem} from "@/app/todo/types/todoItem";
 import ItemLine from "@/app/todo/components/ItemLine";
 import React from "react";
-import {getThisWeekDates} from "@/lib/dateutil";
+import {getTodoListByWeekday} from "@/app/todo/lib/utils";
 
 const DayItems = ({todoList, onItemRemove, onItemUpdate, weekdayNum}: {
     todoList: TodoItem[] | undefined;
@@ -12,15 +12,7 @@ const DayItems = ({todoList, onItemRemove, onItemUpdate, weekdayNum}: {
     if (!todoList) {
         return <></>
     }
-    const thisWeekDates = getThisWeekDates();
-
-    const curList = todoList.filter((item) => {
-        const ddl = new Date(item.deadline);
-        return (
-            (ddl.getDay() === weekdayNum) &&
-            (ddl > thisWeekDates[0] &&
-                ddl < (new Date(thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1)))))
-    })
+    const curList = getTodoListByWeekday(todoList, weekdayNum);
 
     if (curList.length > 0) {
         return (

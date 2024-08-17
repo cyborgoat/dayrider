@@ -2,6 +2,7 @@ import {invoke} from "@tauri-apps/api/tauri";
 import {TodoItem} from "@/app/todo/types/todoItem";
 import {v4 as uuidv4} from "uuid";
 import {getLocalTimeZone, today} from "@internationalized/date";
+import {getThisWeekDates} from "@/lib/dateutil";
 
 // Common functions
 export function isFinished(todoItem: TodoItem) {
@@ -51,4 +52,17 @@ export async function deleteTodoItem(uuid: string): Promise<void> {
 export async function updateTodoItem(todoItem: TodoItem): Promise<TodoItem> {
     const res = await invoke<string>("update_item", {todoItem: todoItem});
     return JSON.parse(res);
+}
+
+const thisWeekDates = getThisWeekDates();
+
+export function getTodoListByWeekday(todoList: TodoItem[], weekdayNum: number) {
+
+    return todoList.filter((item) => {
+        const ddl = new Date(item.deadline);
+        return (
+            (ddl.getDay() === weekdayNum) &&
+            (ddl > thisWeekDates[0] &&
+                ddl < (new Date(thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1)))))
+    });
 }
