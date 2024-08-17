@@ -1,12 +1,12 @@
 import {Listbox, ListboxItem, Popover, PopoverContent, PopoverTrigger,} from "@nextui-org/react";
 import React from "react";
-import {onItemRemoveFunction, TodoItem} from "@/app/todo/types/todoItem";
+import {onItemRemoveFunction, TaskItem} from "@/app/todo/types/taskItem";
 import {ListboxWrapper} from "@/components/ListboxWrapper";
 import {CustomizedButton} from "@/app/todo/components/CustomizedTypes";
 import {FiTrash2} from "react-icons/fi";
 
 export default function DeletePopover(props: {
-    todo: TodoItem;
+    todo: TaskItem;
     onItemRemove: onItemRemoveFunction;
 }) {
     const [isOpen, setIsOpen] = React.useState(false);

@@ -1,45 +1,45 @@
 "use client";
 import React, {useEffect, useState} from "react";
-import {TodoItem} from "@/app/todo/types/todoItem";
+import {TaskItem} from "@/app/todo/types/taskItem";
 import {Button} from "@nextui-org/react";
 import {IoIosAdd} from "react-icons/io";
-import DayItems from "@/app/todo/components/DayTodoItemLines";
+import DayItems from "@/app/todo/components/DailyTasks";
 import {addTodoItem, defaultNewItem, deleteTodoItem, getTodoItems, updateTodoItem} from "@/app/todo/lib/backend";
-import {getTodoListByWeekday} from "@/app/todo/lib/utils";
+import {getTasksByWeekday} from "@/app/todo/lib/utils";
 
 const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 export default function TodoPage() {
-    const [todoList, setTodoList] = useState<TodoItem[] | undefined>();
+    const [taskList, setTaskList] = useState<TaskItem[] | undefined>();
     const [isAdding, setIsAdding] = useState(false);
     const today = new Date();
 
 
     useEffect(() => {
-        if (todoList === undefined) {
+        if (taskList === undefined) {
             getTodoItems()
                 .then((items) => {
-                    setTodoList(items);
+                    setTaskList(items);
                 })
                 .catch((e) => console.log(e));
         }
-    }, [todoList, isAdding]);
+    }, [taskList, isAdding]);
 
     const onItemAdd = (e: any) => {
         addTodoItem(defaultNewItem())
-            .then((item) => setTodoList([...(todoList ? todoList : []), item]))
+            .then((item) => setTaskList([...(taskList ? taskList : []), item]))
             .catch((e) => console.log(e));
     };
 
-    const onItemUpdate = (item: TodoItem) => {
+    const onItemUpdate = (item: TaskItem) => {
         updateTodoItem(item)
             .then((res) => {
-                const isCurrentItem = (element: TodoItem) => element.uuid === res.uuid;
-                if (todoList !== undefined) {
-                    let tmp = [...todoList];
-                    const idx = todoList.findIndex(isCurrentItem)
+                const isCurrentItem = (element: TaskItem) => element.uuid === res.uuid;
+                if (taskList !== undefined) {
+                    let tmp = [...taskList];
+                    const idx = taskList.findIndex(isCurrentItem)
                     tmp[idx] = res;
-                    setTodoList(tmp);
+                    setTaskList(tmp);
                 }
             })
             .catch((e) => console.log(e));
@@ -48,8 +48,8 @@ export default function TodoPage() {
     const onItemRemove = (uuid: string) => {
         deleteTodoItem(uuid)
             .then((res) => {
-                if (todoList !== undefined) {
-                    setTodoList(todoList.filter((item) => item.uuid !== uuid));
+                if (taskList !== undefined) {
+                    setTaskList(taskList.filter((item) => item.uuid !== uuid));
                 }
             })
             .catch((e) => console.log(e));
@@ -59,7 +59,7 @@ export default function TodoPage() {
         <main className="flex flex-col items-start min-h-screen px-4 pt-6 justify-items-start lg:px-6">
             <div className="w-full flex flex-row justify-between">
                 <div className={"text-2xl font-semibold text-blue-500 mb-2"}>
-                    Todos
+                    Tasks
                 </div>
                 <Button variant="light" isIconOnly onClick={onItemAdd}>
                     {" "}
@@ -74,7 +74,7 @@ export default function TodoPage() {
                             {weekday}
                         </div>
                         <DayItems
-                            todoList={getTodoListByWeekday(todoList as TodoItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)}
+                            todoList={getTasksByWeekday(taskList as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)}
                             onItemRemove={onItemRemove}
                             onItemUpdate={onItemUpdate}/>
                     </div>

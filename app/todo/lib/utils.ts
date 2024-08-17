@@ -1,9 +1,9 @@
-import {TodoItem} from "@/app/todo/types/todoItem";
+import {TaskItem} from "@/app/todo/types/taskItem";
 import {getThisWeekDates} from "@/lib/dateutil";
 
 const thisWeekDates = getThisWeekDates();
 
-export function isFinished(todoItem: TodoItem) {
+export function isFinished(todoItem: TaskItem) {
     return todoItem.finished === "true";
 }
 
@@ -20,7 +20,9 @@ export function overdueDays(dateString: string): number {
     return Math.round(diffInTime / (1000 * 3600 * 24));
 }
 
-export function getTodoListByWeekday(todoList: TodoItem[], weekdayNum: number) {
+// export function getTasksThisWeek(taskList:TaskItem[]){}
+
+export function getTasksByWeekday(todoList: TaskItem[], weekdayNum: number) {
     if (typeof todoList === "undefined") {
         return ([])
     } else {

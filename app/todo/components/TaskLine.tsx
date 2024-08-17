@@ -1,15 +1,15 @@
 "use client";
-import {onItemRemoveFunction, onItemUpdateFunction, TodoItem,} from "@/app/todo/types/todoItem";
+import {onItemRemoveFunction, onItemUpdateFunction, TaskItem,} from "@/app/todo/types/taskItem";
 import {Button, DatePicker, extendVariants, Input} from "@nextui-org/react";
 import React, {useState} from "react";
 import {MdOutlineArrowBackIos} from "react-icons/md";
 import {isFinished, isOverdue, overdueDays} from "@/app/todo/lib/utils";
 import {parseDate} from "@internationalized/date";
-import ItemDetailModal from "@/app/todo/components/ItemDetailModal";
+import TaskDetailModal from "@/app/todo/components/TaskDetailModal";
 import DeletePopover from "./DeletePopover";
 
-const ItemLine = (props: {
-    todo: TodoItem;
+const TaskLine = (props: {
+    todo: TaskItem;
     onItemRemove: onItemRemoveFunction;
     onItemUpdate: onItemUpdateFunction;
 }) => {
@@ -117,7 +117,7 @@ const ItemLine = (props: {
                             )}
                         </div>
                         <div className="place-self-center justify-self-end flex flex-row gap-1 items-center">
-                            <ItemDetailModal
+                            <TaskDetailModal
                                 todo={props.todo}
                                 onItemUpdate={props.onItemUpdate}
                             />
@@ -166,4 +166,4 @@ const DropDownArrowButton = extendVariants(Button, {
     ],
 });
 
-export default ItemLine;
+export default TaskLine;

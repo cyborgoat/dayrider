@@ -1,9 +1,9 @@
-import {onItemRemoveFunction, onItemUpdateFunction, TodoItem} from "@/app/todo/types/todoItem";
-import ItemLine from "@/app/todo/components/ItemLine";
+import {onItemRemoveFunction, onItemUpdateFunction, TaskItem} from "@/app/todo/types/taskItem";
+import TaskLine from "@/app/todo/components/TaskLine";
 import React from "react";
 
 const DayItems = ({todoList, onItemRemove, onItemUpdate}: {
-    todoList: TodoItem[] | undefined;
+    todoList: TaskItem[] | undefined;
     onItemRemove: onItemRemoveFunction;
     onItemUpdate: onItemUpdateFunction;
 }) => {
@@ -12,7 +12,7 @@ const DayItems = ({todoList, onItemRemove, onItemUpdate}: {
         return (
             <div className="flex flex-col gap-y-1">
                 {todoList.map((todo, idx) => (
-                    <ItemLine
+                    <TaskLine
                         todo={todo}
                         key={`${todo.uuid}-${todo.name}-${todo.deadline}`}
                         onItemRemove={onItemRemove}

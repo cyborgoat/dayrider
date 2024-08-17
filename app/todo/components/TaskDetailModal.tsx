@@ -11,11 +11,11 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import {IoInformationCircleOutline} from "react-icons/io5";
-import {onItemUpdateFunction, TodoItem} from "@/app/todo/types/todoItem";
+import {onItemUpdateFunction, TaskItem} from "@/app/todo/types/taskItem";
 import {CustomizedButton} from "@/app/todo/components/CustomizedTypes";
 
-export default function ItemDetailModal(props: {
-    todo: TodoItem;
+export default function TaskDetailModal(props: {
+    todo: TaskItem;
     onItemUpdate: onItemUpdateFunction;
 }) {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();

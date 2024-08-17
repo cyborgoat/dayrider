@@ -1,4 +1,4 @@
-export interface TodoItem {
+export interface TaskItem {
     uuid: string;
     name: string;
     date: string;
@@ -8,4 +8,4 @@ export interface TodoItem {
 }
 
 export type onItemRemoveFunction = (uuid: string) => void;
-export type onItemUpdateFunction = (item: TodoItem) => void;
+export type onItemUpdateFunction = (item: TaskItem) => void;
