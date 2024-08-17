@@ -36,11 +36,10 @@ const DayItems = ({todoList, onItemRemove, onItemUpdate, weekdayNum}: {
             </div>
         )
     } else {
-        return(
+        return (
             <div className="text-center text-slate-300/80 text-xs">Day is clear</div>
         )
     }
-    return
 }
 
 export default DayItems;
