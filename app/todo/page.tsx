@@ -74,8 +74,7 @@ export default function TodoPage() {
                             {weekday}
                         </div>
                         <DayItems
-                            todoList={getTodoListByWeekday(todoList as TodoItem[], weekdayNum)}
-                            weekdayNum={weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0}
+                            todoList={getTodoListByWeekday(todoList as TodoItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)}
                             onItemRemove={onItemRemove}
                             onItemUpdate={onItemUpdate}/>
                     </div>

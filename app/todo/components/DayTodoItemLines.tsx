@@ -2,11 +2,10 @@ import {onItemRemoveFunction, onItemUpdateFunction, TodoItem} from "@/app/todo/t
 import ItemLine from "@/app/todo/components/ItemLine";
 import React from "react";
 
-const DayItems = ({todoList, onItemRemove, onItemUpdate, weekdayNum}: {
+const DayItems = ({todoList, onItemRemove, onItemUpdate}: {
     todoList: TodoItem[] | undefined;
     onItemRemove: onItemRemoveFunction;
     onItemUpdate: onItemUpdateFunction;
-    weekdayNum: number;
 }) => {
     if (!todoList) return <></>
     if (todoList.length > 0) {
