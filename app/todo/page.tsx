@@ -1,7 +1,7 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import {TaskItem} from "@/app/todo/types/taskItem";
-import {Button} from "@nextui-org/react";
+import {Button, Switch} from "@nextui-org/react";
 import {IoIosAdd} from "react-icons/io";
 import DayItems from "@/app/todo/components/DailyTasks";
 import {addTodoItem, defaultNewItem, deleteTodoItem, getTodoItems, updateTodoItem} from "@/app/todo/lib/backend";
@@ -9,9 +9,13 @@ import {getTasksByWeekday, getTasksThisWeek} from "@/app/todo/lib/utils";
 
 const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
+function isToday(today: Date, weekdayNum: number) {
+    return today.getDay() === weekdayNum + 1 || today.getDay() === weekdayNum - 6;
+}
+
 export default function TodoPage() {
     const [focusTasks, setFocusTasks] = useState<TaskItem[] | undefined>();
-    const [isAdding, setIsAdding] = useState(false);
+    const [showCompleted, setShowCompleted] = useState<boolean>(true);
     const today = new Date();
 
 
@@ -19,11 +23,12 @@ export default function TodoPage() {
         if (focusTasks === undefined) {
             getTodoItems()
                 .then((items) => {
-                    setFocusTasks(getTasksThisWeek(items));
+                    const tasks = getTasksThisWeek(items)
+                    setFocusTasks(tasks);
                 })
                 .catch((e) => console.log(e));
         }
-    }, [focusTasks, isAdding]);
+    }, [focusTasks]);
 
     const onItemAdd = (e: any) => {
         addTodoItem(defaultNewItem())
@@ -67,14 +72,23 @@ export default function TodoPage() {
                 </Button>
             </div>
             <div className="flex flex-col gap-y-2 my-4 w-full pb-32">
+                <Switch size="sm" color="primary" defaultSelected={showCompleted} className="self-end"
+                        classNames={{
+                            label: "text-sm",
+                        }}
+                        onValueChange={(isSelected) => setShowCompleted(isSelected)}
+                >
+                    Show Completed
+                </Switch>
                 {weekdays.map((weekday, weekdayNum) =>
                     <div key={weekday}>
                         <div className={`bordered border-t-1 border-slate-200 py-1 text-lg 
-                        ${today.getDay() === weekdayNum + 1 ? "font-semibold text-orange-500" : "text-slate-500"} `}>
+                        ${isToday(today, weekdayNum) ? "font-semibold text-orange-500" : "text-slate-500"} `}>
                             {weekday}
                         </div>
                         <DayItems
                             todoList={getTasksByWeekday(focusTasks as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)}
+                            showCompleted={showCompleted}
                             onItemRemove={onItemRemove}
                             onItemUpdate={onItemUpdate}/>
                     </div>

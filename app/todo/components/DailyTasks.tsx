@@ -2,8 +2,9 @@ import {onItemRemoveFunction, onItemUpdateFunction, TaskItem} from "@/app/todo/t
 import TaskLine from "@/app/todo/components/TaskLine";
 import React from "react";
 
-const DayItems = ({todoList, onItemRemove, onItemUpdate}: {
+const DayItems = ({todoList, showCompleted, onItemRemove, onItemUpdate}: {
     todoList: TaskItem[] | undefined;
+    showCompleted: boolean;
     onItemRemove: onItemRemoveFunction;
     onItemUpdate: onItemUpdateFunction;
 }) => {
@@ -11,14 +12,19 @@ const DayItems = ({todoList, onItemRemove, onItemUpdate}: {
     if (todoList.length > 0) {
         return (
             <div className="flex flex-col gap-y-1">
-                {todoList.map((todo, idx) => (
-                    <TaskLine
-                        todo={todo}
-                        key={`${todo.uuid}-${todo.name}-${todo.deadline}`}
-                        onItemRemove={onItemRemove}
-                        onItemUpdate={onItemUpdate}
-                    />
-                ))}
+                {todoList.map((todo, idx) => {
+                    if (!showCompleted && todo.finished === 'true') {
+                        return <></>
+                    } else return (
+                        <TaskLine
+                            todo={todo}
+                            key={`${todo.uuid}-${todo.name}-${todo.deadline}`}
+                            onItemRemove={onItemRemove}
+                            onItemUpdate={onItemUpdate}
+                        />
+                    )
+                })}
+
             </div>
         )
     } else {

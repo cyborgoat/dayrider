@@ -1,11 +1,12 @@
 "use client";
 import {Avatar, Listbox, ListboxItem} from "@nextui-org/react";
-import React from "react";
+import React, {useState} from "react";
 import {FaRegUserCircle} from "react-icons/fa";
 import {FaListCheck} from "react-icons/fa6";
 import {BsCalendar2Day} from "react-icons/bs";
 import {IoIosSettings} from "react-icons/io";
 import {IconWrapper} from "./icons/IconWrapper";
+import {usePathname} from 'next/navigation';
 
 const days = [
     "Sunday",
@@ -17,7 +18,10 @@ const days = [
     "Saturday",
 ];
 export default function SideBar() {
+
     const current = new Date();
+    const pathname = usePathname();
+
     return (
         <div className="sticky top-0 h-screen max-w-md pt-4">
             <div className="flex flex-row gap-x-2 mt-2 mb-6 ml-4">
@@ -36,6 +40,7 @@ export default function SideBar() {
                         key="todo"
                         href={"/todo"}
                         textValue={"todo"}
+                        className={pathname === "/todo" ? "bg-blue-300/15" : ""}
                         startContent={
                             <IconWrapper className="bg-primary/10 text-primary">
                                 <FaListCheck strokeWidth={0.3} size={16}/>
@@ -49,6 +54,7 @@ export default function SideBar() {
                         key="schedule"
                         href={"/schedule"}
                         textValue={"schedule"}
+                        className={pathname === "/schedule" ? "bg-blue-300/15" : ""}
                         startContent={
                             <IconWrapper className="bg-success/10 text-success">
                                 <BsCalendar2Day strokeWidth={0.3} size={16}/>
@@ -61,6 +67,7 @@ export default function SideBar() {
                     <ListboxItem
                         key="profile"
                         href={"/profile"}
+                        className={pathname === "/profile" ? "bg-blue-300/15" : ""}
                         textValue={"profile"}
                         startContent={
                             <IconWrapper className="bg-success/10 text-success">
@@ -75,6 +82,7 @@ export default function SideBar() {
                         key="settings"
                         href={"/settings"}
                         textValue={"settings"}
+                        className={pathname === "/settings" ? "bg-blue-300/15" : ""}
                         startContent={
                             <IconWrapper className="bg-success/10 text-success">
                                 <IoIosSettings strokeWidth={0.3} size={16}/>
