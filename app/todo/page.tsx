@@ -5,7 +5,7 @@ import {Button, Switch} from "@nextui-org/react";
 import {IoIosAdd} from "react-icons/io";
 import DayItems from "@/app/todo/components/DailyTasks";
 import {addTodoItem, defaultNewItem, deleteTodoItem, getTodoItems, updateTodoItem} from "@/app/todo/lib/backend";
-import {getTasksByWeekday, getTasksThisWeek} from "@/app/todo/lib/utils";
+import {getPastTasks, getTasksByWeekday} from "@/app/todo/lib/utils";
 
 const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -23,8 +23,8 @@ export default function TodoPage() {
         if (focusTasks === undefined) {
             getTodoItems()
                 .then((items) => {
-                    const tasks = getTasksThisWeek(items)
-                    setFocusTasks(tasks);
+                    // const tasks = getTasksThisWeek(items)
+                    setFocusTasks(items);
                 })
                 .catch((e) => console.log(e));
         }
@@ -94,6 +94,16 @@ export default function TodoPage() {
                     </div>
                 )
                 }
+                <div key="past-tasks">
+                    <div className={"bordered border-t-1 border-slate-200 py-1 text-lg text-slate-500"}>
+                        Past Tasks
+                    </div>
+                    <DayItems
+                        todoList={getPastTasks(focusTasks as TaskItem[])}
+                        showCompleted={showCompleted}
+                        onItemRemove={onItemRemove}
+                        onItemUpdate={onItemUpdate}/>
+                </div>
             </div>
         </main>
     );
