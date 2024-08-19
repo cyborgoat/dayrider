@@ -10,14 +10,15 @@ export function isFinished(todoItem: TaskItem) {
 export function isOverdue(dateString: string): boolean {
     let today = new Date();
     let date = new Date(dateString);
+    today.setHours(0, 0, 0, 0);
+    date.setHours(0, 0, 0, 0);
     return today > date;
 }
 
 export function overdueDays(dateString: string): number {
     let today = new Date();
     let date = new Date(dateString);
-    let diffInTime = today.getTime() - date.getTime();
-    return Math.round(diffInTime / (1000 * 3600 * 24));
+    return today.getDate() - date.getDate();
 }
 
 export function getTasksThisWeek(taskList: TaskItem[]) {

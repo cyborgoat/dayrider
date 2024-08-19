@@ -1,5 +1,6 @@
 export function getThisWeekDates(date = new Date()): Date[] {
     const dateCopy = new Date(date.getTime());
+    dateCopy.setHours(0, 0, 0, 0);
 
     const nextMonday = new Date(
         dateCopy.setDate(
@@ -11,8 +12,7 @@ export function getThisWeekDates(date = new Date()): Date[] {
 
     const thisWeekDates: Date[] = [];
     for (let i = 7; i > 0; i--) {
-        thisWeekDates.push(new Date(nextMondayCopy.setDate(nextMondayCopy.getDate() - 2)));
+        thisWeekDates.push(new Date(nextMondayCopy.setDate(nextMondayCopy.getDate() - 1)));
     }
-
     return thisWeekDates.reverse();
 }

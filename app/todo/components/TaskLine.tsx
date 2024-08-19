@@ -14,17 +14,21 @@ const TaskLine = (props: {
     onItemUpdate: onItemUpdateFunction;
 }) => {
     const [name, setName] = React.useState(props.todo.name);
-    const [deadline, setDeadline] = React.useState(
-        parseDate(props.todo.deadline)
-    );
+    const [deadline, setDeadline] = React.useState(parseDate(props.todo.deadline));
     const [isFocused, setIsFocused] = useState(false);
 
     return (
-        <div className="transition-all duration-100 w-full py-0 hover:pb-1">
+        <div className="transition-all duration-100 w-full py-0 hover:pb-1"
+             onBlur={(e) => {
+                 // if the blur was because of outside focus
+                 // currentTarget is the parent element, relatedTarget is the clicked element
+                 if (!e.currentTarget.contains(e.relatedTarget)) {
+                     setIsFocused(false)
+                 }
+             }}>
             <div
                 className="flex flex-row align-items-center w-full"
-                onClick={() => setIsFocused(!isFocused)}
-                onBlur={() => setIsFocused(false)}
+                onClick={() => setIsFocused(true)}
             >
                 <input
                     type="checkbox"
@@ -95,9 +99,11 @@ const TaskLine = (props: {
                                 defaultValue={parseDate(props.todo.deadline)}
                                 onChange={(e) => {
                                     setDeadline(e)
+                                }}
+                                onBlur={() => {
                                     const newTodo = {
                                         ...props.todo,
-                                        deadline: e.toString(),
+                                        deadline: deadline.toString(),
                                     };
                                     props.onItemUpdate(newTodo);
                                 }}
