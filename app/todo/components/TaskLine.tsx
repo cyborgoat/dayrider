@@ -18,7 +18,7 @@ const TaskLine = (props: {
     const [isFocused, setIsFocused] = useState(false);
 
     return (
-        <div className="transition-all duration-100 w-full py-0 hover:pb-1"
+        <div className="transition-all duration-100 w-full py-0"
              onBlur={(e) => {
                  // if the blur was because of outside focus
                  // currentTarget is the parent element, relatedTarget is the clicked element
@@ -92,6 +92,7 @@ const TaskLine = (props: {
                     <div className="pr-10 flex flex-row gap-2 mt-0 justify-between items-center">
                         <div className="w-1/2 flex flex-row gap-x-2 items-center">
                             <DatePicker
+                                isRequired={true}
                                 size="sm"
                                 variant="underlined"
                                 aria-label="due-date"
@@ -99,7 +100,13 @@ const TaskLine = (props: {
                                 defaultValue={parseDate(props.todo.deadline)}
                                 onChange={(e) => {
                                     setDeadline(e)
-                                }}
+                                    const newTodo = {
+                                        ...props.todo,
+                                        deadline: e.toString(),
+                                    };
+                                    props.onItemUpdate(newTodo);
+                                }
+                                }
                                 onBlur={() => {
                                     const newTodo = {
                                         ...props.todo,
