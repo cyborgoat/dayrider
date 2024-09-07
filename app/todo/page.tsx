@@ -6,6 +6,7 @@ import {IoIosAdd} from "react-icons/io";
 import DayItems from "@/app/todo/components/DailyTasks";
 import {addTodoItem, defaultNewItem, deleteTodoItem, getTodoItems, updateTodoItem} from "@/app/todo/lib/backend";
 import {getPastTasks, getTasksByWeekday} from "@/app/todo/lib/utils";
+import Link from "next/link";
 
 const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -18,6 +19,7 @@ export default function TodoPage() {
     const [showCompleted, setShowCompleted] = useState<boolean>(true);
     const [focusedId, setFocusedId] = React.useState<string | null>(null);
     const today = new Date();
+    const dayOfWeek = today.getDay();
 
 
     useEffect(() => {
@@ -67,10 +69,12 @@ export default function TodoPage() {
                 <div className={"text-2xl font-semibold text-blue-500 mb-2"}>
                     Tasks
                 </div>
-                <Button variant="light" isIconOnly onClick={onItemAdd}>
-                    {" "}
-                    <IoIosAdd size={24}/>{" "}
-                </Button>
+                <Link href={`#day-${dayOfWeek}`}>
+                    <Button variant="light" isIconOnly onClick={onItemAdd}>
+                        {" "}
+                        <IoIosAdd size={24}/>{" "}
+                    </Button>
+                </Link>
             </div>
             <div className="flex flex-col gap-y-2 my-4 w-full pb-32">
                 <Switch size="sm" color="primary" defaultSelected={showCompleted} className="self-end"
@@ -85,9 +89,14 @@ export default function TodoPage() {
                         const dayTasks = getTasksByWeekday(focusTasks as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)
                         if (dayTasks.length < 1) {
                             return (
-                                <div key={weekday} onClick={() => setFocusedId(null)}>
-                                    <div className={`bordered border-t-1 border-slate-200 py-1 text-lg 
-                        ${isToday(today, weekdayNum) ? "font-semibold text-orange-500" : "text-slate-500"} `}>
+                                <div id={`day-${weekdayNum}`}
+                                     key={weekday}
+                                     onClick={() => setFocusedId(null)}
+                                >
+                                    <div className={
+                                        `bordered border-t-1 border-slate-200 py-1 text-lg 
+                                        ${isToday(today, weekdayNum) ?
+                                            "font-semibold text-orange-500" : "text-slate-500"} `}>
                                         {weekday}
                                     </div>
                                     <div className="text-center text-slate-300/80 text-xs">Day is clear</div>
@@ -95,7 +104,7 @@ export default function TodoPage() {
                             )
                         } else {
                             return (
-                                <div key={weekday}>
+                                <div id={`day-${weekdayNum}`} key={weekday}>
                                     <div className={`bordered border-t-1 border-slate-200 py-1 text-lg 
                         ${isToday(today, weekdayNum) ? "font-semibold text-orange-500" : "text-slate-500"} `}>
                                         {weekday}
