@@ -7,6 +7,7 @@ import {isFinished, isOverdue, overdueDays} from "@/app/todo/lib/utils";
 import {parseDate} from "@internationalized/date";
 import TaskDetailModal from "@/app/todo/components/TaskDetailModal";
 import DeletePopover from "./DeletePopover";
+import {defaultNewItem} from "@/app/todo/lib/backend";
 
 const TaskLine = (props: {
     task: TaskItem;
@@ -26,6 +27,11 @@ const TaskLine = (props: {
             <div
                 className="flex flex-row align-items-center w-full"
                 onClick={() => props.setFocusedId(props.task.uuid)}
+                onBlur={() => {
+                    if (name == defaultNewItem().name) {
+                        props.onItemRemove(props.task.uuid)
+                    }
+                }}
             >
                 <input
                     type="checkbox"

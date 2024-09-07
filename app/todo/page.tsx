@@ -34,9 +34,11 @@ export default function TodoPage() {
     }, [focusTasks]);
 
     const onItemAdd = (e: any) => {
-        addTodoItem(defaultNewItem())
+        const defaultTask = defaultNewItem();
+        addTodoItem(defaultTask)
             .then((item) => setFocusTasks([...(focusTasks ? focusTasks : []), item]))
             .catch((e) => console.log(e));
+        setFocusedId(defaultTask.uuid)
     };
 
     const onItemUpdate = (item: TaskItem) => {
