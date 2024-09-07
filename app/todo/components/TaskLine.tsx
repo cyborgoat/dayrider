@@ -9,39 +9,35 @@ import TaskDetailModal from "@/app/todo/components/TaskDetailModal";
 import DeletePopover from "./DeletePopover";
 
 const TaskLine = (props: {
-    todo: TaskItem;
+    task: TaskItem;
     onItemRemove: onItemRemoveFunction;
     onItemUpdate: onItemUpdateFunction;
+    focusedId: string | null | undefined;
+    setFocusedId: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
-    const [name, setName] = React.useState(props.todo.name);
-    const [deadline, setDeadline] = React.useState(parseDate(props.todo.deadline));
-    const [isFocused, setIsFocused] = useState(false);
+    const [name, setName] = React.useState(props.task.name);
+    const taskId = props.task.uuid;
+    const [deadline, setDeadline] = React.useState(parseDate(props.task.deadline));
+
+    const isFocused = () => taskId === props.focusedId;
 
     return (
-        <div className="transition-all duration-100 w-full py-0"
-             onBlur={(e) => {
-                 // if the blur was because of outside focus
-                 // currentTarget is the parent element, relatedTarget is the clicked element
-                 if (!e.currentTarget.contains(e.relatedTarget)) {
-                     setIsFocused(false)
-                 }
-             }}>
+        <div className="transition-all duration-100 w-full py-0">
             <div
                 className="flex flex-row align-items-center w-full"
-                onClick={() => setIsFocused(true)}
+                onClick={() => props.setFocusedId(props.task.uuid)}
             >
                 <input
                     type="checkbox"
-                    checked={isFinished(props.todo)}
+                    checked={isFinished(props.task)}
                     onChange={() => {
                         const newItem = {
-                            ...props.todo,
-                            finished: isFinished(props.todo) ? "false" : "true",
+                            ...props.task,
+                            finished: isFinished(props.task) ? "false" : "true",
                         };
                         props.onItemUpdate(newItem);
-                        setIsFocused(props.todo.finished === "true");
                     }}
-                    name={`radio-${props.todo.uuid}`}
+                    name={`radio-${props.task.uuid}`}
                     className="checkbox checkbox-xs self-center mx-2
                        [--chkbg:theme(colors.blue.600)] [--chkfg:white] checked:border-blue-300
                        "
@@ -51,10 +47,10 @@ const TaskLine = (props: {
                     variant="flat"
                     aria-label="task-name"
                     label=""
-                    defaultValue={props.todo.name}
+                    defaultValue={props.task.name}
                     onChange={(e) => setName(e.target.value)}
                     onBlur={() =>
-                        props.onItemUpdate({...props.todo, name: name,})
+                        props.onItemUpdate({...props.task, name: name,})
                     }
                     color={"default"}
                     classNames={{
@@ -70,12 +66,12 @@ const TaskLine = (props: {
                     aria-label="Expand"
                     className="w-6 py-2 my-auto"
                     disableAnimation
-                    onClick={() => setIsFocused(!isFocused)}
+                    onClick={() => isFocused() ? props.setFocusedId(null) : props.setFocusedId(props.task.uuid)}
                 >
                     <MdOutlineArrowBackIos
                         size={20}
                         className={`transition duration-300 ${
-                            isFocused
+                            isFocused()
                                 ? "-rotate-90 text-blue-500"
                                 : "text-zinc-500"
                         }`}
@@ -85,7 +81,7 @@ const TaskLine = (props: {
             {/* Dropdown info */}
             <div
                 className={`transition-all ease-in-out duration-300 ml-8 overflow-hidden ${
-                    isFocused ? "max-h-16" : "max-h-0 invisible"
+                    isFocused() ? "max-h-16" : "max-h-0 invisible"
                 }`}
             >
                 <div className="flex flex-col my-1">
@@ -97,11 +93,11 @@ const TaskLine = (props: {
                                 variant="underlined"
                                 aria-label="due-date"
                                 className="max-w-[144px]"
-                                defaultValue={parseDate(props.todo.deadline)}
+                                defaultValue={parseDate(props.task.deadline)}
                                 onChange={(e) => {
                                     setDeadline(e)
                                     const newTodo = {
-                                        ...props.todo,
+                                        ...props.task,
                                         deadline: e.toString(),
                                     };
                                     props.onItemUpdate(newTodo);
@@ -109,7 +105,7 @@ const TaskLine = (props: {
                                 }
                                 onBlur={() => {
                                     const newTodo = {
-                                        ...props.todo,
+                                        ...props.task,
                                         deadline: deadline.toString(),
                                     };
                                     props.onItemUpdate(newTodo);
@@ -119,10 +115,10 @@ const TaskLine = (props: {
                                     segment: "text-slate-300/80",
                                 }}
                             />
-                            {(!isFinished(props.todo) &&
-                                isOverdue(props.todo.deadline)) ? (
+                            {(!isFinished(props.task) &&
+                                isOverdue(props.task.deadline)) ? (
                                 <div className="text-rose-600/90 text-sm">
-                                    Overdue for {overdueDays(props.todo.deadline)}{" "}
+                                    Overdue for {overdueDays(props.task.deadline)}{" "}
                                     days
                                 </div>
                             ) : (
@@ -131,11 +127,11 @@ const TaskLine = (props: {
                         </div>
                         <div className="place-self-center justify-self-end flex flex-row gap-1 items-center">
                             <TaskDetailModal
-                                todo={props.todo}
+                                todo={props.task}
                                 onItemUpdate={props.onItemUpdate}
                             />
                             <DeletePopover
-                                todo={props.todo}
+                                todo={props.task}
                                 onItemRemove={props.onItemRemove}
                             />
                         </div>

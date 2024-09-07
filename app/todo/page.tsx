@@ -16,6 +16,7 @@ function isToday(today: Date, weekdayNum: number) {
 export default function TodoPage() {
     const [focusTasks, setFocusTasks] = useState<TaskItem[] | undefined>();
     const [showCompleted, setShowCompleted] = useState<boolean>(true);
+    const [focusedId, setFocusedId] = React.useState<string | null>(null);
     const today = new Date();
 
 
@@ -80,18 +81,38 @@ export default function TodoPage() {
                 >
                     Show Completed
                 </Switch>
-                {weekdays.map((weekday, weekdayNum) =>
-                    <div key={weekday}>
-                        <div className={`bordered border-t-1 border-slate-200 py-1 text-lg 
+                {weekdays.map((weekday, weekdayNum) => {
+                        const dayTasks = getTasksByWeekday(focusTasks as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)
+                        if (dayTasks.length < 1) {
+                            return (
+                                <div key={weekday} onClick={() => setFocusedId(null)}>
+                                    <div className={`bordered border-t-1 border-slate-200 py-1 text-lg 
                         ${isToday(today, weekdayNum) ? "font-semibold text-orange-500" : "text-slate-500"} `}>
-                            {weekday}
-                        </div>
-                        <DayItems
-                            todoList={getTasksByWeekday(focusTasks as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)}
-                            showCompleted={showCompleted}
-                            onItemRemove={onItemRemove}
-                            onItemUpdate={onItemUpdate}/>
-                    </div>
+                                        {weekday}
+                                    </div>
+                                    <div className="text-center text-slate-300/80 text-xs">Day is clear</div>
+                                </div>
+                            )
+                        } else {
+                            return (
+                                <div key={weekday}>
+                                    <div className={`bordered border-t-1 border-slate-200 py-1 text-lg 
+                        ${isToday(today, weekdayNum) ? "font-semibold text-orange-500" : "text-slate-500"} `}>
+                                        {weekday}
+                                    </div>
+                                    <DayItems
+                                        todoList={dayTasks}
+                                        showCompleted={showCompleted}
+                                        onItemRemove={onItemRemove}
+                                        onItemUpdate={onItemUpdate}
+                                        focusedId={focusedId}
+                                        setFocusedId={setFocusedId}
+                                    />
+                                </div>
+                            )
+
+                        }
+                    }
                 )
                 }
                 <div key="past-tasks">
@@ -102,7 +123,10 @@ export default function TodoPage() {
                         todoList={getPastTasks(focusTasks as TaskItem[])}
                         showCompleted={showCompleted}
                         onItemRemove={onItemRemove}
-                        onItemUpdate={onItemUpdate}/>
+                        onItemUpdate={onItemUpdate}
+                        focusedId={focusedId}
+                        setFocusedId={setFocusedId}
+                    />
                 </div>
             </div>
         </main>
