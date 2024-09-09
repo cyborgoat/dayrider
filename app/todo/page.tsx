@@ -5,7 +5,7 @@ import {Button, Switch} from "@nextui-org/react";
 import {IoIosAdd} from "react-icons/io";
 import DayItems from "@/app/todo/components/DailyTasks";
 import {addTodoItem, defaultNewItem, deleteTodoItem, getTodoItems, updateTodoItem} from "@/app/todo/lib/backend";
-import {getPastTasks, getTasksByWeekday} from "@/app/todo/lib/utils";
+import {getFutureTasks, getPastTasks, getTasksByWeekday} from "@/app/todo/lib/utils";
 import Link from "next/link";
 
 const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -96,49 +96,47 @@ export default function TodoPage() {
             <div className="flex flex-col gap-y-2 mb-4 w-full">
                 {weekdays.map((weekday, weekdayNum) => {
                         const dayTasks = getTasksByWeekday(focusTasks as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)
-                        if (dayTasks.length < 1) {
-                            return (
-                                <div id={`day-${weekdayNum}`}
-                                     key={weekday}
+                        return (
+                            <div id={`day-${weekdayNum}`} key={weekday}>
+                                <div className={`bordered border-t-1 border-slate-200 py-1 text-lg 
+                        ${isToday(today, weekdayNum) ? "font-semibold text-orange-500" : "text-slate-500"} `}
                                      onClick={() => setFocusedId(null)}
                                 >
-                                    <div className={
-                                        `bordered border-t-1 border-slate-200 py-1 text-lg 
-                                        ${isToday(today, weekdayNum) ?
-                                            "font-semibold text-orange-500" : "text-slate-500"} `}>
-                                        {weekday}
-                                    </div>
-                                    <div className="text-center text-slate-300/80 text-xs">Day is clear</div>
+                                    {weekday}
                                 </div>
-                            )
-                        } else {
-                            return (
-                                <div id={`day-${weekdayNum}`} key={weekday}>
-                                    <div className={`bordered border-t-1 border-slate-200 py-1 text-lg 
-                        ${isToday(today, weekdayNum) ? "font-semibold text-orange-500" : "text-slate-500"} `}>
-                                        {weekday}
-                                    </div>
-                                    <DayItems
-                                        todoList={dayTasks}
-                                        showCompleted={showCompleted}
-                                        onItemRemove={onItemRemove}
-                                        onItemUpdate={onItemUpdate}
-                                        focusedId={focusedId}
-                                        setFocusedId={setFocusedId}
-                                    />
-                                </div>
-                            )
+                                <DayItems
+                                    todoList={dayTasks}
+                                    showCompleted={showCompleted}
+                                    onItemRemove={onItemRemove}
+                                    onItemUpdate={onItemUpdate}
+                                    focusedId={focusedId}
+                                    setFocusedId={setFocusedId}
+                                />
+                            </div>
+                        )
 
-                        }
                     }
                 )
                 }
                 <div key="past-tasks">
-                    <div className={"bordered border-t-1 border-slate-200 py-1 text-lg text-slate-500"}>
+                    <div className={"bordered border-t-1 border-slate-200 py-1 text-lg text-slate-300"}>
                         Past Tasks
                     </div>
                     <DayItems
                         todoList={getPastTasks(focusTasks as TaskItem[])}
+                        showCompleted={showCompleted}
+                        onItemRemove={onItemRemove}
+                        onItemUpdate={onItemUpdate}
+                        focusedId={focusedId}
+                        setFocusedId={setFocusedId}
+                    />
+                </div>
+                <div key="past-tasks">
+                    <div className={"bordered border-t-1 border-slate-200 py-1 text-lg text-slate-300"}>
+                        Future Tasks
+                    </div>
+                    <DayItems
+                        todoList={getFutureTasks(focusTasks as TaskItem[])}
                         showCompleted={showCompleted}
                         onItemRemove={onItemRemove}
                         onItemUpdate={onItemUpdate}

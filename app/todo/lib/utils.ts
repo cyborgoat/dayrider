@@ -27,23 +27,6 @@ export function overdueDays(dateString: string): number {
     return Math.round(differenceInTime / (1000 * 3600 * 24));
 }
 
-export function getTasksThisWeek(taskList: TaskItem[]) {
-    if (typeof taskList === "undefined") {
-        return [];
-    } else {
-        return taskList.filter((item) => {
-            const ddl = new Date(item.deadline);
-            return (
-                ddl > thisWeekDates[0] &&
-                ddl <
-                    new Date(
-                        thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1)
-                    )
-            );
-        });
-    }
-}
-
 export function getPastTasks(taskList: TaskItem[]) {
     if (typeof taskList === "undefined") {
         return [];
@@ -61,12 +44,7 @@ export function getFutureTasks(taskList: TaskItem[]) {
     } else {
         return taskList.filter((item) => {
             const ddl = new Date(item.deadline);
-            return (
-                ddl >
-                new Date(
-                    thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1)
-                )
-            );
+            return ddl > thisWeekDates[6]
         });
     }
 }
@@ -79,11 +57,8 @@ export function getTasksByWeekday(todoList: TaskItem[], weekdayNum: number) {
             const ddl = new Date(item.deadline);
             return (
                 ddl.getDay() === weekdayNum &&
-                ddl > thisWeekDates[0] &&
-                ddl <
-                    new Date(
-                        thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1)
-                    )
+                ddl >= thisWeekDates[0] &&
+                ddl <= thisWeekDates[6]
             );
         });
     }
