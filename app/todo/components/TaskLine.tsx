@@ -97,15 +97,7 @@ const TaskLine = (props: {
                                 aria-label="due-date"
                                 className="max-w-[144px]"
                                 defaultValue={parseDate(props.task.deadline)}
-                                onChange={(e) => {
-                                    setDeadline(e)
-                                    const newTodo = {
-                                        ...props.task,
-                                        deadline: e.toString(),
-                                    };
-                                    props.onItemUpdate(newTodo);
-                                }
-                                }
+                                onChange={(e) => setDeadline(e)}
                                 onBlur={() => {
                                     const newTodo = {
                                         ...props.task,
