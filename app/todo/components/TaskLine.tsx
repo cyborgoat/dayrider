@@ -1,7 +1,7 @@
 "use client";
 import {onItemRemoveFunction, onItemUpdateFunction, TaskItem,} from "@/app/todo/types/taskItem";
 import {Button, DatePicker, extendVariants, Input} from "@nextui-org/react";
-import React, {useState} from "react";
+import React from "react";
 import {MdOutlineArrowBackIos} from "react-icons/md";
 import {isFinished, isOverdue, overdueDays} from "@/app/todo/lib/utils";
 import {parseDate} from "@internationalized/date";
@@ -16,23 +16,22 @@ const TaskLine = (props: {
     focusedId: string | null | undefined;
     setFocusedId: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
-    const [name, setName] = React.useState(props.task.name);
-    const taskId = props.task.uuid;
+    const [taskName, setTaskName] = React.useState(props.task.name);
     const [deadline, setDeadline] = React.useState(parseDate(props.task.deadline));
+    const [isEdited, setIsEdited] = React.useState(props.task.name != defaultNewItem().name);
 
-    const isFocused = () => taskId === props.focusedId;
+    const isFocused = props.focusedId === props.task.uuid;
 
     return (
-        <div className="transition-all duration-100 w-full py-0">
-            <div
-                className="flex flex-row align-items-center w-full"
-                onClick={() => props.setFocusedId(props.task.uuid)}
-                onBlur={() => {
-                    if (name == defaultNewItem().name) {
-                        props.onItemRemove(props.task.uuid)
-                    }
-                }}
-            >
+        <div className="transition-all duration-100 w-full py-0"
+             onClick={() => props.setFocusedId(props.task.uuid)}
+             onBlur={() => {
+                 if (!isEdited) {
+                     props.onItemRemove(props.task.uuid)
+                 }
+             }}
+        >
+            <div className="flex flex-row align-items-center w-full">
                 <input
                     type="checkbox"
                     checked={isFinished(props.task)}
@@ -54,11 +53,15 @@ const TaskLine = (props: {
                     aria-label="task-name"
                     label=""
                     defaultValue={props.task.name}
-                    onChange={(e) => setName(e.target.value)}
-                    onBlur={() =>
-                        props.onItemUpdate({...props.task, name: name,})
+                    onChange={(e) => {
+                        setTaskName(e.target.value)
+                        setIsEdited(true)
                     }
-                    color={"default"}
+                    }
+                    onBlur={() =>
+                        props.onItemUpdate({...props.task, name: taskName,})
+                    }
+                    color={isEdited ? "default" : "primary"}
                     classNames={{
                         inputWrapper:
                             "transition-all duration-350 ease-in-out shadow-sm  hover:shadow-lg",
@@ -72,23 +75,17 @@ const TaskLine = (props: {
                     aria-label="Expand"
                     className="w-6 py-2 my-auto"
                     disableAnimation
-                    onClick={() => isFocused() ? props.setFocusedId(null) : props.setFocusedId(props.task.uuid)}
+                    onClick={() => isFocused ? props.setFocusedId(null) : props.setFocusedId(props.task.uuid)}
                 >
                     <MdOutlineArrowBackIos
                         size={20}
-                        className={`transition duration-300 ${
-                            isFocused()
-                                ? "-rotate-90 text-blue-500"
-                                : "text-zinc-500"
-                        }`}
+                        className={`transition duration-300 ${isFocused ? "-rotate-90 text-blue-500" : "text-zinc-500"}`}
                     />
                 </DropDownArrowButton>
             </div>
             {/* Dropdown info */}
             <div
-                className={`transition-all ease-in-out duration-300 ml-8 overflow-hidden ${
-                    isFocused() ? "max-h-16" : "max-h-0 invisible"
-                }`}
+                className={`transition-all ease-in-out duration-300 ml-8 overflow-hidden ${isFocused ? "max-h-16" : "max-h-0 invisible"}`}
             >
                 <div className="flex flex-col my-1">
                     <div className="pr-10 flex flex-row gap-2 mt-0 justify-between items-center">
@@ -132,10 +129,7 @@ const TaskLine = (props: {
                             )}
                         </div>
                         <div className="place-self-center justify-self-end flex flex-row gap-1 items-center">
-                            <TaskDetailModal
-                                todo={props.task}
-                                onItemUpdate={props.onItemUpdate}
-                            />
+                            {isEdited && <TaskDetailModal todo={props.task} onItemUpdate={props.onItemUpdate}/>}
                             <DeletePopover
                                 todo={props.task}
                                 onItemRemove={props.onItemRemove}

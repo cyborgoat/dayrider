@@ -18,55 +18,73 @@ export function isOverdue(dateString: string): boolean {
 export function overdueDays(dateString: string): number {
     let today = new Date();
     let date = new Date(dateString);
-    return today.getDate() - date.getDate();
+    // Calculating the time difference
+    // of two dates
+    let differenceInTime = today.getTime() - date.getTime();
+
+    // Calculating the no. of days between
+    // two dates
+    return Math.round(differenceInTime / (1000 * 3600 * 24));
 }
 
 export function getTasksThisWeek(taskList: TaskItem[]) {
     if (typeof taskList === "undefined") {
-        return ([])
+        return [];
     } else {
         return taskList.filter((item) => {
             const ddl = new Date(item.deadline);
-            return ((ddl > thisWeekDates[0] && ddl < (new Date(thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1)))))
+            return (
+                ddl > thisWeekDates[0] &&
+                ddl <
+                    new Date(
+                        thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1)
+                    )
+            );
         });
     }
-
 }
 
 export function getPastTasks(taskList: TaskItem[]) {
     if (typeof taskList === "undefined") {
-        return ([])
+        return [];
     } else {
         return taskList.filter((item) => {
             const ddl = new Date(item.deadline);
-            return (ddl < thisWeekDates[0])
+            return ddl < thisWeekDates[0];
         });
     }
-
 }
 
 export function getFutureTasks(taskList: TaskItem[]) {
     if (typeof taskList === "undefined") {
-        return ([])
+        return [];
     } else {
         return taskList.filter((item) => {
             const ddl = new Date(item.deadline);
-            return (ddl > (new Date(thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1))))
+            return (
+                ddl >
+                new Date(
+                    thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1)
+                )
+            );
         });
     }
-
 }
 
 export function getTasksByWeekday(todoList: TaskItem[], weekdayNum: number) {
     if (typeof todoList === "undefined") {
-        return ([])
+        return [];
     } else {
         return todoList.filter((item) => {
             const ddl = new Date(item.deadline);
             return (
-                (ddl.getDay() === weekdayNum) &&
-                (ddl > thisWeekDates[0] &&
-                    ddl < (new Date(thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1)))))
+                ddl.getDay() === weekdayNum &&
+                ddl > thisWeekDates[0] &&
+                ddl <
+                    new Date(
+                        thisWeekDates[6].setDate(thisWeekDates[6].getDate() + 1)
+                    )
+            );
         });
     }
 }
