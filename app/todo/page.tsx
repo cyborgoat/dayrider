@@ -78,7 +78,7 @@ export default function TodoPage() {
                     </Button>
                 </Link>
             </div>
-            <div className="flex flex-col gap-y-2 my-4 w-full pb-32">
+            <div className="flex flex-col gap-y-2 my-4 w-full">
                 <Switch size="sm" color="primary" defaultSelected={showCompleted} className="self-end"
                         classNames={{
                             label: "text-sm",
@@ -140,6 +140,7 @@ export default function TodoPage() {
                     />
                 </div>
             </div>
+            <div className="h-32 w-full" onClick={() => setFocusedId(null)}></div>
         </main>
     );
 }
