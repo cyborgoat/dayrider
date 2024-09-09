@@ -29,6 +29,7 @@ const TaskLine = (props: {
                  if (!isEdited) {
                      props.onItemRemove(props.task.uuid)
                  }
+                 props.setFocusedId(null);
              }}
         >
             <div className="flex flex-row align-items-center w-full">
