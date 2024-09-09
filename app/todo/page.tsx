@@ -79,8 +79,8 @@ export default function TodoPage() {
                 </Link>
             </div>
             <div className="w-full flex flex-row justify-between items-end">
-                <div className={"text-2xl font-semibold text-blue-500"}>
-                    10
+                <div className={"text-2xl font-semibold text-gray-500"}>
+                    {focusTasks ? focusTasks.length : "Loading..."}
                 </div>
                 <div>
                     <Switch size="sm" color="primary" defaultSelected={showCompleted} className="self-end"
@@ -93,7 +93,7 @@ export default function TodoPage() {
                     </Switch>
                 </div>
             </div>
-            <div className="flex flex-col gap-y-2 my-4 w-full">
+            <div className="flex flex-col gap-y-2 mb-4 w-full">
                 {weekdays.map((weekday, weekdayNum) => {
                         const dayTasks = getTasksByWeekday(focusTasks as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)
                         if (dayTasks.length < 1) {
