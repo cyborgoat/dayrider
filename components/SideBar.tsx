@@ -41,7 +41,7 @@ export default function SideBar() {
                         textValue={"todo"}
                         className={pathname === "/todo" ? "bg-blue-300/15" : ""}
                         startContent={
-                            <IconWrapper className="bg-primary/10 text-primary">
+                            <IconWrapper className="bg-blue-500/10 text-blue-500">
                                 <FaListCheck strokeWidth={0.3} size={16}/>
                             </IconWrapper>
                         }
@@ -55,7 +55,7 @@ export default function SideBar() {
                         textValue={"schedule"}
                         className={pathname === "/schedule" ? "bg-blue-300/15" : ""}
                         startContent={
-                            <IconWrapper className="bg-success/10 text-success">
+                            <IconWrapper className="bg-blue-500/10 text-blue-500">
                                 <BsCalendar2Day strokeWidth={0.3} size={16}/>
                             </IconWrapper>
                         }
@@ -69,7 +69,7 @@ export default function SideBar() {
                         textValue={"settings"}
                         className={pathname === "/settings" ? "bg-blue-300/15" : ""}
                         startContent={
-                            <IconWrapper className="bg-success/10 text-success">
+                            <IconWrapper className="bg-blue-500/10 text-blue-500">
                                 <IoIosSettings strokeWidth={0.3} size={16}/>
                             </IconWrapper>
                         }
