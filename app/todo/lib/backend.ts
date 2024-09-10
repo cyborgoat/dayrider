@@ -25,10 +25,10 @@ export async function updateTodoItem(todoItem: TaskItem): Promise<TaskItem> {
 export function defaultNewItem(): TaskItem {
     return {
         uuid: uuidv4(),
-        name: "New todo item",
+        name: "",
         date: today(getLocalTimeZone()).toString(),
         finished: "false",
         deadline: today(getLocalTimeZone()).toString(),
-        notes: "test notes",
+        notes: "",
     };
 }

@@ -8,6 +8,7 @@ import {parseDate} from "@internationalized/date";
 import TaskDetailModal from "@/app/todo/components/TaskDetailModal";
 import DeletePopover from "./DeletePopover";
 import {defaultNewItem} from "@/app/todo/lib/backend";
+import {useRef} from 'react';
 
 const TaskLine = (props: {
     task: TaskItem;
@@ -36,6 +37,7 @@ const TaskLine = (props: {
                           className="text-sm font-medium"
                           color={"primary"}
                           name={`radio-${props.task.uuid}`}
+                          radius={"full"}
                           onChange={() => {
                               const newItem = {
                                   ...props.task,
@@ -44,10 +46,12 @@ const TaskLine = (props: {
                               props.onItemUpdate(newItem);
                           }}/>
                 <Input
+                    autoFocus={isFocused}
                     type="text"
                     variant="flat"
                     aria-label="task-name"
                     defaultValue={props.task.name}
+                    placeholder={"Enter new task name"}
                     onChange={(e) => {
                         setTaskName(e.target.value)
                         setIsEdited(true)
