@@ -1,6 +1,6 @@
 "use client";
 import {onItemRemoveFunction, onItemUpdateFunction, TaskItem,} from "@/app/todo/types/taskItem";
-import {Button, DatePicker, extendVariants, Input} from "@nextui-org/react";
+import {Button, Checkbox, DatePicker, extendVariants, Input} from "@nextui-org/react";
 import React from "react";
 import {MdOutlineArrowBackIos} from "react-icons/md";
 import {isFinished, isOverdue, overdueDays} from "@/app/todo/lib/utils";
@@ -32,26 +32,21 @@ const TaskLine = (props: {
              }}
         >
             <div className="flex flex-row align-items-center w-full">
-                <input
-                    type="checkbox"
-                    checked={isFinished(props.task)}
-                    onChange={() => {
-                        const newItem = {
-                            ...props.task,
-                            finished: isFinished(props.task) ? "false" : "true",
-                        };
-                        props.onItemUpdate(newItem);
-                    }}
-                    name={`radio-${props.task.uuid}`}
-                    className="checkbox checkbox-xs self-center mx-2
-                       [--chkbg:theme(colors.blue.600)] [--chkfg:white] checked:border-blue-300
-                       "
-                />
+                <Checkbox defaultSelected={isFinished(props.task)}
+                          className="text-sm font-medium text-white"
+                          color={"primary"}
+                          name={`radio-${props.task.uuid}`}
+                          onChange={() => {
+                              const newItem = {
+                                  ...props.task,
+                                  finished: isFinished(props.task) ? "false" : "true",
+                              };
+                              props.onItemUpdate(newItem);
+                          }}/>
                 <Input
                     type="text"
                     variant="flat"
                     aria-label="task-name"
-                    label=""
                     defaultValue={props.task.name}
                     onChange={(e) => {
                         setTaskName(e.target.value)

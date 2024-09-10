@@ -1,7 +1,7 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import {TaskItem} from "@/app/todo/types/taskItem";
-import {Button, Switch} from "@nextui-org/react";
+import {Button, cn, Switch} from "@nextui-org/react";
 import {IoIosAdd} from "react-icons/io";
 import DayItems from "@/app/todo/components/DailyTasks";
 import {addTodoItem, defaultNewItem, deleteTodoItem, getTodoItems, updateTodoItem} from "@/app/todo/lib/backend";
@@ -79,18 +79,40 @@ export default function TodoPage() {
                 </Link>
             </div>
             <div className="w-full flex flex-row justify-between items-end">
-                <div className={"text-2xl font-semibold text-gray-500"}>
+                <div className={"text-2xl font-semibold text-gray-500 p-1"}>
                     {focusTasks ? focusTasks.length : "Loading..."}
                 </div>
                 <div>
-                    <Switch size="sm" color="primary" defaultSelected={showCompleted} className="self-end"
-                            classNames={{
-                                label: "text-sm",
-                            }}
-                            onValueChange={(isSelected) => setShowCompleted(isSelected)}
+                    <Switch
+                        color={"primary"}
+                        classNames={{
+                            base: cn(
+                                "inline-flex flex-row-reverse w-full max-w-md items-center",
+                                "justify-between cursor-pointer rounded-lg gap-2 p-1 border-2 border-transparent",
+                            ),
+                            wrapper: "p-0 h-4 overflow-visible data-[selected=true]:bg-blue-500",
+                            thumb: cn("w-6 h-6 border-2 shadow-lg",
+                                "group-data-[hover=true]:border-blue-500",
+                                //selected
+                                "group-data-[selected=true]:ml-6",
+                                // pressed
+                                "group-data-[pressed=true]:w-7",
+                                "group-data-[selected]:group-data-[pressed]:ml-4",
+                            ),
+                        }}
+                        onValueChange={(isSelected) => setShowCompleted(isSelected)}
+                        defaultSelected={showCompleted}
                     >
-                        Show Completed
+                        <span className={"text-sm text-slate-500"}>Show Completed</span>
                     </Switch>
+                    {/*<Switch size="sm" color="primary" defaultSelected={showCompleted} className="self-end"*/}
+                    {/*        classNames={{*/}
+                    {/*            label: "text-sm",*/}
+                    {/*        }}*/}
+                    {/*        onValueChange={(isSelected) => setShowCompleted(isSelected)}*/}
+                    {/*>*/}
+                    {/*    Show Completed*/}
+                    {/*</Switch>*/}
                 </div>
             </div>
             <div className="flex flex-col gap-y-2 mb-4 w-full">

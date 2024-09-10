@@ -54,7 +54,6 @@ const config: Config = {
     },
     darkMode: "class",
     plugins: [
-        require('daisyui'),
         nextui(
             {
                 prefix: "nextui", // prefix for themes variables
@@ -65,7 +64,9 @@ const config: Config = {
                 themes: {
                     light: {
                         layout: {}, // light theme layout tokens
-                        colors: {}, // light theme colors
+                        colors: {
+                            primary: {DEFAULT: '#3b82f6', foreground: '#1e3357',},
+                        }, // light theme colors
                     },
                     dark: {
                         layout: {}, // dark theme layout tokens
