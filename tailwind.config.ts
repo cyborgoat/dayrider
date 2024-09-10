@@ -65,7 +65,7 @@ const config: Config = {
                     light: {
                         layout: {}, // light theme layout tokens
                         colors: {
-                            primary: {DEFAULT: '#3b82f6', foreground: '#1e3357',},
+                            primary: {DEFAULT: '#3b82f6', foreground: '#ffffff',},
                         }, // light theme colors
                     },
                     dark: {

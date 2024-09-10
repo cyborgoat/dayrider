@@ -33,7 +33,7 @@ const TaskLine = (props: {
         >
             <div className="flex flex-row align-items-center w-full">
                 <Checkbox defaultSelected={isFinished(props.task)}
-                          className="text-sm font-medium text-white"
+                          className="text-sm font-medium"
                           color={"primary"}
                           name={`radio-${props.task.uuid}`}
                           onChange={() => {
