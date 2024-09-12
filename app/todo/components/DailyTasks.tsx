@@ -1,12 +1,12 @@
-import {onItemRemoveFunction, onItemUpdateFunction, TaskItem} from "@/app/todo/types/taskItem";
+import {onTaskRemoveFunction, onTaskUpdateFunction, TaskItem} from "@/app/todo/types/taskItem";
 import TaskLine from "@/app/todo/components/TaskLine";
 import React from "react";
 
 const DayItems = ({todoList, showCompleted, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
     todoList: TaskItem[] | undefined;
     showCompleted: boolean;
-    onItemRemove: onItemRemoveFunction;
-    onItemUpdate: onItemUpdateFunction;
+    onItemRemove: onTaskRemoveFunction;
+    onItemUpdate: onTaskUpdateFunction;
     focusedId: string | null | undefined;
     setFocusedId: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {

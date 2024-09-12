@@ -7,5 +7,6 @@ export interface TaskItem {
     notes?: string;
 }
 
-export type onItemRemoveFunction = (uuid: string) => void;
-export type onItemUpdateFunction = (item: TaskItem) => void;
+export type onTaskRemoveFunction = (uuid: string) => void;
+export type onTaskAddFunction = (e: any) => void;
+export type onTaskUpdateFunction = (item: TaskItem) => void;

@@ -1,12 +1,10 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import {TaskItem} from "@/app/todo/types/taskItem";
-import {Button, cn, Switch} from "@nextui-org/react";
-import {IoIosAdd} from "react-icons/io";
 import DayItems from "@/app/todo/components/DailyTasks";
 import {addTodoItem, defaultNewItem, deleteTodoItem, getTodoItems, updateTodoItem} from "@/app/todo/lib/backend";
 import {getFutureTasks, getPastTasks, getTasksByWeekday} from "@/app/todo/lib/utils";
-import Link from "next/link";
+import TodoPageHeader from "@/app/todo/components/TodoPageHeader";
 
 const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -19,7 +17,6 @@ export default function TodoPage() {
     const [showCompleted, setShowCompleted] = useState<boolean>(true);
     const [focusedId, setFocusedId] = React.useState<string | null>(null);
     const today = new Date();
-    const dayOfWeek = today.getDay();
 
 
     useEffect(() => {
@@ -67,54 +64,8 @@ export default function TodoPage() {
 
     return (
         <main className="flex flex-col items-start min-h-screen px-4 pt-6 justify-items-start lg:px-6">
-            <div className="w-full flex flex-row justify-between">
-                <div className={"text-2xl font-semibold text-blue-500 mb-2"}>
-                    Tasks
-                </div>
-                <Link href={`#day-${dayOfWeek}`}>
-                    <Button variant="light" isIconOnly onClick={onItemAdd}>
-                        {" "}
-                        <IoIosAdd size={24}/>{" "}
-                    </Button>
-                </Link>
-            </div>
-            <div className="w-full flex flex-row justify-between items-end">
-                <div className={"text-2xl font-semibold text-gray-500 p-1"}>
-                    {focusTasks ? focusTasks.length : "Loading..."}
-                </div>
-                <div>
-                    <Switch
-                        color={"primary"}
-                        classNames={{
-                            base: cn(
-                                "inline-flex flex-row-reverse w-full max-w-md items-center",
-                                "justify-between cursor-pointer rounded-lg gap-2 p-1 border-2 border-transparent",
-                            ),
-                            wrapper: "p-0 h-4 overflow-visible data-[selected=true]:bg-blue-500",
-                            thumb: cn("w-6 h-6 border-2 shadow-lg",
-                                "group-data-[hover=true]:border-blue-500",
-                                //selected
-                                "group-data-[selected=true]:ml-6",
-                                // pressed
-                                "group-data-[pressed=true]:w-7",
-                                "group-data-[selected]:group-data-[pressed]:ml-4",
-                            ),
-                        }}
-                        onValueChange={(isSelected) => setShowCompleted(isSelected)}
-                        defaultSelected={showCompleted}
-                    >
-                        <span className={"text-sm text-slate-500"}>Show Completed</span>
-                    </Switch>
-                    {/*<Switch size="sm" color="primary" defaultSelected={showCompleted} className="self-end"*/}
-                    {/*        classNames={{*/}
-                    {/*            label: "text-sm",*/}
-                    {/*        }}*/}
-                    {/*        onValueChange={(isSelected) => setShowCompleted(isSelected)}*/}
-                    {/*>*/}
-                    {/*    Show Completed*/}
-                    {/*</Switch>*/}
-                </div>
-            </div>
+            <TodoPageHeader onItemAdd={onItemAdd} focusTasks={focusTasks}
+                            showCompleted={showCompleted} setShowCompleted={setShowCompleted}/>
             <div className="flex flex-col gap-y-2 mb-4 w-full">
                 {weekdays.map((weekday, weekdayNum) => {
                         const dayTasks = getTasksByWeekday(focusTasks as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)
@@ -169,5 +120,6 @@ export default function TodoPage() {
             </div>
             <div className="h-32 w-full" onClick={() => setFocusedId(null)}></div>
         </main>
-    );
+    )
+        ;
 }

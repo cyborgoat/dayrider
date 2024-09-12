@@ -1,5 +1,5 @@
 "use client";
-import {onItemRemoveFunction, onItemUpdateFunction, TaskItem,} from "@/app/todo/types/taskItem";
+import {onTaskRemoveFunction, onTaskUpdateFunction, TaskItem,} from "@/app/todo/types/taskItem";
 import {Button, Checkbox, DatePicker, extendVariants, Input} from "@nextui-org/react";
 import React from "react";
 import {MdOutlineArrowBackIos} from "react-icons/md";
@@ -8,12 +8,11 @@ import {parseDate} from "@internationalized/date";
 import TaskDetailModal from "@/app/todo/components/TaskDetailModal";
 import DeletePopover from "./DeletePopover";
 import {defaultNewItem} from "@/app/todo/lib/backend";
-import {useRef} from 'react';
 
 const TaskLine = (props: {
     task: TaskItem;
-    onItemRemove: onItemRemoveFunction;
-    onItemUpdate: onItemUpdateFunction;
+    onItemRemove: onTaskRemoveFunction;
+    onItemUpdate: onTaskUpdateFunction;
     focusedId: string | null | undefined;
     setFocusedId: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
@@ -87,8 +86,8 @@ const TaskLine = (props: {
                 className={`transition-all ease-in-out duration-300 ml-8 overflow-hidden ${isFocused ? "max-h-16" : "max-h-0 invisible"}`}
             >
                 <div className="flex flex-col my-1">
-                    <div className="pr-10 flex flex-row gap-2 mt-0 justify-between items-center">
-                        <div className="w-1/2 flex flex-row gap-x-2 items-center">
+                    <div className="pr-10 flex flex-row justify-between items-center">
+                        <div className="w-2/3 flex gap-x-2 flex-row items-center">
                             <DatePicker
                                 isRequired={true}
                                 size="sm"
