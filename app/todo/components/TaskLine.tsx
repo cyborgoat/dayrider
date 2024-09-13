@@ -9,47 +9,47 @@ import TaskDetailModal from "@/app/todo/components/TaskDetailModal";
 import DeletePopover from "./DeletePopover";
 import {defaultNewItem} from "@/app/todo/lib/backend";
 
-const TaskLine = (props: {
+const TaskLine = ({hidden, task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
+    hidden: boolean;
     task: TaskItem;
     onItemRemove: onTaskRemoveFunction;
     onItemUpdate: onTaskUpdateFunction;
     focusedId: string | null | undefined;
     setFocusedId: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
-    const [taskName, setTaskName] = React.useState(props.task.name);
-    const [deadline, setDeadline] = React.useState(parseDate(props.task.deadline));
-    const [isEdited, setIsEdited] = React.useState(props.task.name != defaultNewItem().name);
+    const [taskName, setTaskName] = React.useState(task.name);
+    const [deadline, setDeadline] = React.useState(parseDate(task.deadline));
+    const [isEdited, setIsEdited] = React.useState(task.name != defaultNewItem().name);
 
-    const isFocused = props.focusedId === props.task.uuid;
+    const isFocused = focusedId === task.uuid;
 
     return (
-        <div className="transition-all duration-100 w-full py-0"
-             onClick={() => props.setFocusedId(props.task.uuid)}
+        <div className="w-full py-0" hidden={hidden} onClick={() => setFocusedId(task.uuid)}
              onBlur={() => {
                  if (!isEdited) {
-                     props.onItemRemove(props.task.uuid)
+                     onItemRemove(task.uuid)
                  }
              }}
         >
             <div className="flex flex-row align-items-center w-full">
-                <Checkbox defaultSelected={isFinished(props.task)}
+                <Checkbox defaultSelected={isFinished(task)}
                           className="text-sm font-medium"
                           color={"primary"}
-                          name={`radio-${props.task.uuid}`}
+                          name={`radio-${task.uuid}`}
                           radius={"full"}
                           onChange={() => {
                               const newItem = {
-                                  ...props.task,
-                                  finished: isFinished(props.task) ? "false" : "true",
+                                  ...task,
+                                  finished: isFinished(task) ? "false" : "true",
                               };
-                              props.onItemUpdate(newItem);
+                              onItemUpdate(newItem);
                           }}/>
                 <Input
                     autoFocus={isFocused}
                     type="text"
                     variant="flat"
                     aria-label="task-name"
-                    defaultValue={props.task.name}
+                    defaultValue={task.name}
                     placeholder={"Enter new task name"}
                     onChange={(e) => {
                         setTaskName(e.target.value)
@@ -57,7 +57,7 @@ const TaskLine = (props: {
                     }
                     }
                     onBlur={() =>
-                        props.onItemUpdate({...props.task, name: taskName,})
+                        onItemUpdate({...task, name: taskName,})
                     }
                     color={isEdited ? "default" : "primary"}
                     classNames={{
@@ -73,7 +73,7 @@ const TaskLine = (props: {
                     aria-label="Expand"
                     className="w-6 py-2 my-auto"
                     disableAnimation
-                    onClick={() => isFocused ? props.setFocusedId(null) : props.setFocusedId(props.task.uuid)}
+                    onClick={() => isFocused ? setFocusedId(null) : setFocusedId(task.uuid)}
                 >
                     <MdOutlineArrowBackIos
                         size={20}
@@ -94,24 +94,24 @@ const TaskLine = (props: {
                                 variant="underlined"
                                 aria-label="due-date"
                                 className="max-w-[144px]"
-                                defaultValue={parseDate(props.task.deadline)}
+                                defaultValue={parseDate(task.deadline)}
                                 onChange={(e) => setDeadline(e)}
                                 onBlur={() => {
                                     const newTodo = {
-                                        ...props.task,
+                                        ...task,
                                         deadline: deadline.toString(),
                                     };
-                                    props.onItemUpdate(newTodo);
+                                    onItemUpdate(newTodo);
                                 }}
                                 dateInputClassNames={{
                                     input: "text-small",
                                     segment: "text-slate-300/80",
                                 }}
                             />
-                            {(!isFinished(props.task) &&
-                                isOverdue(props.task.deadline)) ? (
+                            {(!isFinished(task) &&
+                                isOverdue(task.deadline)) ? (
                                 <div className="text-rose-600/90 text-sm">
-                                    Overdue for {overdueDays(props.task.deadline)}{" "}
+                                    Overdue for {overdueDays(task.deadline)}{" "}
                                     days
                                 </div>
                             ) : (
@@ -119,10 +119,10 @@ const TaskLine = (props: {
                             )}
                         </div>
                         <div className="place-self-center justify-self-end flex flex-row gap-1 items-center">
-                            {isEdited && <TaskDetailModal todo={props.task} onItemUpdate={props.onItemUpdate}/>}
+                            {isEdited && <TaskDetailModal todo={task} onItemUpdate={onItemUpdate}/>}
                             <DeletePopover
-                                todo={props.task}
-                                onItemRemove={props.onItemRemove}
+                                todo={task}
+                                onItemRemove={onItemRemove}
                             />
                         </div>
                     </div>

@@ -17,20 +17,17 @@ const DayItems = ({todoList, showCompleted, onItemRemove, onItemUpdate, focusedI
     }
     return (
         <div className="flex flex-col gap-y-1">
-            {todoList.map((todo, idx) => {
-                if (!showCompleted && todo.finished === 'true') {
-                    return <></>
-                } else return (
-                    <TaskLine
-                        task={todo}
-                        key={`${todo.uuid}-${todo.name}-${todo.deadline}`}
-                        onItemRemove={onItemRemove}
-                        onItemUpdate={onItemUpdate}
-                        focusedId={focusedId}
-                        setFocusedId={setFocusedId}
-                    />
-                )
-            })}
+            {todoList.map((todo, idx) =>
+                <TaskLine
+                    hidden={!showCompleted && todo.finished === 'true'}
+                    task={todo}
+                    key={`${todo.uuid}-${todo.name}-${todo.deadline}`}
+                    onItemRemove={onItemRemove}
+                    onItemUpdate={onItemUpdate}
+                    focusedId={focusedId}
+                    setFocusedId={setFocusedId}
+                />
+            )}
         </div>
     )
 }
