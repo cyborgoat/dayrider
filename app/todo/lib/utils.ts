@@ -18,6 +18,8 @@ export function isOverdue(dateString: string): boolean {
 export function overdueDays(dateString: string): number {
     let today = new Date();
     let date = new Date(dateString);
+    today.setHours(23, 59, 59, 999);
+    date.setHours(23, 59, 59, 999);
     // Calculating the time difference
     // of two dates
     let differenceInTime = today.getTime() - date.getTime();

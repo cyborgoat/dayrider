@@ -47,6 +47,7 @@ const TaskLine = ({hidden, task, onItemRemove, onItemUpdate, focusedId, setFocus
                 <Input
                     autoFocus={isFocused}
                     type="text"
+                    size={"sm"}
                     variant="flat"
                     aria-label="task-name"
                     defaultValue={task.name}
