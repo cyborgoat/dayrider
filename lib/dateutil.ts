@@ -1,6 +1,6 @@
 export function getThisWeekDates(date = new Date()): Date[] {
     const dateCopy = new Date(date.getTime());
-    dateCopy.setHours(0, 0, 0, 0);
+    dateCopy.setHours(23, 59, 59, 999);
 
     const nextMonday = new Date(
         dateCopy.setDate(

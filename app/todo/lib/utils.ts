@@ -33,6 +33,7 @@ export function getPastTasks(taskList: TaskItem[]) {
     } else {
         return taskList.filter((item) => {
             const ddl = new Date(item.deadline);
+            ddl.setHours(23, 59, 59, 999);
             return ddl < thisWeekDates[0];
         });
     }
@@ -44,6 +45,7 @@ export function getFutureTasks(taskList: TaskItem[]) {
     } else {
         return taskList.filter((item) => {
             const ddl = new Date(item.deadline);
+            ddl.setHours(23, 59, 59, 999);
             return ddl > thisWeekDates[6]
         });
     }
@@ -55,6 +57,7 @@ export function getTasksByWeekday(todoList: TaskItem[], weekdayNum: number) {
     } else {
         return todoList.filter((item) => {
             const ddl = new Date(item.deadline);
+            ddl.setHours(23, 59, 59, 999);
             return (
                 ddl.getDay() === weekdayNum &&
                 ddl >= thisWeekDates[0] &&
