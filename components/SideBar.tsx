@@ -6,6 +6,7 @@ import {BsCalendar2Day} from "react-icons/bs";
 import {IoIosSettings} from "react-icons/io";
 import {IconWrapper} from "./icons/IconWrapper";
 import {usePathname} from 'next/navigation';
+import {RxDashboard} from "react-icons/rx";
 
 const days = [
     "Sunday",
@@ -35,6 +36,19 @@ export default function SideBar() {
             </div>
             <div className="w-full pb-2 mx-1">
                 <Listbox aria-label="actions" className="px-2">
+                    <ListboxItem
+                        key="dashboard"
+                        href={"/"}
+                        textValue={"dashboard"}
+                        className={pathname === "/" ? "bg-blue-300/15" : ""}
+                        startContent={
+                            <IconWrapper className="bg-blue-500/10 text-blue-500">
+                                <RxDashboard strokeWidth={0.3} size={16}/>
+                            </IconWrapper>
+                        }
+                    >
+                        <span className="text-md font-[500]">Dashboard</span>
+                    </ListboxItem>
                     <ListboxItem
                         key="todo"
                         href={"/todo"}

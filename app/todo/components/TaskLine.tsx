@@ -1,13 +1,13 @@
 "use client";
-import {onTaskRemoveFunction, onTaskUpdateFunction, TaskItem,} from "@/app/todo/types/taskItem";
+import {onTaskRemoveFunction, onTaskUpdateFunction, TaskItem,} from "@/types/taskItem";
 import {Button, Checkbox, DatePicker, extendVariants, Input} from "@nextui-org/react";
 import React from "react";
 import {MdOutlineArrowBackIos} from "react-icons/md";
-import {isFinished, isOverdue, overdueDays} from "@/app/todo/lib/utils";
+import {isFinished, isOverdue, overdueDays} from "@/lib/tasks/utils";
 import {parseDate} from "@internationalized/date";
 import TaskDetailModal from "@/app/todo/components/TaskDetailModal";
 import DeletePopover from "./DeletePopover";
-import {defaultNewItem} from "@/app/todo/lib/backend";
+import {defaultTask} from "@/lib/tasks/backend";
 
 const TaskLine = ({hidden, task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
     hidden: boolean;
@@ -19,7 +19,7 @@ const TaskLine = ({hidden, task, onItemRemove, onItemUpdate, focusedId, setFocus
 }) => {
     const [taskName, setTaskName] = React.useState(task.name);
     const [deadline, setDeadline] = React.useState(parseDate(task.deadline));
-    const [isEdited, setIsEdited] = React.useState(task.name != defaultNewItem().name);
+    const [isEdited, setIsEdited] = React.useState(task.name != defaultTask().name);
 
     const isFocused = focusedId === task.uuid;
 

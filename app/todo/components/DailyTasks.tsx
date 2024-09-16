@@ -1,4 +1,4 @@
-import {onTaskRemoveFunction, onTaskUpdateFunction, TaskItem} from "@/app/todo/types/taskItem";
+import {onTaskRemoveFunction, onTaskUpdateFunction, TaskItem} from "@/types/taskItem";
 import TaskLine from "@/app/todo/components/TaskLine";
 import React from "react";
 

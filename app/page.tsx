@@ -1,9 +1,9 @@
-import ImageSplitStats from "@/components/screens/ImageSplitStats";
+import {StatWobbleCards} from "@/app/components/StatWobbleCards";
 
-export default function Home() {
+export default function DashboardPage() {
     return (
-        <main className="flex flex-col items-center justify-between min-h-screen">
-            <ImageSplitStats/>
-        </main>
+        <section className="m-8 xl:m-16">
+            <StatWobbleCards/>
+        </section>
     );
 }

@@ -1,8 +1,7 @@
-import Link from "next/link";
 import {Button, cn, Switch} from "@nextui-org/react";
 import {IoIosAdd} from "react-icons/io";
 import React from "react";
-import {onTaskAddFunction, TaskItem} from "@/app/todo/types/taskItem";
+import {onTaskAddFunction, TaskItem} from "@/types/taskItem";
 
 const TodoPageHeader = (
     {onItemAdd, focusTasks, showCompleted, setShowCompleted}: {
@@ -12,20 +11,16 @@ const TodoPageHeader = (
         setShowCompleted: React.Dispatch<React.SetStateAction<boolean>>
     }
 ) => {
-    const today = new Date();
-    const dayOfWeek = today.getDay();
     return (
         <>
             <div className="w-full flex flex-row justify-between">
                 <div className={"text-2xl font-semibold text-blue-500 mb-2"}>
                     Tasks
                 </div>
-                <Link href={`#day-${dayOfWeek}`}>
-                    <Button variant="light" isIconOnly onClick={onItemAdd}>
-                        {" "}
-                        <IoIosAdd size={24}/>{" "}
-                    </Button>
-                </Link>
+                <Button variant="light" isIconOnly onClick={onItemAdd}>
+                    {" "}
+                    <IoIosAdd size={24}/>{" "}
+                </Button>
             </div>
             <div className="w-full flex flex-row justify-between items-end">
                 <div className={"text-2xl font-semibold text-gray-500 p-1"}>

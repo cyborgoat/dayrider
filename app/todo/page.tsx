@@ -1,9 +1,9 @@
 "use client";
 import React, {useEffect, useState} from "react";
-import {TaskItem} from "@/app/todo/types/taskItem";
+import {TaskItem} from "@/types/taskItem";
 import DayItems from "@/app/todo/components/DailyTasks";
-import {addTodoItem, defaultNewItem, deleteTodoItem, getTodoItems, updateTodoItem} from "@/app/todo/lib/backend";
-import {getFutureTasks, getPastTasks, getTasksByWeekday} from "@/app/todo/lib/utils";
+import {addTaskItem, defaultTask, deleteTaskItem, getTaskItems, updateTaskItem} from "@/lib/tasks/backend";
+import {getFutureTasks, getPastTasks, getTasksByWeekday} from "@/lib/tasks/utils";
 import TodoPageHeader from "@/app/todo/components/TodoPageHeader";
 
 const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -13,50 +13,50 @@ function isToday(today: Date, weekdayNum: number) {
 }
 
 export default function TodoPage() {
-    const [focusTasks, setFocusTasks] = useState<TaskItem[] | undefined>();
+    const [myTasks, setMyTasks] = useState<TaskItem[] | undefined>();
     const [showCompleted, setShowCompleted] = useState<boolean>(true);
     const [focusedId, setFocusedId] = React.useState<string | null>(null);
     const today = new Date();
 
 
     useEffect(() => {
-        if (focusTasks === undefined) {
-            getTodoItems()
+        if (myTasks === undefined) {
+            getTaskItems()
                 .then((items) => {
                     // const tasks = getTasksThisWeek(items)
-                    setFocusTasks(items);
+                    setMyTasks(items);
                 })
                 .catch((e) => console.log(e));
         }
-    }, [focusTasks]);
+    }, [myTasks]);
 
     const onItemAdd = (e: any) => {
-        const defaultTask = defaultNewItem();
-        addTodoItem(defaultTask)
-            .then((item) => setFocusTasks([...(focusTasks ? focusTasks : []), item]))
+        const task = defaultTask();
+        addTaskItem(task)
+            .then((item) => setMyTasks([...(myTasks ? myTasks : []), item]))
             .catch((e) => console.log(e));
-        setFocusedId(defaultTask.uuid)
+        setFocusedId(task.uuid)
     };
 
     const onItemUpdate = (item: TaskItem) => {
-        updateTodoItem(item)
+        updateTaskItem(item)
             .then((res) => {
                 const isCurrentItem = (element: TaskItem) => element.uuid === res.uuid;
-                if (focusTasks !== undefined) {
-                    let tmp = [...focusTasks];
-                    const idx = focusTasks.findIndex(isCurrentItem)
+                if (myTasks !== undefined) {
+                    let tmp = [...myTasks];
+                    const idx = myTasks.findIndex(isCurrentItem)
                     tmp[idx] = res;
-                    setFocusTasks(tmp);
+                    setMyTasks(tmp);
                 }
             })
             .catch((e) => console.log(e));
     };
 
     const onItemRemove = (uuid: string) => {
-        deleteTodoItem(uuid)
+        deleteTaskItem(uuid)
             .then((res) => {
-                if (focusTasks !== undefined) {
-                    setFocusTasks(focusTasks.filter((item) => item.uuid !== uuid));
+                if (myTasks !== undefined) {
+                    setMyTasks(myTasks.filter((item) => item.uuid !== uuid));
                 }
             })
             .catch((e) => console.log(e));
@@ -64,11 +64,11 @@ export default function TodoPage() {
 
     return (
         <main className="flex flex-col items-start min-h-screen px-4 pt-6 justify-items-start lg:px-6">
-            <TodoPageHeader onItemAdd={onItemAdd} focusTasks={focusTasks}
+            <TodoPageHeader onItemAdd={onItemAdd} focusTasks={myTasks}
                             showCompleted={showCompleted} setShowCompleted={setShowCompleted}/>
             <div className="flex flex-col gap-y-2 mb-4 w-full">
                 {weekdays.map((weekday, weekdayNum) => {
-                        const dayTasks = getTasksByWeekday(focusTasks as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)
+                        const dayTasks = getTasksByWeekday(myTasks as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)
                         return (
                             <div id={`day-${weekdayNum}`} key={weekday}>
                                 <div className={`bordered border-t-1 border-slate-200 py-1 text-lg 
@@ -96,7 +96,7 @@ export default function TodoPage() {
                         Past Tasks
                     </div>
                     <DayItems
-                        todoList={getPastTasks(focusTasks as TaskItem[])}
+                        todoList={getPastTasks(myTasks as TaskItem[])}
                         showCompleted={showCompleted}
                         onItemRemove={onItemRemove}
                         onItemUpdate={onItemUpdate}
@@ -109,7 +109,7 @@ export default function TodoPage() {
                         Future Tasks
                     </div>
                     <DayItems
-                        todoList={getFutureTasks(focusTasks as TaskItem[])}
+                        todoList={getFutureTasks(myTasks as TaskItem[])}
                         showCompleted={showCompleted}
                         onItemRemove={onItemRemove}
                         onItemUpdate={onItemUpdate}

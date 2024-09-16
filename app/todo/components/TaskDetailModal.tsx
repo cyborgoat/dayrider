@@ -11,7 +11,7 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import {IoInformationCircleOutline} from "react-icons/io5";
-import {onTaskUpdateFunction, TaskItem} from "@/app/todo/types/taskItem";
+import {onTaskUpdateFunction, TaskItem} from "@/types/taskItem";
 import {CustomizedButton} from "@/app/todo/components/CustomizedTypes";
 
 export default function TaskDetailModal(props: {

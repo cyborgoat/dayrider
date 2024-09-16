@@ -1,4 +1,4 @@
-import {TaskItem} from "@/app/todo/types/taskItem";
+import {TaskItem} from "@/types/taskItem";
 import {getThisWeekDates} from "@/lib/dateutil";
 
 const thisWeekDates = getThisWeekDates();
@@ -53,11 +53,27 @@ export function getFutureTasks(taskList: TaskItem[]) {
     }
 }
 
-export function getTasksByWeekday(todoList: TaskItem[], weekdayNum: number) {
-    if (typeof todoList === "undefined") {
+export function getThisWeekTasks(taskList: TaskItem[]) {
+    if (typeof taskList === "undefined") {
         return [];
     } else {
-        return todoList.filter((item) => {
+        return taskList.filter((item) => {
+            const ddl = new Date(item.deadline);
+            ddl.setHours(23, 59, 59, 999);
+            return (
+                ddl >= thisWeekDates[0] &&
+                ddl <= thisWeekDates[6]
+            );
+        });
+    }
+
+}
+
+export function getTasksByWeekday(taskList: TaskItem[], weekdayNum: number) {
+    if (typeof taskList === "undefined") {
+        return [];
+    } else {
+        return taskList.filter((item) => {
             const ddl = new Date(item.deadline);
             ddl.setHours(23, 59, 59, 999);
             return (
