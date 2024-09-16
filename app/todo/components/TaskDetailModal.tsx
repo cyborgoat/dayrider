@@ -69,7 +69,6 @@ export default function TaskDetailModal(props: {
                                     variant="light"
                                     onPress={() => {
                                         onClose();
-                                        // deleteTodoItem(props.todo.uuid).then();
                                     }}
                                 >
                                     Cancel
