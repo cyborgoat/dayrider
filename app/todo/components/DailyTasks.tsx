@@ -1,6 +1,7 @@
 import {onTaskRemoveFunction, onTaskUpdateFunction, TaskItem} from "@/types/taskItem";
 import TaskLine from "@/app/todo/components/TaskLine";
 import React from "react";
+import {useAutoAnimate} from "@formkit/auto-animate/react";
 
 const DayItems = ({todoList, showCompleted, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
     todoList: TaskItem[] | undefined;
@@ -10,13 +11,15 @@ const DayItems = ({todoList, showCompleted, onItemRemove, onItemUpdate, focusedI
     focusedId: string | null | undefined;
     setFocusedId: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
+    const [parent, enableAnimations] = useAutoAnimate({duration: 100});
+
     if (typeof todoList === 'undefined' || todoList.length < 1) {
         return (
             <div className="text-center text-slate-300/80 text-xs" onClick={() => setFocusedId(null)}>Day is clear</div>
         )
     }
     return (
-        <div className="flex flex-col gap-y-1">
+        <ul ref={parent} className="flex flex-col gap-y-1">
             {todoList.map((todo, idx) =>
                 <TaskLine
                     hidden={!showCompleted && todo.finished === 'true'}
@@ -28,7 +31,7 @@ const DayItems = ({todoList, showCompleted, onItemRemove, onItemUpdate, focusedI
                     setFocusedId={setFocusedId}
                 />
             )}
-        </div>
+        </ul>
     )
 }
 

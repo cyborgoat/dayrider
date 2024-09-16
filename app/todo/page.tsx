@@ -69,13 +69,14 @@ export default function TodoPage() {
             <div className="flex flex-col gap-y-2 mb-4 w-full">
                 {weekdays.map((weekday, weekdayNum) => {
                         const dayTasks = getTasksByWeekday(myTasks as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)
+                        const itIsToday = isToday(today, weekdayNum)
                         return (
                             <div id={`day-${weekdayNum}`} key={weekday}>
                                 <div className={`bordered border-t-1 border-slate-200 py-1 text-lg 
-                        ${isToday(today, weekdayNum) ? "font-semibold text-orange-500" : "text-slate-500"} `}
+                        ${itIsToday ? "font-semibold text-orange-500" : "text-slate-500"} `}
                                      onClick={() => setFocusedId(null)}
                                 >
-                                    {weekday}
+                                    {itIsToday ? `Today` : weekday}
                                 </div>
                                 <DayItems
                                     todoList={dayTasks}

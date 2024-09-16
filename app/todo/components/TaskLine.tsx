@@ -24,7 +24,7 @@ const TaskLine = ({hidden, task, onItemRemove, onItemUpdate, focusedId, setFocus
     const isFocused = focusedId === task.uuid;
 
     return (
-        <div className="w-full py-0" hidden={hidden} onClick={() => setFocusedId(task.uuid)}
+        <li className="w-full py-0" hidden={hidden} onClick={() => setFocusedId(task.uuid)}
              onBlur={() => {
                  if (!isEdited) {
                      onItemRemove(task.uuid)
@@ -129,7 +129,7 @@ const TaskLine = ({hidden, task, onItemRemove, onItemUpdate, focusedId, setFocus
                     </div>
                 </div>
             </div>
-        </div>
+        </li>
     );
 };
 
