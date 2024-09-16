@@ -30,7 +30,7 @@ export default function TodoPage() {
         }
     }, [myTasks]);
 
-    const onItemAdd = (e: any) => {
+    const onItemAdd = (_: any) => {
         const task = defaultTask();
         addTaskItem(task)
             .then((item) => setMyTasks([...(myTasks ? myTasks : []), item]))
@@ -54,7 +54,7 @@ export default function TodoPage() {
 
     const onItemRemove = (uuid: string) => {
         deleteTaskItem(uuid)
-            .then((res) => {
+            .then((_) => {
                 if (myTasks !== undefined) {
                     setMyTasks(myTasks.filter((item) => item.uuid !== uuid));
                 }
