@@ -2,7 +2,7 @@ export interface TaskItem {
     uuid: string;
     name: string;
     date: string;
-    finished: string;
+    finished: "true" | "false";
     deadline: string;
     notes?: string;
 }

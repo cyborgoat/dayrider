@@ -9,8 +9,7 @@ import TaskDetailModal from "@/app/todo/components/TaskDetailModal";
 import DeletePopover from "./DeletePopover";
 import {defaultTask} from "@/lib/tasks/backend";
 
-const TaskLine = ({hidden, task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
-    hidden: boolean;
+const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
     task: TaskItem;
     onItemRemove: onTaskRemoveFunction;
     onItemUpdate: onTaskUpdateFunction;
@@ -37,7 +36,7 @@ const TaskLine = ({hidden, task, onItemRemove, onItemUpdate, focusedId, setFocus
 
 
     return (
-        <li className="w-full py-0" hidden={hidden} onClick={() => setFocusedId(task.uuid)}
+        <li className="w-full py-0" onClick={() => setFocusedId(task.uuid)}
             onBlur={() => {
                 if (!isEdited) {
                     onItemRemove(task.uuid)
@@ -55,7 +54,7 @@ const TaskLine = ({hidden, task, onItemRemove, onItemUpdate, focusedId, setFocus
                                   ...task,
                                   finished: isFinished(task) ? "false" : "true",
                               };
-                              onItemUpdate(newItem);
+                              onItemUpdate(newItem as TaskItem);
                           }}/>
                 <Input
                     autoFocus={isFocused}

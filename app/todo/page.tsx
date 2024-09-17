@@ -64,11 +64,12 @@ export default function TodoPage() {
 
     return (
         <main className="flex flex-col items-start min-h-screen px-4 pt-6 justify-items-start lg:px-6">
-            <TodoPageHeader onItemAdd={onItemAdd} focusTasks={myTasks}
+            <TodoPageHeader onItemAdd={onItemAdd}
+                            numOfUnfinished={myTasks?.filter(task => task.finished === 'false').length}
                             showCompleted={showCompleted} setShowCompleted={setShowCompleted}/>
             <div className="flex flex-col gap-y-2 mb-4 w-full">
                 {weekdays.map((weekday, weekdayNum) => {
-                        const dayTasks = getTasksByWeekday(myTasks as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0)
+                        const dayTasks = getTasksByWeekday(myTasks as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0, showCompleted)
                         const itIsToday = isToday(today, weekdayNum)
                         return (
                             <div id={`day-${weekdayNum}`} key={weekday}>
@@ -79,8 +80,7 @@ export default function TodoPage() {
                                     {itIsToday ? `Today` : weekday}
                                 </div>
                                 <DayItems
-                                    todoList={dayTasks}
-                                    showCompleted={showCompleted}
+                                    todoList={showCompleted ? dayTasks : dayTasks.filter(task => task.finished === 'false')}
                                     onItemRemove={onItemRemove}
                                     onItemUpdate={onItemUpdate}
                                     focusedId={focusedId}
@@ -97,8 +97,7 @@ export default function TodoPage() {
                         Past Tasks
                     </div>
                     <DayItems
-                        todoList={getPastTasks(myTasks as TaskItem[])}
-                        showCompleted={showCompleted}
+                        todoList={getPastTasks(myTasks as TaskItem[], showCompleted)}
                         onItemRemove={onItemRemove}
                         onItemUpdate={onItemUpdate}
                         focusedId={focusedId}
@@ -110,8 +109,7 @@ export default function TodoPage() {
                         Future Tasks
                     </div>
                     <DayItems
-                        todoList={getFutureTasks(myTasks as TaskItem[])}
-                        showCompleted={showCompleted}
+                        todoList={getFutureTasks(myTasks as TaskItem[], showCompleted)}
                         onItemRemove={onItemRemove}
                         onItemUpdate={onItemUpdate}
                         focusedId={focusedId}

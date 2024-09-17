@@ -4,9 +4,9 @@ import React from "react";
 import {onTaskAddFunction, TaskItem} from "@/types/taskItem";
 
 const TodoPageHeader = (
-    {onItemAdd, focusTasks, showCompleted, setShowCompleted}: {
+    {onItemAdd, numOfUnfinished, showCompleted, setShowCompleted}: {
         onItemAdd: onTaskAddFunction,
-        focusTasks: TaskItem[] | undefined,
+        numOfUnfinished: number | undefined,
         showCompleted: boolean,
         setShowCompleted: React.Dispatch<React.SetStateAction<boolean>>
     }
@@ -24,7 +24,7 @@ const TodoPageHeader = (
             </div>
             <div className="w-full flex flex-row justify-between items-end">
                 <div className={"text-2xl font-semibold text-gray-500 p-1"}>
-                    {focusTasks?.length}
+                    {typeof numOfUnfinished === "number" ? (numOfUnfinished) : 0}
                 </div>
                 <div>
                     <Switch

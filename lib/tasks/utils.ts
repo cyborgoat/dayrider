@@ -29,58 +29,66 @@ export function overdueDays(dateString: string): number {
     return Math.round(differenceInTime / (1000 * 3600 * 24));
 }
 
-export function getPastTasks(taskList: TaskItem[]) {
+/// Task fetchers
+
+export function getPastTasks(taskList: TaskItem[], showCompleted: boolean): TaskItem[] {
     if (typeof taskList === "undefined") {
         return [];
     } else {
         return taskList.filter((item) => {
             const ddl = new Date(item.deadline);
             ddl.setHours(23, 59, 59, 999);
+            if (!showCompleted) {
+                return item.finished === "false" && ddl < thisWeekDates[0];
+            }
             return ddl < thisWeekDates[0];
         });
     }
 }
 
-export function getFutureTasks(taskList: TaskItem[]) {
+export function getFutureTasks(taskList: TaskItem[], showCompleted: boolean) {
     if (typeof taskList === "undefined") {
         return [];
     } else {
         return taskList.filter((item) => {
             const ddl = new Date(item.deadline);
             ddl.setHours(23, 59, 59, 999);
+            if (!showCompleted) {
+                return item.finished === "false" && ddl > thisWeekDates[6];
+            }
             return ddl > thisWeekDates[6]
         });
     }
 }
 
-export function getThisWeekTasks(taskList: TaskItem[]) {
+export function getThisWeekTasks(taskList: TaskItem[], showCompleted: boolean) {
     if (typeof taskList === "undefined") {
         return [];
     } else {
         return taskList.filter((item) => {
             const ddl = new Date(item.deadline);
             ddl.setHours(23, 59, 59, 999);
-            return (
-                ddl >= thisWeekDates[0] &&
-                ddl <= thisWeekDates[6]
-            );
+            if (!showCompleted) {
+                return item.finished === 'false' && ddl >= thisWeekDates[0] && ddl <= thisWeekDates[6];
+            }
+            return ddl >= thisWeekDates[0] && ddl <= thisWeekDates[6];
         });
     }
 
 }
 
-export function getTasksByWeekday(taskList: TaskItem[], weekdayNum: number) {
+export function getTasksByWeekday(taskList: TaskItem[], weekdayNum: number, showCompleted: boolean) {
     if (typeof taskList === "undefined") {
         return [];
     } else {
         return taskList.filter((item) => {
             const ddl = new Date(item.deadline);
             ddl.setHours(23, 59, 59, 999);
-            return (
-                ddl.getDay() === weekdayNum &&
-                ddl >= thisWeekDates[0] &&
-                ddl <= thisWeekDates[6]
-            );
+            if (!showCompleted) {
+                return item.finished === 'false' && ddl.getDay() === weekdayNum && ddl >= thisWeekDates[0] && ddl <= thisWeekDates[6]
+            }
+            return ddl.getDay() === weekdayNum && ddl >= thisWeekDates[0] && ddl <= thisWeekDates[6]
+                ;
         });
     }
 }

@@ -3,9 +3,8 @@ import TaskLine from "@/app/todo/components/TaskLine";
 import React from "react";
 import {useAutoAnimate} from "@formkit/auto-animate/react";
 
-const DayItems = ({todoList, showCompleted, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
+const DayItems = ({todoList, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
     todoList: TaskItem[] | undefined;
-    showCompleted: boolean;
     onItemRemove: onTaskRemoveFunction;
     onItemUpdate: onTaskUpdateFunction;
     focusedId: string | null | undefined;
@@ -26,7 +25,6 @@ const DayItems = ({todoList, showCompleted, onItemRemove, onItemUpdate, focusedI
         <ul ref={parent} className="flex flex-col gap-y-1">
             {todoList.map((todo, idx) =>
                 <TaskLine
-                    hidden={!showCompleted && todo.finished === 'true'}
                     task={todo}
                     key={`${todo.uuid}-${todo.name}-${todo.deadline}`}
                     onItemRemove={onItemRemove}
