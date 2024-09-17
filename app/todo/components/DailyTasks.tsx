@@ -15,7 +15,11 @@ const DayItems = ({todoList, showCompleted, onItemRemove, onItemUpdate, focusedI
 
     if (typeof todoList === 'undefined' || todoList.length < 1) {
         return (
-            <div className="text-center text-slate-300/80 text-xs" onClick={() => setFocusedId(null)}>Day is clear</div>
+            <ul ref={parent} className="flex flex-col gap-y-1">
+                <li className="text-center text-slate-300/80 text-xs" onClick={() => setFocusedId(null)}>
+                    Day is clear
+                </li>
+            </ul>
         )
     }
     return (

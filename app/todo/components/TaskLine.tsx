@@ -23,13 +23,26 @@ const TaskLine = ({hidden, task, onItemRemove, onItemUpdate, focusedId, setFocus
 
     const isFocused = focusedId === task.uuid;
 
+    const handleInputChange = (event: any) => {
+        setTaskName(event.target.value)
+        setIsEdited(true)
+    };
+    const handleKeyDown = (event: any) => {
+        if (event.key === 'Enter') {
+            // 👇 Get input value
+            setFocusedId(null)
+            onItemUpdate({...task, name: taskName,})
+        }
+    };
+
+
     return (
         <li className="w-full py-0" hidden={hidden} onClick={() => setFocusedId(task.uuid)}
-             onBlur={() => {
-                 if (!isEdited) {
-                     onItemRemove(task.uuid)
-                 }
-             }}
+            onBlur={() => {
+                if (!isEdited) {
+                    onItemRemove(task.uuid)
+                }
+            }}
         >
             <div className="flex flex-row align-items-center w-full">
                 <Checkbox defaultSelected={isFinished(task)}
@@ -52,14 +65,9 @@ const TaskLine = ({hidden, task, onItemRemove, onItemUpdate, focusedId, setFocus
                     aria-label="task-name"
                     defaultValue={task.name}
                     placeholder={"Enter new task name"}
-                    onChange={(e) => {
-                        setTaskName(e.target.value)
-                        setIsEdited(true)
-                    }
-                    }
-                    onBlur={() =>
-                        onItemUpdate({...task, name: taskName,})
-                    }
+                    onChange={handleInputChange}
+                    onBlur={() => onItemUpdate({...task, name: taskName,})}
+                    onKeyDown={handleKeyDown}
                     color={isEdited ? "default" : "primary"}
                     classNames={{
                         inputWrapper:
