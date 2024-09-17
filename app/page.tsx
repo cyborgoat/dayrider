@@ -1,5 +1,6 @@
 import {StatWobbleCards} from "@/app/components/StatWobbleCards";
 import React from "react";
+import StatCards from "@/app/components/StatCards";
 
 export default function DashboardPage() {
     return (
@@ -7,7 +8,7 @@ export default function DashboardPage() {
             <div className={"text-2xl font-semibold text-slate-500 mb-2"}>
                 Dashboard
             </div>
-            <StatWobbleCards/>
+            <StatCards/>
         </main>
     );
 }

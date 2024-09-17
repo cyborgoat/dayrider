@@ -40,7 +40,7 @@ export function StatWobbleCards() {
                         {myTasks?.length} Tasks
                     </h2>
                     <p className="mt-4 text-left  text-base/6 text-neutral-200">
-                        You have {getThisWeekTasks(myTasks as TaskItem[]).length} Tasks this week.
+                        You have {getThisWeekTasks(myTasks as TaskItem[], false).length} Tasks this week.
                     </p>
                 </div>
                 {/*<Image*/}
