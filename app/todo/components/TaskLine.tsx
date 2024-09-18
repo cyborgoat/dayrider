@@ -1,13 +1,14 @@
 "use client";
 import {onTaskRemoveFunction, onTaskUpdateFunction, TaskItem,} from "@/types/taskItem";
-import {Button, Checkbox, DatePicker, extendVariants, Input} from "@nextui-org/react";
+import {Button, ButtonGroup, CalendarDate, Checkbox, DatePicker, extendVariants, Input} from "@nextui-org/react";
 import React from "react";
 import {MdOutlineArrowBackIos} from "react-icons/md";
 import {isFinished, isOverdue, overdueDays} from "@/lib/tasks/utils";
-import {parseDate} from "@internationalized/date";
+import {DateValue, getLocalTimeZone, parseDate, startOfMonth, startOfWeek, today} from "@internationalized/date";
 import TaskDetailModal from "@/app/todo/components/TaskDetailModal";
 import DeletePopover from "./DeletePopover";
 import {defaultTask} from "@/lib/tasks/backend";
+import {useLocale} from "@react-aria/i18n";
 
 const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
     task: TaskItem;
@@ -17,10 +18,21 @@ const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
     setFocusedId: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
     const [taskName, setTaskName] = React.useState(task.name);
-    const [deadline, setDeadline] = React.useState(parseDate(task.deadline));
+    const [deadline, setDeadline] = React.useState<CalendarDate>(parseDate(task.deadline));
     const [isEdited, setIsEdited] = React.useState(task.name != defaultTask().name);
 
     const isFocused = focusedId === task.uuid;
+
+    let defaultDate = today(getLocalTimeZone());
+
+    const [value, setValue] = React.useState<DateValue>(defaultDate);
+
+    let {locale} = useLocale();
+
+    let now = today(getLocalTimeZone());
+    let nextWeek = startOfWeek(now.add({weeks: 1}), locale);
+    let nextMonth = startOfMonth(now.add({months: 1}));
+
 
     const handleInputChange = (event: any) => {
         setTaskName(event.target.value)
@@ -103,7 +115,7 @@ const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
                                 aria-label="due-date"
                                 className="max-w-[144px]"
                                 defaultValue={parseDate(task.deadline)}
-                                onChange={(e) => setDeadline(e)}
+                                onChange={setDeadline}
                                 onBlur={() => {
                                     const newTodo = {
                                         ...task,
@@ -115,7 +127,30 @@ const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
                                     input: "text-small",
                                     segment: "text-slate-300/80",
                                 }}
-                            />
+                                CalendarTopContent={
+                                    <ButtonGroup
+                                        fullWidth
+                                        className="px-3 pb-2 pt-3 bg-content1 [&>button]:text-default-500 [&>button]:border-default-200/60"
+                                        radius="full"
+                                        size="sm"
+                                        variant="bordered"
+                                    >
+                                        <Button onPress={() => setValue(now)}>Today</Button>
+                                        <Button onPress={() => setValue(nextWeek)}>Next week</Button>
+                                        <Button onPress={() => setValue(nextMonth)}>Next month</Button>
+                                    </ButtonGroup>
+                                }
+                                calendarProps={{
+                                    focusedValue: value,
+                                    onFocusChange: setValue,
+                                    nextButtonProps: {
+                                        variant: "bordered",
+                                    },
+                                    prevButtonProps: {
+                                        variant: "bordered",
+                                    },
+                                }}
+                                value={value}></DatePicker>
                             {(!isFinished(task) &&
                                 isOverdue(task.deadline)) ? (
                                 <div className="text-rose-600/90 text-sm">
