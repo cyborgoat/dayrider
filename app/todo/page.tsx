@@ -104,7 +104,7 @@ export default function TodoPage() {
                         setFocusedId={setFocusedId}
                     />
                 </div>
-                <div key="past-tasks">
+                <div key="future-tasks">
                     <div className={"bordered border-t-1 border-slate-200 py-1 text-lg text-slate-300"}>
                         Future Tasks
                     </div>
