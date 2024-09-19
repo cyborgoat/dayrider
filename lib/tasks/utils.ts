@@ -92,3 +92,12 @@ export function getTasksByWeekday(taskList: TaskItem[], weekdayNum: number, show
         });
     }
 }
+
+export function getPendingTasks(taskList: TaskItem[]) {
+    if (typeof taskList === "undefined") {
+        return [];
+    } else {
+        return taskList.filter((item) => item.finished === 'false');
+    }
+
+}

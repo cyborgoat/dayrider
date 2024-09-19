@@ -1,5 +1,5 @@
 "use client"
-import {getFutureTasks, getThisWeekTasks} from "@/lib/tasks/utils";
+import {getFutureTasks, getPendingTasks, getThisWeekTasks} from "@/lib/tasks/utils";
 import {TaskItem} from "@/types/taskItem";
 import {useEffect, useMemo, useState} from "react";
 import {getTaskItems} from "@/lib/tasks/backend";
@@ -20,7 +20,7 @@ const StatCards = () => {
     }, [myTasks]);
 
     const thisWeekTasks = useMemo(() => getThisWeekTasks(myTasks as TaskItem[], false), [myTasks])
-    const pendingTasks = useMemo(() => myTasks?.filter(i => i.finished === 'false'), [myTasks]);
+    const pendingTasks = useMemo(() => getPendingTasks(myTasks as TaskItem[]), [myTasks]);
     const futureTasks = useMemo(() => getFutureTasks(myTasks as TaskItem[], false), [myTasks]);
 
     return (
@@ -55,7 +55,7 @@ const StatCards = () => {
                 <div className="flex flex-col rounded-lg bg-blue-50 px-4 py-8 text-center">
                     <dt className="order-last text-lg font-medium text-gray-500">Scheduled Events</dt>
 
-                    <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">-</dd>
+                    <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">0</dd>
                 </div>
             </dl>
         </div>
