@@ -26,14 +26,11 @@ const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
     setFocusedId: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
     const [taskName, setTaskName] = React.useState(task.name);
-    const [deadline, setDeadline] = React.useState<CalendarDate | CalendarDateTime | ZonedDateTime>(parseDate(task.deadline));
+    const [deadline, setDeadline] = React.useState<CalendarDate | CalendarDateTime | ZonedDateTime | DateValue>(parseDate(task.deadline));
     const [isEdited, setIsEdited] = React.useState(task.name != defaultTask().name);
 
     const isFocused = focusedId === task.uuid;
 
-    let defaultDate = today(getLocalTimeZone());
-
-    const [value, setValue] = React.useState<DateValue>(defaultDate);
 
     let {locale} = useLocale();
 
@@ -143,14 +140,14 @@ const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
                                         size="sm"
                                         variant="bordered"
                                     >
-                                        <Button onPress={() => setValue(now)}>Today</Button>
-                                        <Button onPress={() => setValue(nextWeek)}>Next week</Button>
-                                        <Button onPress={() => setValue(nextMonth)}>Next month</Button>
+                                        <Button onPress={() => setDeadline(now)}>Today</Button>
+                                        <Button onPress={() => setDeadline(nextWeek)}>Next week</Button>
+                                        <Button onPress={() => setDeadline(nextMonth)}>Next month</Button>
                                     </ButtonGroup>
                                 }
                                 calendarProps={{
-                                    focusedValue: value,
-                                    onFocusChange: setValue,
+                                    focusedValue: deadline,
+                                    onFocusChange: setDeadline,
                                     nextButtonProps: {
                                         variant: "bordered",
                                     },
@@ -158,7 +155,7 @@ const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
                                         variant: "bordered",
                                     },
                                 }}
-                                value={value}></DatePicker>
+                                value={deadline}></DatePicker>
                             {(!isFinished(task) &&
                                 isOverdue(task.deadline)) ? (
                                 <div className="text-rose-600/90 text-sm">
