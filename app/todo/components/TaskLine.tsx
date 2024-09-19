@@ -11,7 +11,8 @@ import {
     parseDate,
     startOfMonth,
     startOfWeek,
-    today, ZonedDateTime
+    today,
+    ZonedDateTime
 } from "@internationalized/date";
 import TaskDetailModal from "@/app/todo/components/TaskDetailModal";
 import DeletePopover from "./DeletePopover";
@@ -108,8 +109,7 @@ const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
             </div>
             {/* Dropdown info */}
             <div
-                className={`transition-all ease-in-out duration-300 ml-8 overflow-hidden ${isFocused ? "max-h-16" : "max-h-0 invisible"}`}
-            >
+                className={`transition-all ease-in-out duration-300 ml-8 overflow-hidden ${(isFocused && isEdited) ? "max-h-16" : "max-h-0 invisible"}`}>
                 <div className="flex flex-col my-1">
                     <div className="pr-10 flex flex-row justify-between items-center">
                         <div className="w-2/3 flex gap-x-2 flex-row items-center">
