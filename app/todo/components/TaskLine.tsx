@@ -4,7 +4,15 @@ import {Button, ButtonGroup, CalendarDate, Checkbox, DatePicker, extendVariants,
 import React from "react";
 import {MdOutlineArrowBackIos} from "react-icons/md";
 import {isFinished, isOverdue, overdueDays} from "@/lib/tasks/utils";
-import {DateValue, getLocalTimeZone, parseDate, startOfMonth, startOfWeek, today} from "@internationalized/date";
+import {
+    CalendarDateTime,
+    DateValue,
+    getLocalTimeZone,
+    parseDate,
+    startOfMonth,
+    startOfWeek,
+    today, ZonedDateTime
+} from "@internationalized/date";
 import TaskDetailModal from "@/app/todo/components/TaskDetailModal";
 import DeletePopover from "./DeletePopover";
 import {defaultTask} from "@/lib/tasks/backend";
@@ -18,7 +26,7 @@ const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
     setFocusedId: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
     const [taskName, setTaskName] = React.useState(task.name);
-    const [deadline, setDeadline] = React.useState<CalendarDate>(parseDate(task.deadline));
+    const [deadline, setDeadline] = React.useState<CalendarDate | CalendarDateTime | ZonedDateTime>(parseDate(task.deadline));
     const [isEdited, setIsEdited] = React.useState(task.name != defaultTask().name);
 
     const isFocused = focusedId === task.uuid;
