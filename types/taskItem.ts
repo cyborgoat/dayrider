@@ -8,5 +8,5 @@ export interface TaskItem {
 }
 
 export type onTaskRemoveFunction = (uuid: string) => void;
-export type onTaskAddFunction = (e: any) => void;
+export type onTaskAddFunction = (e: any) => TaskItem;
 export type onTaskUpdateFunction = (item: TaskItem) => void;

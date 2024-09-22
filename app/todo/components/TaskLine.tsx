@@ -54,7 +54,8 @@ const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
 
 
     return (
-        <li className="w-full py-0" onClick={() => setFocusedId(task.uuid)}
+        <li id={`task-${task.uuid}`} className="w-full py-0"
+            onClick={() => setFocusedId(task.uuid)}
             onBlur={() => {
                 if (!isEdited) {
                     onItemRemove(task.uuid)

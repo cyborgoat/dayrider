@@ -36,6 +36,7 @@ export default function TodoPage() {
             .then((item) => setMyTasks([...(myTasks ? myTasks : []), item]))
             .catch((e) => console.log(e));
         setFocusedId(task.uuid)
+        return task
     };
 
     const onItemUpdate = (item: TaskItem) => {
@@ -92,7 +93,7 @@ export default function TodoPage() {
                     }
                 )
                 }
-                <div key="past-tasks">
+                <div key="day-7">
                     <div className={"bordered border-t-1 border-slate-200 py-1 text-lg text-slate-300"}>
                         Past Tasks
                     </div>
@@ -104,7 +105,7 @@ export default function TodoPage() {
                         setFocusedId={setFocusedId}
                     />
                 </div>
-                <div key="future-tasks">
+                <div key="day-8">
                     <div className={"bordered border-t-1 border-slate-200 py-1 text-lg text-slate-300"}>
                         Future Tasks
                     </div>
