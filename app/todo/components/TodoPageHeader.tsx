@@ -15,7 +15,6 @@ const TodoPageHeader = (
     const today = new Date();
     const dayOfWeek = today.getDay()
     const dayNum = dayOfWeek === 0 ? 6 : dayOfWeek - 1
-    console.log(dayNum)
     return (
         <>
             <div className="w-full flex flex-row justify-between">
