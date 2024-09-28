@@ -2,6 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 use task::db;
 mod task;
+mod user;
 
 fn main() {
     tauri::Builder::default()
@@ -10,6 +11,7 @@ fn main() {
             db::todo_list,
             db::update_item,
             db::delete_item,
+            user::create_user
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

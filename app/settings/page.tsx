@@ -1,6 +1,7 @@
 'use client'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {Switch} from '@headlessui/react'
+import {addUser} from "@/lib/user";
 
 const navigation = [
     {name: 'Home', href: '#'},
@@ -15,7 +16,9 @@ function classNames(...classes: any[]) {
 
 export default function Page() {
     const [automaticTimezoneEnabled, setAutomaticTimezoneEnabled] = useState(true)
-
+    useEffect(() => {
+        addUser().then()
+    }, [])
     return (
         <>
             <div className="mx-auto max-w-7xl lg:flex lg:gap-x-16 lg:px-8">
