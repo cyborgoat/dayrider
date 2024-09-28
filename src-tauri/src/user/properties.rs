@@ -17,7 +17,7 @@ impl User {
         let user_dir = data_dir.join("DayRider");
         fs::create_dir_all(&user_dir)?;
 
-        let user_path = user_dir.join(format!("user_{}.json", id));
+        let user_path = user_dir.join(format!("user_profile.json"));
 
         let user = Self {
             name,

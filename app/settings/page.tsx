@@ -1,7 +1,7 @@
 'use client'
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import {Switch} from '@headlessui/react'
-import {addUser} from "@/lib/user";
+import {setUser} from "@/lib/user";
 
 const navigation = [
     {name: 'Home', href: '#'},
@@ -16,9 +16,10 @@ function classNames(...classes: any[]) {
 
 export default function Page() {
     const [automaticTimezoneEnabled, setAutomaticTimezoneEnabled] = useState(true)
-    useEffect(() => {
-        addUser().then()
-    }, [])
+    const [userName, setUserName] = useState('John Doe');
+    const [userId, setUserId] = useState(1);
+    const [userEmail, setUserEmail] = useState('');
+
     return (
         <>
             <div className="mx-auto max-w-7xl lg:flex lg:gap-x-16 lg:px-8">
@@ -35,33 +36,30 @@ export default function Page() {
                                     <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Full name
                                     </dt>
                                     <dd className="flex justify-between mt-1 gap-x-6 sm:mt-0 sm:flex-auto">
-                                        <div className="text-gray-900">Tom Cook</div>
-                                        <button type="button"
-                                                className="font-semibold text-indigo-600 hover:text-indigo-500">
-                                            Update
-                                        </button>
+                                        <input className="text-gray-900" defaultValue={userName}
+                                               onChange={(e) => setUserName(e.target.value)}
+                                               onBlur={(e) => setUser(userName, userId, userEmail)}
+                                        />
                                     </dd>
                                 </div>
                                 <div className="pt-6 sm:flex">
                                     <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Email
-                                        address
+                                        Address
                                     </dt>
                                     <dd className="flex justify-between mt-1 gap-x-6 sm:mt-0 sm:flex-auto">
-                                        <div className="text-gray-900">tom.cook@example.com</div>
-                                        <button type="button"
-                                                className="font-semibold text-indigo-600 hover:text-indigo-500">
-                                            Update
-                                        </button>
+                                        <input className="text-gray-900" defaultValue={userEmail}
+                                               onChange={(e) => setUserEmail(e.target.value)}
+                                               onBlur={(e) => setUser(userName, userId, userEmail)}
+                                        />
                                     </dd>
                                 </div>
                                 <div className="pt-6 sm:flex">
-                                    <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Title</dt>
+                                    <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">WorkID</dt>
                                     <dd className="flex justify-between mt-1 gap-x-6 sm:mt-0 sm:flex-auto">
-                                        <div className="text-gray-900">Human Resources Manager</div>
-                                        <button type="button"
-                                                className="font-semibold text-indigo-600 hover:text-indigo-500">
-                                            Update
-                                        </button>
+                                        <input className="text-gray-900" defaultValue={userId}
+                                               onChange={(e) => setUserId(5599)}
+                                               onBlur={(e) => setUser(userName, userId, userEmail)}
+                                        />
                                     </dd>
                                 </div>
                             </dl>
