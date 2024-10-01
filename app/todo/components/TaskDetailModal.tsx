@@ -7,12 +7,20 @@ import {
     ModalContent,
     ModalFooter,
     ModalHeader,
+    Select,
+    SelectItem,
     Textarea,
     useDisclosure,
 } from "@nextui-org/react";
 import {IoInformationCircleOutline} from "react-icons/io5";
 import {onTaskUpdateFunction, TaskItem} from "@/types/taskItem";
 import {CustomizedButton} from "@/app/todo/components/CustomizedTypes";
+
+const priorityList = [
+    {key: "low", label: "Low"},
+    {key: "medium", label: "Medium"},
+    {key: "high", label: "High"},
+]
 
 export default function TaskDetailModal(props: {
     todo: TaskItem;
@@ -54,10 +62,25 @@ export default function TaskDetailModal(props: {
                                 />
                             </ModalHeader>
                             <ModalBody>
+                                <Select
+                                    labelPlacement="outside"
+                                    label="Priority"
+                                    variant="underlined"
+                                    placeholder="Select priority"
+                                    className="max-w-xs"
+                                >
+                                    {priorityList.map((priority) => (
+                                        <SelectItem key={priority.key}>
+                                            {priority.label}
+                                        </SelectItem>
+                                    ))}
+                                </Select>
                                 <Textarea
                                     minRows={5}
                                     maxRows={12}
                                     label="Notes"
+                                    size="lg"
+                                    labelPlacement="outside"
                                     placeholder="Enter your notes here"
                                     defaultValue={props.todo.notes}
                                     onChange={(e) => setNotes(e.target.value)}
