@@ -1,12 +1,14 @@
 "use client";
 import {Avatar, Listbox, ListboxItem} from "@nextui-org/react";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {FaListCheck} from "react-icons/fa6";
 import {BsCalendar2Day} from "react-icons/bs";
 import {IoIosSettings} from "react-icons/io";
 import {IconWrapper} from "./icons/IconWrapper";
 import {usePathname} from 'next/navigation';
 import {RxDashboard} from "react-icons/rx";
+import {User} from "@/types/user";
+import {getUser} from "@/lib/user";
 
 const days = [
     "Sunday",
@@ -21,12 +23,18 @@ export default function SideBar() {
 
     const current = new Date();
     const pathname = usePathname();
+    const [user, setUser] = useState<User>();
+
+    useEffect(() => {
+            getUser().then((u) => setUser(u)).catch((err) => console.error(err));
+        }
+        , [])
 
     return (
-        <div className="sticky top-0 h-screen max-w-md pt-4">
-            <div className="flex flex-row gap-x-2 mt-2 mb-6 ml-4">
-                <Avatar className="" name="Rob"/>
-                <div className="flex flex-col mt-1">
+        <div className="sticky top-0 h-screen max-w-md pt-6">
+            <div className="flex flex-col ml-4">
+                <span className="font-bold text-lg">{user?.name}</span>
+                <div className="flex flex-col mb-2">
                     <div className="text-xs font-light">
                         {" "}
                         {current.toLocaleDateString()}{" "}

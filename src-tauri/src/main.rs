@@ -11,7 +11,8 @@ fn main() {
             db::todo_list,
             db::update_item,
             db::delete_item,
-            user::set_user
+            user::set_user,
+            user::get_user,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
