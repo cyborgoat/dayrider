@@ -3,13 +3,7 @@ import React, {useEffect, useState} from "react";
 import {Switch} from "@headlessui/react";
 import {getUser, setUser} from "@/lib/user";
 import {User} from "@/types/user";
-
-const navigation = [
-    {name: "Home", href: "#"},
-    {name: "Invoices", href: "#"},
-    {name: "Clients", href: "#"},
-    {name: "Expenses", href: "#"},
-];
+import {Input} from "@nextui-org/react";
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
@@ -18,20 +12,24 @@ function classNames(...classes: any[]) {
 export default function Page() {
     const [automaticTimezoneEnabled, setAutomaticTimezoneEnabled] =
         useState(true);
-    const [userName, setUserName] = useState<string>("John");
-    const [userId, setUserId] = useState<string>("1");
-    const [userEmail, setUserEmail] = useState<string>("John@gabble.com");
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [userName, setUserName] = useState<string>('Loading');
+    const [userId, setUserId] = useState<string>('Loading');
+    const [userEmail, setUserEmail] = useState<string>('Loading');
 
     useEffect(() => {
-        getUser()
-            .then((userInfo) => {
-                const user = userInfo as User;
-                setUserName(user.name);
-                setUserId(user.id);
-                setUserEmail(user.email);
-            })
-            .catch((e) => console.log(e));
-    });
+        if (!isLoaded) {
+            getUser()
+                .then((userInfo) => {
+                    const user = userInfo as User;
+                    setUserName(user.name);
+                    setUserId(user.id);
+                    setUserEmail(user.email);
+                    setIsLoaded(true);
+                })
+                .catch((e) => console.log(e));
+        }
+    }, [isLoaded]);
 
     return (
         <>
@@ -39,44 +37,30 @@ export default function Page() {
                 <main className="px-4 py-4 sm:px-6 lg:flex-auto lg:px-0 lg:py-6">
                     <div className="max-w-2xl mx-auto space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
                         <div>
-                            <h2 className="text-base font-semibold text-gray-900 leading-7">
+                            <h2 className="text-xl font-semibold text-gray-900 leading-7">
                                 Profile
                             </h2>
-                            <p className="mt-1 text-sm text-gray-500 leading-6">
-                                This information will be displayed publicly so
-                                be careful what you share.
-                            </p>
 
                             <dl className="mt-6 text-sm border-t border-gray-200 space-y-6 divide-y divide-gray-100 leading-6">
                                 <div className="pt-6 sm:flex">
-                                    <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
-                                        Full name
-                                    </dt>
-                                    <dd className="flex justify-between mt-1 gap-x-6 sm:mt-0 sm:flex-auto">
-                                        <input
-                                            className="text-gray-900"
-                                            defaultValue={userName}
-                                            onBlur={(e) => {
-                                                setUser(e.target.value, userId, userEmail).then().catch(e => console.log(e));
-                                                setUserName(e.target.value)
-                                            }}
-                                        />
-                                    </dd>
+                                    <Input type="text" variant="underlined" label="Full Name"
+                                           placeholder="Enter your name"
+                                           defaultValue={isLoaded ? userName : "loading"}
+                                           onChange={(e) => setUserName(e.target.value)}
+                                           onBlur={(e) => {
+                                               setUser(userName, userId, userEmail).then().catch(e => console.log(e));
+                                           }}
+                                    />
                                 </div>
                                 <div className="pt-6 sm:flex">
-                                    <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
-                                        Email Address
-                                    </dt>
-                                    <dd className="flex justify-between mt-1 gap-x-6 sm:mt-0 sm:flex-auto">
-                                        <input
-                                            className="text-gray-900"
-                                            defaultValue={userEmail}
-                                            onBlur={(e) => {
-                                                setUser(userName, userId, e.target.value).then().catch(e => console.log(e));
-                                                setUserEmail(e.target.value)
-                                            }}
-                                        />
-                                    </dd>
+                                    <Input type="email" variant="underlined" label="Email"
+                                           placeholder="Enter your email"
+                                           defaultValue={userEmail}
+                                           onChange={(e) => setUserEmail(e.target.value)}
+                                           onBlur={(e) => {
+                                               setUser(userName, userId, userEmail).then().catch(e => console.log(e));
+                                           }}
+                                    />
                                 </div>
                                 <div className="pt-6 sm:flex">
                                     <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
@@ -95,90 +79,6 @@ export default function Page() {
                                 </div>
                             </dl>
                         </div>
-
-                        <div>
-                            <h2 className="text-base font-semibold text-gray-900 leading-7">
-                                Bank accounts
-                            </h2>
-                            <p className="mt-1 text-sm text-gray-500 leading-6">
-                                Connect bank accounts to your account.
-                            </p>
-
-                            <ul
-                                role="list"
-                                className="mt-6 text-sm border-t border-gray-200 divide-y divide-gray-100 leading-6"
-                            >
-                                <li className="flex justify-between py-6 gap-x-6">
-                                    <div className="font-medium text-gray-900">
-                                        TD Canada Trust
-                                    </div>
-                                    <button
-                                        type="button"
-                                        className="font-semibold text-indigo-600 hover:text-indigo-500"
-                                    >
-                                        Update
-                                    </button>
-                                </li>
-                                <li className="flex justify-between py-6 gap-x-6">
-                                    <div className="font-medium text-gray-900">
-                                        Royal Bank of Canada
-                                    </div>
-                                    <button
-                                        type="button"
-                                        className="font-semibold text-indigo-600 hover:text-indigo-500"
-                                    >
-                                        Update
-                                    </button>
-                                </li>
-                            </ul>
-
-                            <div className="flex pt-6 border-t border-gray-100">
-                                <button
-                                    type="button"
-                                    className="text-sm font-semibold text-indigo-600 leading-6 hover:text-indigo-500"
-                                >
-                                    <span aria-hidden="true">+</span> Add
-                                    another bank
-                                </button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h2 className="text-base font-semibold text-gray-900 leading-7">
-                                Integrations
-                            </h2>
-                            <p className="mt-1 text-sm text-gray-500 leading-6">
-                                Connect applications to your account.
-                            </p>
-
-                            <ul
-                                role="list"
-                                className="mt-6 text-sm border-t border-gray-200 divide-y divide-gray-100 leading-6"
-                            >
-                                <li className="flex justify-between py-6 gap-x-6">
-                                    <div className="font-medium text-gray-900">
-                                        QuickBooks
-                                    </div>
-                                    <button
-                                        type="button"
-                                        className="font-semibold text-indigo-600 hover:text-indigo-500"
-                                    >
-                                        Update
-                                    </button>
-                                </li>
-                            </ul>
-
-                            <div className="flex pt-6 border-t border-gray-100">
-                                <button
-                                    type="button"
-                                    className="text-sm font-semibold text-indigo-600 leading-6 hover:text-indigo-500"
-                                >
-                                    <span aria-hidden="true">+</span> Add
-                                    another application
-                                </button>
-                            </div>
-                        </div>
-
                         <div>
                             <h2 className="text-base font-semibold text-gray-900 leading-7">
                                 Language and dates
