@@ -37,30 +37,43 @@ export default function Page() {
                 <main className="px-4 py-4 sm:px-6 lg:flex-auto lg:px-0 lg:py-6">
                     <div className="max-w-2xl mx-auto space-y-16 sm:space-y-20 lg:mx-0 lg:max-w-none">
                         <div>
-                            <h2 className="text-xl font-semibold text-gray-900 leading-7">
+                            <h2 className="text-base font-semibold text-gray-900 leading-7">
                                 Profile
                             </h2>
+                            <p className="mt-1 text-sm text-gray-500 leading-6">
+                                Your personal information will only be stored locally (for now)
+                            </p>
 
                             <dl className="mt-6 text-sm border-t border-gray-200 space-y-6 divide-y divide-gray-100 leading-6">
                                 <div className="pt-6 sm:flex">
-                                    <Input type="text" variant="underlined" label="Full Name"
-                                           placeholder="Enter your name"
-                                           defaultValue={isLoaded ? userName : "loading"}
-                                           onChange={(e) => setUserName(e.target.value)}
-                                           onBlur={(e) => {
-                                               setUser(userName, userId, userEmail).then().catch(e => console.log(e));
-                                           }}
-                                    />
+                                    <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+                                        Full Name
+                                    </dt>
+                                    <dd className="flex justify-between mt-1 gap-x-6 sm:mt-0 sm:flex-auto">
+                                        <input
+                                            className="text-gray-900 hover:bg-slate-400/40 px-1"
+                                            defaultValue={userName}
+                                            onChange={(e) => setUserName(e.target.value)}
+                                            onBlur={(e) => {
+                                                setUser(userName, userId, userEmail).then().catch(e => console.log(e));
+                                            }}
+                                        />
+                                    </dd>
                                 </div>
                                 <div className="pt-6 sm:flex">
-                                    <Input type="email" variant="underlined" label="Email"
-                                           placeholder="Enter your email"
-                                           defaultValue={userEmail}
-                                           onChange={(e) => setUserEmail(e.target.value)}
-                                           onBlur={(e) => {
-                                               setUser(userName, userId, userEmail).then().catch(e => console.log(e));
-                                           }}
-                                    />
+                                    <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+                                        Email
+                                    </dt>
+                                    <dd className="flex justify-between mt-1 gap-x-6 sm:mt-0 sm:flex-auto">
+                                        <input
+                                            className="text-gray-900 hover:bg-slate-400/40 px-1"
+                                            defaultValue={userEmail}
+                                            onChange={(e) => setUserEmail(e.target.value)}
+                                            onBlur={(e) => {
+                                                setUser(userName, userId, userEmail).then().catch(e => console.log(e));
+                                            }}
+                                        />
+                                    </dd>
                                 </div>
                                 <div className="pt-6 sm:flex">
                                     <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
@@ -68,7 +81,7 @@ export default function Page() {
                                     </dt>
                                     <dd className="flex justify-between mt-1 gap-x-6 sm:mt-0 sm:flex-auto">
                                         <input
-                                            className="text-gray-900"
+                                            className="text-gray-900 hover:bg-slate-400/40 px-1"
                                             defaultValue={userId}
                                             onBlur={(e) => {
                                                 setUser(userName, e.target.value, userEmail).then().catch(e => console.log(e));
