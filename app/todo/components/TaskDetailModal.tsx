@@ -29,6 +29,7 @@ export default function TaskDetailModal(props: {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [notes, setNotes] = useState(props.todo.notes);
     const [name, setName] = useState(props.todo.name);
+    const [priority, setPriority] = useState(props.todo.priority);
 
     return (
         <div className="flex flex-col gap-2">
@@ -68,6 +69,8 @@ export default function TaskDetailModal(props: {
                                     variant="underlined"
                                     placeholder="Select priority"
                                     className="max-w-xs"
+                                    defaultSelectedKeys={[priority]}
+                                    onChange={e => setPriority(e.target.value)}
                                 >
                                     {priorityList.map((priority) => (
                                         <SelectItem key={priority.key}>
@@ -100,7 +103,7 @@ export default function TaskDetailModal(props: {
                                     color="primary"
                                     onPress={() => {
                                         onClose();
-                                        const newTodo = {...props.todo, name: name, notes: notes};
+                                        const newTodo = {...props.todo, name: name, notes: notes, priority: priority};
                                         props.onItemUpdate(newTodo);
                                     }}
                                 >

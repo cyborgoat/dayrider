@@ -34,6 +34,7 @@ pub struct TodoItem {
     deadline: String,
     notes: String,
     finished: String,
+    priority: String,
 }
 
 // Create and ensure the database directory and file
@@ -55,7 +56,8 @@ fn create_db(p: &PathBuf) -> RusqliteResult<()> {
             date TEXT,
             deadline TEXT,
             finished TEXT,
-            notes TEXT
+            notes TEXT,
+            priority TEXT
         )",
         (),
     )?;
@@ -66,7 +68,7 @@ fn create_db(p: &PathBuf) -> RusqliteResult<()> {
 pub fn add_item(todo_item: TodoItem) -> Result<String, String> {
     let conn = get_db_connection().map_err(|e| e.to_string())?;
     conn.execute(
-        "INSERT INTO todo_list (uuid, name, date, deadline, finished, notes) VALUES (?1, ?2, ?3, ?4, ?5, ?6)",
+        "INSERT INTO todo_list (uuid, name, date, deadline, finished, notes, priority) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
         rusqlite::params![
             todo_item.uuid,
             todo_item.name,
@@ -74,6 +76,7 @@ pub fn add_item(todo_item: TodoItem) -> Result<String, String> {
             todo_item.deadline,
             todo_item.finished,
             todo_item.notes,
+            todo_item.priority,
         ],
     ).map_err(|e| e.to_string())?;
 
@@ -91,7 +94,7 @@ pub fn delete_item(uuid: String) -> Result<String, String> {
 pub fn update_item(todo_item: TodoItem) -> Result<String, String> {
     let conn = get_db_connection().map_err(|e| e.to_string())?;
     conn.execute(
-        "UPDATE todo_list SET name = ?2, date = ?3, deadline = ?4, finished = ?5, notes = ?6 WHERE uuid = ?1",
+        "UPDATE todo_list SET name = ?2, date = ?3, deadline = ?4, finished = ?5, notes = ?6, priority = ?7 WHERE uuid = ?1",
         rusqlite::params![
             todo_item.uuid,
             todo_item.name,
@@ -99,6 +102,7 @@ pub fn update_item(todo_item: TodoItem) -> Result<String, String> {
             todo_item.deadline,
             todo_item.finished,
             todo_item.notes,
+            todo_item.priority,
         ],
     ).map_err(|e| e.to_string())?;
 
@@ -118,6 +122,7 @@ pub fn todo_list() -> Result<String, String> {
             deadline: row.get(3)?,
             finished: row.get(4)?,
             notes: row.get(5)?,
+            priority: row.get(6)?,
         })
     }).map_err(|e| e.to_string())?;
 

@@ -30,5 +30,6 @@ export function defaultTask(): TaskItem {
         finished: "false",
         deadline: today(getLocalTimeZone()).toString(),
         notes: "",
+        priority: "normal"
     };
 }

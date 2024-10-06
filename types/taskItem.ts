@@ -5,6 +5,7 @@ export interface TaskItem {
     finished: "true" | "false";
     deadline: string;
     notes?: string;
+    priority: string;
 }
 
 export type onTaskRemoveFunction = (uuid: string) => void;
