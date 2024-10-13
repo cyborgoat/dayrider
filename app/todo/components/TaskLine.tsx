@@ -1,5 +1,5 @@
 "use client";
-import {onTaskRemoveFunction, onTaskUpdateFunction, TaskItem,} from "@/types/taskItem";
+import {onTaskRemoveFunction, onTaskUpdateFunction, prioritySignMap, TaskItem,} from "@/types/taskItem";
 import {Button, ButtonGroup, CalendarDate, Checkbox, DatePicker, extendVariants, Input} from "@nextui-org/react";
 import React from "react";
 import {MdOutlineArrowBackIos} from "react-icons/md";
@@ -87,6 +87,8 @@ const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
                     onBlur={() => onItemUpdate({...task, name: taskName,})}
                     onKeyDown={handleKeyDown}
                     color={isEdited ? "default" : "primary"}
+                    startContent={task.priority != "none" ?
+                        <span className="select-none text-slate-700">{prioritySignMap.get(task.priority)}</span> : null}
                     classNames={{
                         inputWrapper:
                             "transition-all duration-350 ease-in-out shadow-sm  hover:shadow-lg",
