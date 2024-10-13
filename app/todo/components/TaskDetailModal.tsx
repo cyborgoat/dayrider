@@ -13,14 +13,16 @@ import {
     useDisclosure,
 } from "@nextui-org/react";
 import {IoInformationCircleOutline} from "react-icons/io5";
-import {onTaskUpdateFunction, TaskItem} from "@/types/taskItem";
+import {
+    onTaskUpdateFunction,
+    priorityList,
+    priorityOptions,
+    repeatList,
+    repeatOptions,
+    TaskItem
+} from "@/types/taskItem";
 import {CustomizedButton} from "@/app/todo/components/CustomizedTypes";
 
-const priorityList = [
-    {key: "low", label: "Low"},
-    {key: "medium", label: "Medium"},
-    {key: "high", label: "High"},
-]
 
 export default function TaskDetailModal(props: {
     todo: TaskItem;
@@ -30,6 +32,7 @@ export default function TaskDetailModal(props: {
     const [notes, setNotes] = useState(props.todo.notes);
     const [name, setName] = useState(props.todo.name);
     const [priority, setPriority] = useState(props.todo.priority);
+    const [repeat, setRepeat] = useState(props.todo.repeat);
 
     return (
         <div className="flex flex-col gap-2">
@@ -70,11 +73,26 @@ export default function TaskDetailModal(props: {
                                     placeholder="Select priority"
                                     className="max-w-xs"
                                     defaultSelectedKeys={[priority]}
-                                    onChange={e => setPriority(e.target.value)}
+                                    onChange={e => setPriority(e.target.value as priorityOptions)}
                                 >
                                     {priorityList.map((priority) => (
                                         <SelectItem key={priority.key}>
                                             {priority.label}
+                                        </SelectItem>
+                                    ))}
+                                </Select>
+                                <Select
+                                    labelPlacement="outside"
+                                    label="Repeat"
+                                    variant="underlined"
+                                    placeholder="Select repeat style"
+                                    className="max-w-xs"
+                                    defaultSelectedKeys={[repeat]}
+                                    onChange={e => setRepeat(e.target.value as repeatOptions)}
+                                >
+                                    {repeatList.map((item) => (
+                                        <SelectItem key={item.key}>
+                                            {item.label}
                                         </SelectItem>
                                     ))}
                                 </Select>
@@ -103,7 +121,13 @@ export default function TaskDetailModal(props: {
                                     color="primary"
                                     onPress={() => {
                                         onClose();
-                                        const newTodo = {...props.todo, name: name, notes: notes, priority: priority};
+                                        const newTodo = {
+                                            ...props.todo,
+                                            name: name,
+                                            notes: notes,
+                                            priority: priority,
+                                            repeat: repeat
+                                        };
                                         props.onItemUpdate(newTodo);
                                     }}
                                 >

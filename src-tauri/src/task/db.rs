@@ -35,6 +35,7 @@ pub struct TodoItem {
     notes: String,
     finished: String,
     priority: String,
+    repeat: String,
 }
 
 // Create and ensure the database directory and file
@@ -57,7 +58,8 @@ fn create_db(p: &PathBuf) -> RusqliteResult<()> {
             deadline TEXT,
             finished TEXT,
             notes TEXT,
-            priority TEXT
+            priority TEXT,
+            repeat TEXT
         )",
         (),
     )?;
@@ -68,7 +70,7 @@ fn create_db(p: &PathBuf) -> RusqliteResult<()> {
 pub fn add_item(todo_item: TodoItem) -> Result<String, String> {
     let conn = get_db_connection().map_err(|e| e.to_string())?;
     conn.execute(
-        "INSERT INTO todo_list (uuid, name, date, deadline, finished, notes, priority) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+        "INSERT INTO todo_list (uuid, name, date, deadline, finished, notes, priority, repeat) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
         rusqlite::params![
             todo_item.uuid,
             todo_item.name,
@@ -77,6 +79,7 @@ pub fn add_item(todo_item: TodoItem) -> Result<String, String> {
             todo_item.finished,
             todo_item.notes,
             todo_item.priority,
+            todo_item.repeat,
         ],
     ).map_err(|e| e.to_string())?;
 
@@ -94,7 +97,7 @@ pub fn delete_item(uuid: String) -> Result<String, String> {
 pub fn update_item(todo_item: TodoItem) -> Result<String, String> {
     let conn = get_db_connection().map_err(|e| e.to_string())?;
     conn.execute(
-        "UPDATE todo_list SET name = ?2, date = ?3, deadline = ?4, finished = ?5, notes = ?6, priority = ?7 WHERE uuid = ?1",
+        "UPDATE todo_list SET name = ?2, date = ?3, deadline = ?4, finished = ?5, notes = ?6, priority = ?7, repeat = ?8 WHERE uuid = ?1",
         rusqlite::params![
             todo_item.uuid,
             todo_item.name,
@@ -103,6 +106,7 @@ pub fn update_item(todo_item: TodoItem) -> Result<String, String> {
             todo_item.finished,
             todo_item.notes,
             todo_item.priority,
+            todo_item.repeat,
         ],
     ).map_err(|e| e.to_string())?;
 
@@ -123,6 +127,7 @@ pub fn todo_list() -> Result<String, String> {
             finished: row.get(4)?,
             notes: row.get(5)?,
             priority: row.get(6)?,
+            repeat: row.get(7)?,
         })
     }).map_err(|e| e.to_string())?;
 

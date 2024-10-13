@@ -9,7 +9,9 @@ export async function getTaskItems(): Promise<TaskItem[]> {
 }
 
 export async function addTaskItem(item: TaskItem): Promise<TaskItem> {
+    console.log(item)
     const res = await invoke<string>("add_item", {todoItem: item});
+    console.log(res)
     return JSON.parse(res);
 }
 
@@ -30,6 +32,7 @@ export function defaultTask(): TaskItem {
         finished: "false",
         deadline: today(getLocalTimeZone()).toString(),
         notes: "",
-        priority: "normal"
+        priority: "none",
+        repeat: "never",
     };
 }
