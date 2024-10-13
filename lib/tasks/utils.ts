@@ -15,6 +15,10 @@ export function isOverdue(dateString: string): boolean {
     return today > date;
 }
 
+export function needAttention(task: TaskItem) {
+    return !isFinished(task) && isOverdue(task.deadline);
+}
+
 export function overdueDays(dateString: string): number {
     let today = new Date();
     let date = new Date(dateString);

@@ -1,9 +1,7 @@
 "use client";
 import React, {useEffect, useState} from "react";
-import {Switch} from "@headlessui/react";
 import {getUser, setUser} from "@/lib/user";
 import {User} from "@/types/user";
-import {Input} from "@nextui-org/react";
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");

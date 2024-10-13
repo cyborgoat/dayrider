@@ -23,12 +23,11 @@ export default function TodoPage() {
         if (myTasks === undefined) {
             getTaskItems()
                 .then((items) => {
-                    // const tasks = getTasksThisWeek(items)
                     setMyTasks(items);
                 })
                 .catch((e) => console.log(e));
         }
-    }, [myTasks]);
+    }, [myTasks, showCompleted, focusedId]);
 
     const onItemAdd = (_: any) => {
         const task = defaultTask();

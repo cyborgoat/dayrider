@@ -10,7 +10,7 @@ export interface TaskItem {
 }
 
 export type priorityOptions = "none" | "low" | "medium" | "high";
-export type repeatOptions = "never" | "daily" | "weekdays" | "weekly" | "biweekly";
+export type repeatOptions = "never" | "daily" | "weekly" | "biweekly";
 export type onTaskRemoveFunction = (uuid: string) => void;
 export type onTaskAddFunction = (e: any) => TaskItem;
 export type onTaskUpdateFunction = (item: TaskItem) => void;
@@ -31,7 +31,6 @@ prioritySignMap.set("high", "!!!")
 export const repeatList = [
     {key: "never", label: "Never"},
     {key: "daily", label: "Daily"},
-    {key: "weekdays", label: "Weekdays"},
     {key: "weekly", label: "Weekly"},
     {key: "biweekly", label: "Biweekly"},
 ]
