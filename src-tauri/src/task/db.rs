@@ -41,7 +41,7 @@ pub struct TodoItem {
 // Create and ensure the database directory and file
 fn get_db_connection() -> Result<Connection, Error> {
     let data_dir = data_dir().ok_or(Error::DataDirNotFound)?;
-    let db_path = data_dir.join("DayRider").join("todo.db");
+    let db_path = data_dir.join("DayRider").join("tasks.db");
     fs::create_dir_all(db_path.parent().unwrap())?; // Ensure the directory exists
     create_db(&db_path)?;
     Connection::open(&db_path).map_err(Error::from)

@@ -54,7 +54,7 @@ export default function TaskDetailModal(props: {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">
+                            <ModalHeader className="flex flex-col">
                                 <Input
                                     type="email"
                                     variant="underlined"
@@ -66,36 +66,40 @@ export default function TaskDetailModal(props: {
                                 />
                             </ModalHeader>
                             <ModalBody>
-                                <Select
-                                    labelPlacement="outside"
-                                    label="Priority"
-                                    variant="underlined"
-                                    placeholder="Select priority"
-                                    className="max-w-xs"
-                                    defaultSelectedKeys={[priority]}
-                                    onChange={e => setPriority(e.target.value as priorityOptions)}
-                                >
-                                    {priorityList.map((priority) => (
-                                        <SelectItem key={priority.key}>
-                                            {priority.label}
-                                        </SelectItem>
-                                    ))}
-                                </Select>
-                                <Select
-                                    labelPlacement="outside"
-                                    label="Repeat"
-                                    variant="underlined"
-                                    placeholder="Select repeat style"
-                                    className="max-w-xs"
-                                    defaultSelectedKeys={[repeat]}
-                                    onChange={e => setRepeat(e.target.value as repeatOptions)}
-                                >
-                                    {repeatList.map((item) => (
-                                        <SelectItem key={item.key}>
-                                            {item.label}
-                                        </SelectItem>
-                                    ))}
-                                </Select>
+                                <div className="flex grid-cols-2 place-content-between">
+                                    <Select
+                                        size="sm"
+                                        labelPlacement="inside"
+                                        label="Priority"
+                                        variant="underlined"
+                                        placeholder="Select priority"
+                                        className="col-span-1 max-w-xs"
+                                        defaultSelectedKeys={[priority]}
+                                        onChange={e => setPriority(e.target.value as priorityOptions)}
+                                    >
+                                        {priorityList.map((priority, idx) => (
+                                            <SelectItem key={priority.key}>
+                                                {priority.label}
+                                            </SelectItem>
+                                        ))}
+                                    </Select>
+                                    <Select
+                                        size="sm"
+                                        labelPlacement="inside"
+                                        label="Repeat"
+                                        variant="underlined"
+                                        placeholder="Select repeat style"
+                                        className="col-span-1 max-w-xs"
+                                        defaultSelectedKeys={[repeat]}
+                                        onChange={e => setRepeat(e.target.value as repeatOptions)}
+                                    >
+                                        {repeatList.map((item) => (
+                                            <SelectItem key={item.key}>
+                                                {item.label}
+                                            </SelectItem>
+                                        ))}
+                                    </Select>
+                                </div>
                                 <Textarea
                                     minRows={5}
                                     maxRows={12}
