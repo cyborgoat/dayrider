@@ -114,7 +114,7 @@ const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
                 </div>
                 {/* Dropdown info */}
                 <div
-                    className={`transition-all ease-in-out duration-300 ml-8 overflow-hidden ${(isFocused && isEdited) ? "max-h-16" : "max-h-0 invisible"}`}>
+                    className={`transition-all ease-in-out duration-300 ml-8 overflow-hidden ${(isFocused && isEdited) ? "max-h-64" : "max-h-0 invisible"}`}>
                     <div className="flex flex-col my-1">
                         <div className="pr-10 flex flex-row justify-between items-center">
                             <div className="w-2/3 flex gap-x-2 flex-row items-center">
@@ -189,6 +189,7 @@ const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
                             </div>
                         </div>
                     </div>
+                    <pre className="text-slate-800 text-tiny font-medium whitespace-pre-wrap">{task.notes}</pre>
                 </div>
             </li>
         );
