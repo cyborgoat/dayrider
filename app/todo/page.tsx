@@ -5,6 +5,7 @@ import DayItems from "@/app/todo/components/DailyTasks";
 import {addTaskItem, defaultTask, deleteTaskItem, getTaskItems, updateTaskItem} from "@/lib/tasks/backend";
 import {getFutureTasks, getPastTasks, getTasksByWeekday} from "@/lib/tasks/utils";
 import TodoPageHeader from "@/app/todo/components/TodoPageHeader";
+import {setTaskConfig} from "@/lib/tasks/config";
 
 const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
@@ -27,6 +28,7 @@ export default function TodoPage() {
                 })
                 .catch((e) => console.log(e));
         }
+        setTaskConfig("date").then().catch(e => console.log(e));
     }, [myTasks, showCompleted, focusedId]);
 
     const onItemAdd = (_: any) => {

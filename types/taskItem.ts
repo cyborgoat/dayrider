@@ -34,3 +34,7 @@ export const repeatList = [
     {key: "weekly", label: "Weekly"},
     {key: "biweekly", label: "Biweekly"},
 ]
+
+export interface TaskConfiguration {
+    orderBy: string;
+}
