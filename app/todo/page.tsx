@@ -65,7 +65,7 @@ export default function TodoPage() {
     };
 
     return (
-        <main className="flex flex-col items-start min-h-screen px-4 pt-6 justify-items-start lg:px-6">
+        <main className="flex flex-col items-start min-h-screen px-4 justify-items-start lg:px-6">
             <TodoPageHeader onItemAdd={onItemAdd}
                             numOfUnfinished={myTasks?.filter(task => task.finished === 'false').length}
                             showCompleted={showCompleted} setShowCompleted={setShowCompleted}/>

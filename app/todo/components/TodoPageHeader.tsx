@@ -1,9 +1,25 @@
-import {Button, cn, Switch} from "@nextui-org/react";
+import {
+    Button,
+    cn,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownTrigger,
+    Navbar,
+    NavbarBrand,
+    NavbarContent,
+    NavbarItem,
+    Switch
+} from "@nextui-org/react";
 import {IoIosAdd} from "react-icons/io";
 import React from "react";
 import {onTaskAddFunction} from "@/types/taskItem";
 import Link from "next/link";
+import {PiDotsThreeCircle} from "react-icons/pi";
+import {HiEye} from "react-icons/hi2";
+import {BiSort} from "react-icons/bi";
 
+const iconClasses = "text-slate-800"
 const TodoPageHeader = (
     {onItemAdd, numOfUnfinished, showCompleted, setShowCompleted}: {
         onItemAdd: onTaskAddFunction,
@@ -17,17 +33,58 @@ const TodoPageHeader = (
     const dayNum = dayOfWeek === 0 ? 6 : dayOfWeek - 1
     return (
         <>
-            <div className="w-full flex flex-row justify-between">
-                <div className={"text-2xl font-semibold text-blue-500 mb-2"}>
-                    Tasks
-                </div>
-                <Link href={`#day-${dayNum}`}>
-                    <Button variant="light" isIconOnly onClick={onItemAdd}>
-                        {" "}
-                        <IoIosAdd size={24}/>{" "}
-                    </Button>
-                </Link>
-            </div>
+            <Navbar
+                height={48}
+                classNames={
+                    {wrapper: "mx-0 px-0 mt-2"}
+                }
+            >
+                <NavbarBrand>
+                    <p className={"text-2xl font-semibold text-blue-500 mb-2"}>
+                        Tasks
+                    </p>
+                </NavbarBrand>
+                <NavbarContent className="hidden sm:flex gap-4" justify="center">
+                    <NavbarItem>
+                        <Link color="foreground" href="#">
+                            Features
+                        </Link>
+                    </NavbarItem>
+                </NavbarContent>
+                <NavbarContent justify="end">
+                    <NavbarItem className="lg:flex">
+                        <Dropdown placement="bottom-end">
+                            <DropdownTrigger>
+                                <Button isIconOnly variant={"light"}>
+                                    <PiDotsThreeCircle size={24} className={iconClasses}/>
+                                </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu variant="faded" aria-label="Dropdown menu with icons">
+                                <DropdownItem
+                                    key="show completed"
+                                    endContent={<HiEye className={""}/>}
+                                >
+                                    Show completed
+                                </DropdownItem>
+                                <DropdownItem
+                                    key="Order by"
+                                    endContent={<BiSort className={iconClasses}/>}
+                                >
+                                    Sort by
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </NavbarItem>
+                    <NavbarItem className="">
+                        <Link href={`#day-${dayNum}`}>
+                            <Button variant="light" radius={"full"} isIconOnly onClick={onItemAdd}>
+                                <IoIosAdd size={24} className="text-slate-800"/>
+                            </Button>
+                        </Link>
+                    </NavbarItem>
+                </NavbarContent>
+            </Navbar>
+
             <div className="w-full flex flex-row justify-between items-end">
                 <div className={"text-2xl font-semibold text-gray-500 p-1"}>
                     {typeof numOfUnfinished === "number" ? (numOfUnfinished) : 0}
@@ -56,6 +113,8 @@ const TodoPageHeader = (
                         <span className={"text-sm text-slate-500"}>Show Completed</span>
                     </Switch>
                 </div>
+            </div>
+            <div className="fixed bottom-4 right-4">
             </div>
         </>
     )
