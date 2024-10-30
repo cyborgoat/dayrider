@@ -1,4 +1,4 @@
-import {TaskItem} from "@/types/taskItem";
+import {priorityLevelMap, TaskItem} from "@/types/taskItem";
 import {getThisWeekDates} from "@/lib/dateutil";
 
 const thisWeekDates = getThisWeekDates();
@@ -104,4 +104,16 @@ export function getPendingTasks(taskList: TaskItem[]) {
         return taskList.filter((item) => item.finished === 'false');
     }
 
+}
+
+// Sort functions
+
+export function compareByPriorityFn(a: TaskItem, b: TaskItem) {
+    let val1 = priorityLevelMap.get(a.priority) as number;
+    let val2 = priorityLevelMap.get(b.priority) as number;
+    return val2 - val1
+}
+
+export function compareByDateFn(a: TaskItem, b: TaskItem) {
+    return a.date.localeCompare(b.date);
 }

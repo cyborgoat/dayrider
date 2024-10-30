@@ -1,9 +1,9 @@
 "use client";
 import React, {useEffect, useState} from "react";
-import {TaskItem} from "@/types/taskItem";
+import {priorityLevelMap, TaskItem} from "@/types/taskItem";
 import DayItems from "@/app/todo/components/DailyTasks";
 import {addTaskItem, defaultTask, deleteTaskItem, getTaskItems, updateTaskItem} from "@/lib/tasks/backend";
-import {getFutureTasks, getPastTasks, getTasksByWeekday} from "@/lib/tasks/utils";
+import {compareByDateFn, compareByPriorityFn, getFutureTasks, getPastTasks, getTasksByWeekday} from "@/lib/tasks/utils";
 import TodoPageHeader from "@/app/todo/components/TodoPageHeader";
 import {setTaskConfig} from "@/lib/tasks/config";
 
@@ -12,6 +12,7 @@ const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Satur
 function isToday(today: Date, weekdayNum: number) {
     return today.getDay() === weekdayNum + 1 || today.getDay() === weekdayNum - 6;
 }
+
 
 export default function TodoPage() {
     const [myTasks, setMyTasks] = useState<TaskItem[] | undefined>();
@@ -24,7 +25,8 @@ export default function TodoPage() {
         if (myTasks === undefined) {
             getTaskItems()
                 .then((items) => {
-                    setMyTasks(items);
+                    // setMyTasks(items.sort((a, b) => compareByPriorityFn(a, b)))
+                    setMyTasks(items.sort((a, b) => compareByDateFn(a, b)))
                 })
                 .catch((e) => console.log(e));
         }

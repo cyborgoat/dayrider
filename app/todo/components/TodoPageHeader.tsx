@@ -1,9 +1,11 @@
 import {
+    Accordion, AccordionItem,
     Button,
     cn,
     Dropdown,
     DropdownItem,
     DropdownMenu,
+    DropdownSection,
     DropdownTrigger,
     Navbar,
     NavbarBrand,
@@ -17,7 +19,6 @@ import {onTaskAddFunction} from "@/types/taskItem";
 import Link from "next/link";
 import {PiDotsThreeCircle} from "react-icons/pi";
 import {HiEye} from "react-icons/hi2";
-import {BiSort} from "react-icons/bi";
 
 const iconClasses = "text-slate-800"
 const TodoPageHeader = (
@@ -31,6 +32,7 @@ const TodoPageHeader = (
     const today = new Date();
     const dayOfWeek = today.getDay()
     const dayNum = dayOfWeek === 0 ? 6 : dayOfWeek - 1
+
     return (
         <>
             <Navbar
@@ -60,18 +62,34 @@ const TodoPageHeader = (
                                 </Button>
                             </DropdownTrigger>
                             <DropdownMenu variant="faded" aria-label="Dropdown menu with icons">
-                                <DropdownItem
-                                    key="show completed"
-                                    endContent={<HiEye className={""}/>}
-                                >
-                                    Show completed
-                                </DropdownItem>
-                                <DropdownItem
-                                    key="Order by"
-                                    endContent={<BiSort className={iconClasses}/>}
-                                >
-                                    Sort by
-                                </DropdownItem>
+                                <DropdownSection aria-label="Preferences" showDivider>
+                                    <DropdownItem
+                                        key="show completed"
+                                        endContent={<HiEye className={""}/>}
+                                    >
+                                        Show completed
+                                    </DropdownItem>
+                                </DropdownSection>
+                                <DropdownSection aria-label="Preferences" showDivider>
+
+                                    <DropdownItem
+                                        isReadOnly
+                                        key="theme"
+                                        className="cursor-default"
+                                        endContent={
+                                            <select
+                                                className="z-10 outline-none w-16 py-0.5 rounded-md text-tiny group-data-[hover=true]:border-default-500 border-small border-default-300 dark:border-default-200 bg-transparent text-default-500"
+                                                id="theme"
+                                                name="theme"
+                                            >
+                                                <option>Priority</option>
+                                                <option>Date</option>
+                                            </select>
+                                        }
+                                    >
+                                        Order by
+                                    </DropdownItem>
+                                </DropdownSection>
                             </DropdownMenu>
                         </Dropdown>
                     </NavbarItem>

@@ -23,10 +23,17 @@ export const priorityList = [
     {key: "high", label: "High"},
 ]
 
-export const prioritySignMap: Map<string, string> = new Map()
+export const prioritySignMap: Map<priorityOptions, string> = new Map<priorityOptions, string>()
 prioritySignMap.set("low", "!")
 prioritySignMap.set("medium", "!!")
 prioritySignMap.set("high", "!!!")
+
+export const priorityLevelMap: Map<priorityOptions, number> = new Map<priorityOptions, number>()
+priorityLevelMap.set("none", 0)
+priorityLevelMap.set("low", 1)
+priorityLevelMap.set("medium", 2)
+priorityLevelMap.set("high", 3)
+
 
 export const repeatList = [
     {key: "never", label: "Never"},
