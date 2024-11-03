@@ -11,9 +11,11 @@ export interface TaskItem {
 
 export type priorityOptions = "none" | "low" | "medium" | "high";
 export type repeatOptions = "never" | "daily" | "weekly" | "biweekly";
+export type sortOptions = "priority" | "date" | "repeat" | "deadline" | "name" | "completed";
 export type onTaskRemoveFunction = (uuid: string) => void;
 export type onTaskAddFunction = (e: any) => TaskItem;
 export type onTaskUpdateFunction = (item: TaskItem) => void;
+export type onTaskSortFunction = (sortBy:sortOptions) => void;
 
 
 export const priorityList = [
@@ -43,5 +45,5 @@ export const repeatList = [
 ]
 
 export interface TaskConfiguration {
-    orderBy: string;
+    orderBy: sortOptions;
 }

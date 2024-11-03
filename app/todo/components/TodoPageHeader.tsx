@@ -1,5 +1,5 @@
+"use client"
 import {
-    Accordion, AccordionItem,
     Button,
     cn,
     Dropdown,
@@ -14,16 +14,18 @@ import {
     Switch
 } from "@nextui-org/react";
 import {IoIosAdd} from "react-icons/io";
-import React from "react";
-import {onTaskAddFunction} from "@/types/taskItem";
+import React, {useEffect} from "react";
+import {onTaskAddFunction, onTaskSortFunction, sortOptions} from "@/types/taskItem";
 import Link from "next/link";
 import {PiDotsThreeCircle} from "react-icons/pi";
 import {HiEye} from "react-icons/hi2";
+import {getTaskConfig} from "@/lib/tasks/config";
 
 const iconClasses = "text-slate-800"
 const TodoPageHeader = (
-    {onItemAdd, numOfUnfinished, showCompleted, setShowCompleted}: {
+    {onItemAdd, onItemSort, numOfUnfinished, showCompleted, setShowCompleted}: {
         onItemAdd: onTaskAddFunction,
+        onItemSort: onTaskSortFunction,
         numOfUnfinished: number | undefined,
         showCompleted: boolean,
         setShowCompleted: React.Dispatch<React.SetStateAction<boolean>>
@@ -32,6 +34,11 @@ const TodoPageHeader = (
     const today = new Date();
     const dayOfWeek = today.getDay()
     const dayNum = dayOfWeek === 0 ? 6 : dayOfWeek - 1
+    const [sortBy, setSortBy] = React.useState<sortOptions>("name");
+
+    useEffect(() => {
+        getTaskConfig().then(config => setSortBy(config.orderBy)).catch(console.error);
+    }, [sortBy])
 
     return (
         <>
@@ -81,9 +88,13 @@ const TodoPageHeader = (
                                                 className="z-10 outline-none w-16 py-0.5 rounded-md text-tiny group-data-[hover=true]:border-default-500 border-small border-default-300 dark:border-default-200 bg-transparent text-default-500"
                                                 id="theme"
                                                 name="theme"
+                                                onChange={e => onItemSort(e.target.value as sortOptions)}
                                             >
-                                                <option>Priority</option>
-                                                <option>Date</option>
+                                                <option value={"priority"}>Priority</option>
+                                                <option value={"name"}>Name</option>
+                                                <option value={"deadline"}>Deadline</option>
+                                                <option value={"date"}>Date</option>
+                                                <option value={"completed"}>Completed</option>
                                             </select>
                                         }
                                     >

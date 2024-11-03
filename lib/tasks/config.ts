@@ -13,12 +13,13 @@ export async function setTaskConfig(orderBy:string): Promise<TaskConfiguration |
     }
 }
 
-export async function getTaskConfig(): Promise<TaskConfiguration | undefined> {
+export async function getTaskConfig(): Promise<TaskConfiguration> {
     try {
         const c = await invoke("get_task_config", {});
         console.log(`Task config fetched successfully: ${JSON.stringify(c)}`);
         return c as TaskConfiguration;
     } catch (error) {
         console.error("Failed to fetch task config:", error);
+        return {} as TaskConfiguration;
     }
 }

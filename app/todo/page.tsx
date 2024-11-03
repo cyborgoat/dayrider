@@ -1,9 +1,9 @@
 "use client";
 import React, {useEffect, useState} from "react";
-import {priorityLevelMap, TaskItem} from "@/types/taskItem";
+import {sortOptions, TaskItem} from "@/types/taskItem";
 import DayItems from "@/app/todo/components/DailyTasks";
 import {addTaskItem, defaultTask, deleteTaskItem, getTaskItems, updateTaskItem} from "@/lib/tasks/backend";
-import {compareByDateFn, compareByPriorityFn, getFutureTasks, getPastTasks, getTasksByWeekday} from "@/lib/tasks/utils";
+import {getFutureTasks, getPastTasks, getTasksByWeekday, sortTaskList} from "@/lib/tasks/utils";
 import TodoPageHeader from "@/app/todo/components/TodoPageHeader";
 import {setTaskConfig} from "@/lib/tasks/config";
 
@@ -25,12 +25,9 @@ export default function TodoPage() {
         if (myTasks === undefined) {
             getTaskItems()
                 .then((items) => {
-                    // setMyTasks(items.sort((a, b) => compareByPriorityFn(a, b)))
-                    setMyTasks(items.sort((a, b) => compareByDateFn(a, b)))
-                })
-                .catch((e) => console.log(e));
+                    setMyTasks(items)
+                }).catch((e) => console.log(e));
         }
-        setTaskConfig("date").then().catch(e => console.log(e));
     }, [myTasks, showCompleted, focusedId]);
 
     const onItemAdd = (_: any) => {
@@ -66,11 +63,21 @@ export default function TodoPage() {
             .catch((e) => console.log(e));
     };
 
+    const onItemSort = (sortBy: sortOptions) => {
+        if (myTasks !== undefined) {
+            setMyTasks(sortTaskList(myTasks, sortBy))
+            setTaskConfig(sortBy).then().catch((e) => console.log(e));
+        }
+    }
+
     return (
         <main className="flex flex-col items-start min-h-screen px-4 justify-items-start lg:px-6">
             <TodoPageHeader onItemAdd={onItemAdd}
+                            onItemSort={onItemSort}
                             numOfUnfinished={myTasks?.filter(task => task.finished === 'false').length}
-                            showCompleted={showCompleted} setShowCompleted={setShowCompleted}/>
+                            showCompleted={showCompleted}
+                            setShowCompleted={setShowCompleted}
+            />
             <div className="flex flex-col gap-y-2 mb-4 w-full">
                 {weekdays.map((weekday, weekdayNum) => {
                         const dayTasks = getTasksByWeekday(myTasks as TaskItem[], weekdayNum + 1 <= 6 ? weekdayNum + 1 : 0, showCompleted)

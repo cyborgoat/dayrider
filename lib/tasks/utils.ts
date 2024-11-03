@@ -1,4 +1,4 @@
-import {priorityLevelMap, TaskItem} from "@/types/taskItem";
+import {priorityLevelMap, sortOptions, TaskItem} from "@/types/taskItem";
 import {getThisWeekDates} from "@/lib/dateutil";
 
 const thisWeekDates = getThisWeekDates();
@@ -108,6 +108,10 @@ export function getPendingTasks(taskList: TaskItem[]) {
 
 // Sort functions
 
+export function compareByNameFn(a: TaskItem, b: TaskItem) {
+    return a.name.localeCompare(b.name);
+}
+
 export function compareByPriorityFn(a: TaskItem, b: TaskItem) {
     let val1 = priorityLevelMap.get(a.priority) as number;
     let val2 = priorityLevelMap.get(b.priority) as number;
@@ -116,4 +120,36 @@ export function compareByPriorityFn(a: TaskItem, b: TaskItem) {
 
 export function compareByDateFn(a: TaskItem, b: TaskItem) {
     return a.date.localeCompare(b.date);
+}
+
+export function compareByDeadlineFn(a: TaskItem, b: TaskItem) {
+    return a.deadline.localeCompare(b.deadline);
+}
+
+export function compareByCompleteStatus(a: TaskItem, b: TaskItem) {
+    let aFinished = a.finished === "true" ? 1 : 0;
+    let bFinished = b.finished === "true" ? 1 : 0;
+    return aFinished - bFinished;
+}
+
+export function sortTaskList(taskList: TaskItem[], sortBy: sortOptions) {
+    switch (sortBy) {
+        case "name":
+            taskList.sort(compareByNameFn);
+            break;
+        case "priority":
+            taskList.sort(compareByPriorityFn).reverse();
+            break;
+        case "date":
+            taskList.sort(compareByDateFn);
+            break;
+        case "completed":
+            taskList.sort(compareByCompleteStatus);
+            break;
+        case "deadline":
+            taskList.sort(compareByDeadlineFn);
+            break;
+    }
+    console.log("sorted by:", sortBy, taskList)
+    return taskList;
 }
