@@ -65,7 +65,7 @@ export default function TodoPage() {
 
     const onItemSort = (sortBy: sortOptions) => {
         if (myTasks !== undefined) {
-            setMyTasks(sortTaskList(myTasks, sortBy))
+            setMyTasks(Array.from(sortTaskList(myTasks, sortBy)))
             setTaskConfig(sortBy).then().catch((e) => console.log(e));
         }
     }

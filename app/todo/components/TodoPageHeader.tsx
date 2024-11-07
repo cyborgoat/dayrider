@@ -34,11 +34,11 @@ const TodoPageHeader = (
     const today = new Date();
     const dayOfWeek = today.getDay()
     const dayNum = dayOfWeek === 0 ? 6 : dayOfWeek - 1
-    const [sortBy, setSortBy] = React.useState<sortOptions>("name");
+    const [sortBy, setSortBy] = React.useState<sortOptions>();
 
     useEffect(() => {
         getTaskConfig().then(config => setSortBy(config.orderBy)).catch(console.error);
-    }, [sortBy])
+    }, [])
 
     return (
         <>
@@ -86,15 +86,20 @@ const TodoPageHeader = (
                                         endContent={
                                             <select
                                                 className="z-10 outline-none w-16 py-0.5 rounded-md text-tiny group-data-[hover=true]:border-default-500 border-small border-default-300 dark:border-default-200 bg-transparent text-default-500"
-                                                id="theme"
-                                                name="theme"
-                                                onChange={e => onItemSort(e.target.value as sortOptions)}
+                                                onChange={e => {
+                                                    onItemSort(e.target.value as sortOptions)
+                                                    setSortBy(e.target.value as sortOptions)
+                                                }}
                                             >
-                                                <option value={"priority"}>Priority</option>
-                                                <option value={"name"}>Name</option>
-                                                <option value={"deadline"}>Deadline</option>
-                                                <option value={"date"}>Date</option>
-                                                <option value={"completed"}>Completed</option>
+                                                <option selected={sortBy === "priority"} value={"priority"}>priority
+                                                </option>
+                                                <option selected={sortBy === "name"} value={"name"}>name</option>
+                                                <option selected={sortBy === "deadline"} value={"deadline"}>deadline
+                                                </option>
+                                                <option selected={sortBy === "date"} value={"date"}>date</option>
+                                                <option selected={sortBy === "completed"}
+                                                        value={"completed"}>completed
+                                                </option>
                                             </select>
                                         }
                                     >
