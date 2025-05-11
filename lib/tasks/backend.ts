@@ -1,4 +1,4 @@
-import {invoke} from "@tauri-apps/api/tauri";
+import {invoke} from "@tauri-apps/api/core";
 import {TaskItem} from "@/types/taskItem";
 import {v4 as uuidv4} from "uuid";
 import {getLocalTimeZone, today} from "@internationalized/date";

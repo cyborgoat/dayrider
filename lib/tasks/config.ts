@@ -1,4 +1,4 @@
-import {invoke} from "@tauri-apps/api/tauri";
+import {invoke} from "@tauri-apps/api/core";
 import {TaskConfiguration} from "@/types/taskItem";
 
 export async function setTaskConfig(orderBy:string): Promise<TaskConfiguration | undefined> {

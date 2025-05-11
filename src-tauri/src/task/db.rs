@@ -2,7 +2,7 @@ use dirs::data_dir;
 use rusqlite::{Connection, Result as RusqliteResult};
 use serde::{Deserialize, Serialize};
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use thiserror::Error;
 
 // Create the error type that represents all errors possible in our program
@@ -89,7 +89,11 @@ pub fn add_item(todo_item: TodoItem) -> Result<String, String> {
 #[tauri::command]
 pub fn delete_item(uuid: String) -> Result<String, String> {
     let conn = get_db_connection().map_err(|e| e.to_string())?;
-    conn.execute("DELETE FROM todo_list WHERE uuid = ?1", rusqlite::params![uuid]).map_err(|e| e.to_string())?;
+    conn.execute(
+        "DELETE FROM todo_list WHERE uuid = ?1",
+        rusqlite::params![uuid],
+    )
+    .map_err(|e| e.to_string())?;
     Ok("You deleted an item".into())
 }
 
@@ -116,23 +120,28 @@ pub fn update_item(todo_item: TodoItem) -> Result<String, String> {
 #[tauri::command]
 pub fn todo_list() -> Result<String, String> {
     let conn = get_db_connection().map_err(|e| e.to_string())?;
-    let mut stmt = conn.prepare("SELECT * FROM todo_list").map_err(|e| e.to_string())?;
+    let mut stmt = conn
+        .prepare("SELECT * FROM todo_list")
+        .map_err(|e| e.to_string())?;
 
-    let items = stmt.query_map([], |row| {
-        Ok(TodoItem {
-            uuid: row.get(0)?,
-            name: row.get(1)?,
-            date: row.get(2)?,
-            deadline: row.get(3)?,
-            finished: row.get(4)?,
-            notes: row.get(5)?,
-            priority: row.get(6)?,
-            repeat: row.get(7)?,
+    let items = stmt
+        .query_map([], |row| {
+            Ok(TodoItem {
+                uuid: row.get(0)?,
+                name: row.get(1)?,
+                date: row.get(2)?,
+                deadline: row.get(3)?,
+                finished: row.get(4)?,
+                notes: row.get(5)?,
+                priority: row.get(6)?,
+                repeat: row.get(7)?,
+            })
         })
-    }).map_err(|e| e.to_string())?;
+        .map_err(|e| e.to_string())?;
 
     let todo_list: Result<Vec<TodoItem>, _> = items.collect();
-    let json = serde_json::to_string(&todo_list.map_err(|e| e.to_string())?).map_err(|e| e.to_string())?;
+    let json =
+        serde_json::to_string(&todo_list.map_err(|e| e.to_string())?).map_err(|e| e.to_string())?;
 
     Ok(json)
 }

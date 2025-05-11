@@ -1,5 +1,5 @@
 import {User} from "@/types/user";
-import {invoke} from "@tauri-apps/api/tauri";
+import {invoke} from "@tauri-apps/api/core";
 
 export async function setUser(name: string, id: string, email: string): Promise<User | undefined> {
     try {
