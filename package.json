@@ -13,7 +13,8 @@
     "@formkit/auto-animate": "^0.8.2",
     "@headlessui/react": "^2.1.8",
     "@heroicons/react": "^2.1.5",
-    "@nextui-org/react": "^2.4.8",
+    "@heroui/react": "2.7.8",
+    "@react-aria/i18n": "^3.12.8",
     "@tabler/icons-react": "^3.17.0",
     "@tailwindcss/forms": "^0.5.9",
     "@tauri-apps/api": "^2.5.0",
@@ -27,6 +28,7 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^2.5.0",
     "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",

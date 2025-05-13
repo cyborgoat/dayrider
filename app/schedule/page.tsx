@@ -1,5 +1,5 @@
 'use client'
-import {Divider} from "@nextui-org/react";
+import {Divider} from "@heroui/react";
 import EventCalendar from "@/components/EventCalendar";
 
 export default function SchedulePage() {

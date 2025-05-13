@@ -1,6 +1,6 @@
 import type {Config} from 'tailwindcss'
 
-const {nextui} = require("@nextui-org/theme");
+const {heroui} = require("@heroui/theme");
 const {
     default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
@@ -11,11 +11,11 @@ const config: Config = {
         './pages/**/*.{js,ts,jsx,tsx,mdx}',
         './components/**/*.{js,ts,jsx,tsx,mdx}',
         './app/**/*.{js,ts,jsx,tsx,mdx}',
-        "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+        "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
         // single component styles
-        "./node_modules/@nextui-org/theme/dist/components/button.js",
+        "./node_modules/@heroui/theme/dist/components/button.js",
         // or you can use a glob pattern (multiple component styles)
-        './node_modules/@nextui-org/theme/dist/components/(button|snippet|code|input).js'
+        "./node_modules/@heroui/theme/dist/components/(button|snippet|code|input).js"
     ],
     theme: {
         extend: {
@@ -59,7 +59,7 @@ const config: Config = {
     darkMode: "class",
     plugins: [
         addVariablesForColors,
-        nextui(
+        heroui(
             {
                 prefix: "nextui", // prefix for themes variables
                 addCommonColors: true, // do not override common colors (e.g. "blue", "green", "pink").

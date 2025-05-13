@@ -12,7 +12,7 @@ import {
     NavbarContent,
     NavbarItem,
     Switch
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {IoIosAdd} from "react-icons/io";
 import React, {useEffect} from "react";
 import {onTaskAddFunction, onTaskSortFunction, sortOptions} from "@/types/taskItem";

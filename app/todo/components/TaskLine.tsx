@@ -1,6 +1,6 @@
 "use client";
 import {onTaskRemoveFunction, onTaskUpdateFunction, prioritySignMap, TaskItem,} from "@/types/taskItem";
-import {Button, ButtonGroup, CalendarDate, Checkbox, DatePicker, extendVariants, Input} from "@nextui-org/react";
+import {Button, ButtonGroup, CalendarDate, Checkbox, DatePicker, extendVariants, Input} from "@heroui/react";
 import React from "react";
 import {MdOutlineArrowBackIos} from "react-icons/md";
 import {isFinished, needAttention, overdueDays} from "@/lib/tasks/utils";
@@ -27,14 +27,13 @@ const TaskLine = ({task, onItemRemove, onItemUpdate, focusedId, setFocusedId}: {
         focusedId: string | null | undefined;
         setFocusedId: React.Dispatch<React.SetStateAction<string | null>>;
     }) => {
+        const { locale } = useLocale();
         const [taskName, setTaskName] = React.useState(task.name);
         const [deadline, setDeadline] = React.useState<CalendarDate | CalendarDateTime | ZonedDateTime | DateValue>(parseDate(task.deadline));
         const [isEdited, setIsEdited] = React.useState(task.name != defaultTask().name);
 
         const isFocused = focusedId === task.uuid;
 
-
-        let {locale} = useLocale();
 
         let now = today(getLocalTimeZone());
         let nextWeek = startOfWeek(now.add({weeks: 1}), locale);

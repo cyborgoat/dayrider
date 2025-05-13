@@ -1,5 +1,5 @@
 "use client";
-import {Listbox, ListboxItem} from "@nextui-org/react";
+import {Listbox, ListboxItem} from "@heroui/react";
 import React, {useEffect, useState} from "react";
 import {FaListCheck} from "react-icons/fa6";
 import {BsCalendar2Day} from "react-icons/bs";

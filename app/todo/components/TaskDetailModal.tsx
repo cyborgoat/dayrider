@@ -11,7 +11,7 @@ import {
     SelectItem,
     Textarea,
     useDisclosure,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {IoInformationCircleOutline} from "react-icons/io5";
 import {
     onTaskUpdateFunction,

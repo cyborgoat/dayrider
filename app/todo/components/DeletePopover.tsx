@@ -1,4 +1,4 @@
-import {Listbox, ListboxItem, Popover, PopoverContent, PopoverTrigger,} from "@nextui-org/react";
+import {Listbox, ListboxItem, Popover, PopoverContent, PopoverTrigger,} from "@heroui/react";
 import React from "react";
 import {onTaskRemoveFunction, TaskItem} from "@/types/taskItem";
 import {ListboxWrapper} from "@/components/ListboxWrapper";
